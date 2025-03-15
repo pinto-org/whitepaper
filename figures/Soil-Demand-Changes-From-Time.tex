@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\usepackage{tikz,pgf}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=7]
+
+\node [draw=none] at (1,0.04) {Increasing};
+\node [draw=none] at (1,-0.04) {Demand};
+
+\node [draw=none] at (0.5,0.04) {Steady};
+\node [draw=none] at (0.5,-0.04) {Demand};
+
+\node [draw=none] at (0,0.04) {Decreasing};
+\node [draw=none] at (0,-0.04) {Demand};
+
+\node [draw=none] at (0.25,0.1) {$\Delta E_{t}^{u^{\text{lower}}}$};
+\node [draw=none] at (0.75,0.1) {$\Delta E_{t}^{u^{\text{upper}}}$};
+
+\foreach \Point in {0.25, 0.75}{
+    \node[label={[label distance=1mm]:\rotatebox{0}{}}] at (\Point,0) {\textbullet};
+}
+\draw[thick,<->,color=black] (-0.25,0) -- (1.25,0); % Draw line
+\node [draw=none] at (-0.35,0) {\bm{$\Delta E_{t}^{u}$}}; % Chart label
+\node [draw=none] at (1.35,0)  {\color{white} $\Delta E_{t}^{u}$}; % Added to center chart
+
+\end{tikzpicture}
+
+\end{document}

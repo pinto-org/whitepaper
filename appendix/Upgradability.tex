@@ -1,0 +1,48 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Upgradability %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Upgradability}
+
+Pinto does not have governance. While Pinto is the first Beanstalk fork, additional development must be completed in order to create a generalized \term{Fork Migration System} that replaces the need for contract upgrades. In the meantime, limited upgrades to Pinto may be implemented by the \term{PCM}, the owner of the Pinto contract.
+
+The \term{PCM} address has the exclusive and unilateral ability to \term{Pause} and \term{Unpause} the protocol, and commit \term{Pinto Improvements} (\term{PIs}). The \term{PCM} is a 5-of-9 Safe\fref{app.safe.global/base:0x2cf82605402912C6a79078a9BBfcCf061CbfD507} multisig wallet with anonymous signers. In the future, we expect \term{PIs} will remove upgradability entirely, revoking these abilities from the \term{PCM}.
+
+The following are potential improvements that can be incorporated into Pinto as one or more \term{PIs}\fref{pinto.money/upgradability}:
+
+\begin{itemize}
+    \item Implement a \term{Fork Migration System} that allows users to migrate assets from one or more Pinto deployments to another under conditions defined by the Pinto deployment being migrated to;
+    \item Add a mechanism to pay back old Beanstalk holders after the Pinto supply reaches 1 billion\fref{pinto.money/repay-beanstalk-debt};
+    \item Change parameters until 2 weeks after the first time the Pinto supply reaches 500M (\textit{e.g.}, $\mathscr{T}$, $R^D$ and $R^W$ thresholds, $\Lambda$, $\mathscr{B}^{\lambda^*}$, etc.);
+    \item Mint Pinto to fund a bug bounty program;
+    \item The price oracle can be replaced with a trustless one; and
+    \item Contracts can be made immutable.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Pause %%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Pause}
+
+The \term{PCM} can \term{Pause} and \term{Unpause} the protocol via \term{PIs}. When \term{Paused}, the protocol does not accept a \code{gm} function call. When \term{Unpaused}, the \code{gm} function can be called at the beginning of the next hour.
+
+For a given timestamp of last \term{Unpause} ($E_{\Psi}$) during \term{Season} $t^{'}$, we define $E_{t}^{\text{min}}\ \forall\ E_{t}^{\text{min}}$ such that $t^{'} < t$ as:
+
+    $$
+        E_{t}^{\text{min}} = 3600{\left
+            ({\left\lfloor
+                \frac{E_{\Psi}}
+                    {3600}\right\rfloor} + t - t^{'}\right)}
+    $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Hypernative %%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Hypernative}
+
+Hypernative\fref{hypernative.io} is a proactive threat prevention and real-time monitoring platform that has the ability to remove facets upon detecting an impending or in-progress attack on the protocol. The \term{PCM} has the ability remove Hypernative protections when necessary for the security or censorship resistance of the protocol.
+
+\end{document}

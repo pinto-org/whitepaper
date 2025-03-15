@@ -1,0 +1,1579 @@
+\documentclass[tikz]{article}
+
+% Packages
+\usepackage[utf8]{inputenc} % Core latex bundle 
+\usepackage[a4paper, total={6in, 9in}]{geometry} % Customize document dimensions and formats
+\usepackage{changepage} % Customize page layout in middle of document
+\usepackage[table]{xcolor} % Add color to tables
+\usepackage{standalone} % Add figures and tables from other files
+\usepackage{import} % Import glossary
+\usepackage{graphics} % General color and formats
+\usepackage{url} % URL formatting
+\usepackage{breakurl} % URL formatting
+\usepackage{enumitem} % Format list spacing 
+\usepackage[hang]{footmisc} % Footnote margins
+\usepackage{hyperref} % References
+\usepackage{mathtools} % Useful tools for mathematical typesetting and replaces amsmath
+\usepackage{amssymb,bm} % Math symbols
+\usepackage{svg} % SVG
+\usepackage{tikz} % Making charts
+\usepackage{array,boldline,multirow,float,booktabs} % Added to make tables
+\usepackage{stackengine} % Customize row heights
+\usepackage{hhline} % Add double lines to table
+\usepackage{multicol} % Two column lists
+\usepackage{nicematrix} % Put table lines after color
+\usepackage{wrapfig} % Wrap figures in text
+\usepackage{tocloft,titletoc} % TOC package
+\usepackage{titlesec} % Section spacing
+\usepackage{wasysym} % symbols
+\usepackage{mathrsfs} % mathscr
+\usepackage{setspace}
+
+% Paper formatting
+\newlength\LabelWidth
+\setlength\parindent{0pt}
+\setlength{\parskip}{1em}
+
+% Section spacing
+\titlespacing*{\section}
+  {0pt}{0.6\baselineskip}{0.6\baselineskip} % Modify section spacing - first \baselineskip is spacing before, second is spacing after the section
+\titlespacing*{\subsection}
+  {0pt}{0.6\baselineskip}{0.6\baselineskip} % Modify subsection spacing 
+\titlespacing*{\subsubsection}
+  {0pt}{0.6\baselineskip}{0.6\baselineskip} % Modify subsubsection spacing
+
+% String formats
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\term}[1]{\textsl{#1}}
+
+% Paper margins
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+% Table of contents
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cfttoctitlefont}{\Large\bfseries} % TOC title size
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Add dots in TOC to sections
+\renewcommand{\cftsecpagefont}{} % Remove \bfseries from section titles' page in TOC
+
+% Section
+\renewcommand*{\cftsecnumwidth}{2em} % Increase space section from numbers on left
+
+% Subsection
+\cftsetindents{subsection}{1em}{3em} % space between numbers and toc subsections
+\setlength{\cftsubsecindent}{2.5em} % subsection number spacing from left
+\setlength{\cftbeforesubsecskip}{3pt} % Messes with subsection TOC length was 3pt
+
+% Subsubsection
+\cftsetindents{subsubsection}{1em}{4em} % space between numbers and toc subsubsections
+\setlength{\cftsubsubsecindent}{5.5em} % subsubsection number spacing from leftindent
+\setlength{\cftbeforesubsubsecskip}{3pt} % Messes with subsubsection TOC length was 3pt
+
+% paragraph section
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\cftsetindents{paragraph}{1em}{5em} % space between numbers and toc paragraph
+\setlength{\cftparaindent}{9.5em} % paragraph number spacing from leftindent
+\setlength{\cftbeforeparaskip}{3pt} % Messes with paragraph TOC length was 3pt
+
+% indent after paragraph section
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Abstract
+% Make abstract justified
+\makeatletter
+\newcommand{\justified}{
+  \rightskip\z@skip
+  \leftskip\z@skip}
+\makeatother
+
+% Format and size abstract
+\makeatletter
+\renewenvironment{abstract}{
+    \if@twocolumn
+      \section*{\abstractname}
+    \else 
+      \begin{center}
+        {\bfseries \large\abstractname\vspace{\z@}} % Bolds abstract name
+      \end{center}
+      \quotation
+    \fi}
+    {\if@twocolumn\else\endquotation\fi}
+\makeatother
+
+% Delimiters
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor} % Define paired delimiter for floor function
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil} % Define paired delimiter for ceiling function
+
+% Hyperlinks
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=blue,
+    urlcolor=black,
+}
+\urlstyle{same}
+
+% Footnotes
+\newcommand{\fref}[1]{\footnote{\href{http://#1}{#1}}}
+\setlength{\footnotemargin}{8mm} % Spacing between footnote number and body
+
+% Include tables
+\makeatletter
+\newcommand{\includetable}[1]{%
+  \@ifundefined{tablepath}{%
+    \InputIfFileExists{#1}{}{}%
+  }{%
+    \InputIfFileExists{\tablepath/#1}{}{\InputIfFileExists{#1}{}{}}%
+  }
+}
+\makeatother  
+
+% Table formatting commands
+\newcolumntype{Q}{ >{\centering\arraybackslash} m{2.4cm} } % (figures - col width)
+\newcolumntype{S}{ >{\centering\arraybackslash} m{5.27cm} } % (figures - col width double)
+\newcommand\xrowht[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}} % Set row height for tables
+\newcommand{\rowh}[1]{\xrowht{40pt}} % Command to set row height for cell with 3 rows
+\newcommand{\rowm}[1]{\xrowht{26.667pt}} % Command to set row height for cell with 2 rows
+\newcommand{\rows}[1]{\xrowht{13.333pt}} % Command to set row height for cell with 1 rows
+
+\newcommand{\PintoCover}{\includesvg[scale=0.37]{./logos/black-pinto.svg}} % Logo on cover page
+\newcommand{\PintoContract}{\includesvg[scale=0.032]{./logos/black-pinto.svg}} % Pinto contract used in paragraphs and formulas
+\newcommand{\Pinto}{\includesvg[scale=0.032]{./logos/white-pinto.svg}} % Pinto used in paragraphs
+\newcommand{\pinto}{\includesvg[scale=0.025]{./logos/white-pinto.svg}} % Pinto used in superscripts and subscripts
+\newcommand{\nonpinto}{\includesvg[scale=0.022]{./logos/non-pinto.svg}} % Non-Pinto used in superscripts and subscripts
+
+% List Key
+\SetEnumitemKey{midsep}{topsep=0pt, itemsep=3pt} % Itemize key
+
+% File paths
+\newcommand{\tablepath}{figures} % Tables file path
+\graphicspath{{figures/}} % Figures file path
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Begin Document   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\pagenumbering{arabic} % Start page numbering style
+\thispagestyle{empty} % Hide page numbering
+\begin{titlepage}
+    \begin{center}
+        \vspace*{-0.1cm}
+        \begin{changemargin}{-0.8cm}{-0.8cm}
+            \centering % added to center title
+            \textbf{\Large{Pinto: A Scalable Leviathan-Free Low-Volatility Money Protocol}}
+        \end{changemargin}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ICON %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \begin{center}
+            \PintoCover
+        \end{center}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AUTHORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        \begin{center}
+            \begin{tabular}{>{\centering\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{3.2cm}}
+                Brendan Sanderson & Ben Weintraub & Brian Nguyen & Austin Moninger \\
+                \href{https://x.com/brendaann__}{\normalsize{@brendaann\_\_}} & \href{https://x.com/bwein_}{\normalsize{@bwein\_}} & \href{https://x.com/fr1j00}{\normalsize{@fr1j00}} & \href{https://x.com/isthisaustin}{\normalsize{@isthisaustin}}
+            \end{tabular}
+        \end{center}
+        
+        \vspace*{-0.52cm}
+
+        \begin{center}
+            \begin{tabular}{>{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm}}
+                Drew Davis & Nikolaos Katsios & Ryan Ham \\
+                \href{mailto:zsdrew@proton.me}{\normalsize{zsdrew@proton.me}} & \href{mailto:nkatsios@protonmail.com}{\normalsize{nkatsios@protonmail.com}} & \href{https://x.com/gkaehddls}{\normalsize{@gkaehddls}}
+            \end{tabular}
+        \end{center}
+
+        \vspace*{-0.52cm}
+
+        \begin{center}
+            \begin{tabular}{>{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm}}
+                Calvin Ham & John Deere & Soil King \\
+                 \href{mailto:calvinham@proton.me}{\normalsize{calvinham@proton.me}} & \href{mailto:johndeere8r420@protonmail.com}{\normalsize{johndeere8r420@protonmail.com}} & \href{mailto:soilking435@gmail.com}{\normalsize{soilking435@gmail.com}}
+            \end{tabular}
+        \end{center}
+
+        \vspace*{-0.52cm}
+
+        \begin{center}
+            \begin{tabular}{>{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm} >{\centering\arraybackslash}p{4.6cm}}
+                Motasem Ahmed & Aaron Ash & Gabe Weintraub \\
+                \href{https://x.com/itsmod323}{\normalsize{@itsmod323}} & \href{mailto:aaron@aaronash.com}{\normalsize{aaron@aaronash.com}} & \href{mailto:gabeweintraub1@proton.me}{\normalsize{gabeweintraub1@proton.me}}
+            \end{tabular}
+        \end{center}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WEBSITE AND DATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        \normalsize{\href{https://pinto.money/}{pinto.money}}
+
+        \footnotesize{Whitepaper Version:} {\normalsize{1.0.0}}
+
+        \vspace{-0.25cm}
+        \footnotesize{Published:} {\normalsize{February 24, 2025}}
+
+        \vspace{-0.25cm}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol}{\normalsize{1.0.0}}\footnote{\href{https://github.com/pinto-org/protocol}{github.com/pinto-org/protocol}}
+
+        \vspace{-0.25cm}
+        \footnotesize{Deployed:} {\normalsize{November 19, 2024}}
+        
+        \vspace{0.1cm}
+
+        \begin{adjustwidth}{1em}{1em} % Adjust margins equally
+            \normalsize
+            \term{“You broke the heads of Leviathan in pieces, and gave him to be meat to the people inhabiting the wilderness.”}
+            
+            \hspace{2.5em} - Psalm 74:14\fref{biblegateway.com/verse/en/Psalm\%2074:14}
+        \end{adjustwidth}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        \vspace*{-0.25cm}
+
+        \begin{abstract}\setstretch{1.25}
+            \justified{\normalsize{\noindent The ideal money is trustless and volatility free. Bitcoin is trustless, but has no native volatility minimization scheme. The tremendous success and adoption of Bitcoin as a store of value (SoV) has demonstrated the power of trustless technology and the primacy of trustlessness with respect to storing value. However, the widespread adoption of trusted stablecoins (\textit{e.g.}, USDT, USDC) as media of exchange (MoE) and units of account (UoA) on trustless computer networks has demonstrated the primacy of freedom from volatility with respect to exchanging and accounting for value. Because value is subjective, dynamic and relative, (1) money will never be entirely free from volatility, and (2) a money protocol optimizing for low volatility can not be trustless without the development of a trustless value index oracle. We propose a trust-minimized, low-volatility money protocol that issues a fungible token, Pinto, optimized to be a MoE and UoA. A bounty based timekeeping mechanism, non-custodial deposit and credit facilities, a variable supply and autonomously adjusting interest rates incentivize user behavior that minimizes the volatility of Pinto with respect to its value target over time, without ever forcing users to act or forcibly removing Pinto from their accounts. Future development of a trustless value index oracle can remove the only trust required by the protocol.}}
+        \end{abstract}
+   \end{center}
+\end{titlepage}
+
+\newpage
+
+% TOC formatting
+\thispagestyle{empty} % Hide TOC page numbering 
+\addtocontents{toc}{\protect\thispagestyle{empty}} % Allow hiding both TOC page numbers
+
+\cleardoublepage
+\pagenumbering{gobble}
+{\large\tableofcontents} % Compile TOC with large font
+\cleardoublepage
+\pagenumbering{arabic}
+
+\newpage
+
+\setcounter{page}{6} % Begin page numbering
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Introduction   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+The creation of Bitcoin began a technological revolution still in its infancy. Bitcoin proved the ability of open source software with endogenous incentives to create positive sum externalities (\textit{i.e.}, endogenous value), without requiring trust in any party or set of parties (\textit{i.e.}, a leviathan). Building an economy on such leviathan-free software that radically (1) empowers individuals with sovereignty and community, and (2) realigns incentives to encourage creating value instead of extracting it, is humanity's best bet to avoid being consumed by the ever more present technology-enabled Orwellian dystopia.
+
+\vspace*{-0.1cm}
+
+Money is the root of economy. It is no wonder, therefore, that Bitcoin (\textit{i.e.}, leviathan-free money) rang the bell to announce the revolution. However, money has historically fulfilled three unique but deeply complimentary roles in an economy: storing value, acting as a media through which to exchange value, and accounting for value. Bitcoin, incredible as it is, has only found product market fit as a SoV, not as a MoE or UoA. The volatility of the value of Bitcoin is the cause of the shortcoming. This is clearly demonstrated by the massive success of leviathan-dependent stablecoin protocols that issue tokens pegged to some exogenous unit of value, typically the US Dollar (USD) (\textit{i.e.}, the globally dominant MoE, UoA and, prior to the creation of Bitcoin, SoV) on trustless computer networks.
+
+\vspace*{-0.1cm}
+
+Trust is a least common denominator problem: a system requires as much trust as its component that requires the most trust. As of today, the reliance of users of, and protocols on, trustless computer networks (\textit{e.g.}, Ethereum, Solana) on leviathan-dependent MoE and UoA is so great that, in practice, the networks themselves lose their trustlessness: the authorities that control these protocols have so much power they are de facto the ultimate determinants of the state of the networks.\fref{haseebq.com/ethereum-is-now-unforkable-thanks-to-defi} Without a leviathan-free MoE and UoA, trustless systems will struggle to remain free from leviathans.
+
+\vspace*{-0.1cm}
+
+Credit is the ideal tool to minimize volatility because it (1) enables using future value in the present, (2) is infinitely scalable, and (3) does not require a leviathan. During periods of excess supply (\textit{i.e.}, insufficient demand), Pinto uses credit to call forward future demand to the present. In practice, the protocol borrows Pinto from the market and then burns the borrowed excess Pinto to decrease the supply, thereby reducing downside volatility. During periods of excess demand (\textit{i.e.}, insufficient supply) the protocol mints new Pinto and pays back creditors with interest, thereby reducing upside volatility. The more debt Pinto repays with interest, the more (1) creditworthy it is perceived, (2) it can borrow at lower interest rates, and (3) it can sustainably reduce future downside volatility. 
+
+\vspace*{-0.1cm}
+
+Pinto consists of four interconnected components: (1) a bounty based timekeeping and execution facility, (2) a liquid deposit facility, (3) a first in, first out (FIFO) credit facility, and (4) a suite of tools that reduce the friction of interacting with Pinto and other Base-native protocols. Protocol-native incentives coordinate the components to create low-volatility money with competitive carrying costs and deep liquidity in a permissionless and (almost) leviathan-free fashion.
+
+\vspace*{-0.1cm}
+
+Pinto is designed from economic first principles to create low-volatility money. The following principles inspire Pinto:
+
+\vspace*{-0.3cm}
+
+\begin{itemize}[itemsep=0.03cm]
+    \item Incentive structures determine behaviors;
+    \item Low concentration of ownership;
+    \item Strong credit;
+    \item Deep liquidity;
+    \item The marginal rate of substitution;
+    \item Low friction; and
+    \item Equilibrium.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Previous Work   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Previous Work}
+
+Pinto is the culmination of previous development, evolution and experimentation within the DeFi ecosystem. 
+
+Pinto requires a robust, trustless computer network that supports composability and both fungible and semi-fungible token standards (\term{e.g.}, Ethereum and Base) with a network-native automated market maker (AMM) decentralized exchange with a manipulation-resistant oracle (\term{e.g.}, Pinto Exchange\fref{pinto.exchange}). 
+
+Pinto is a fork of Beanstalk\fref{bean.money}. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Farm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Farm}
+
+Well designed decentralized protocols create utility for end users without requiring, but never preventing, participation in protocol maintenance. Protocol-native incentives encourage performance of work to create utility for end users. Low barriers to and variety in work enable a diverse set of participants. A diverse set of well incentivized workers can create censorship resistant utility. 
+
+Pinto peg maintenance takes place on the \term{Farm}. Anyone can join the \term{Farm} to profit from participation in protocol maintenance. The \term{Farm} has four primary components: the \term{Sun}, \term{Silo}, \term{Field} and \term{Toolshed}. Protocol-native financial incentives coordinate the components to regularly cross the price of \Pinto1 over its value target without collateral.
+
+The \term{Sun} offers payment for participating in timekeeping and code execution. Time on the \term{Farm} is kept in \term{Seasons}. Anyone can earn Pinto for successfully calling the \code{gm} function to begin the next \term{Season} at the top of each hour.
+
+The \term{Silo} offers passive yield opportunities to owners of \Pinto\ and other assets ($\lambda$) on the \term{Deposit Whitelist} ($\Lambda$) (\textit{i.e.}, $\Pinto \subset \lambda \in \Lambda$) for contributing to peg maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} $\lambda$ into the \term{Silo} and earning \term{Stalk}. \term{Stalkholders} are rewarded Pinto when the Pinto supply increases on a pro rata basis. Active contributions to peg maintenance within the \term{Silo} can earn additional \term{Stalk}.
+
+The \term{Field} offers yield opportunities to creditors for supporting peg maintenance. Anyone can become a \term{Sower} by lending Pinto that are not in the \term{Silo} to the protocol. \term{Sowers} are repaid with interest when the Pinto supply increases on a first in, first out (FIFO) basis. 
+
+The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in peg maintenance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Sun   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Sun}
+
+The Pinto peg maintenance mechanism requires a protocol-native timekeeping mechanism and regular code execution on the Base network. The \term{Sun} creates a cost-efficient protocol-native timekeeping mechanism and incentivizes cost-efficient code execution on Base at regular intervals. In general, Pinto uses Base block timestamps ($E$), such that $E \in \mathbb{Z}^{+}$.
+
+\newpage
+
+We define a \term{Season} ($t$), such that $t \in \mathbb{Z}^{+}$, as an approximately 3,600 second (1 hour) interval. The first \term{Season} begins when a successful transaction on the Base network that includes a \code{gm} function call is committed. When Pinto accepts the \code{gm} function call, the necessary code is executed.
+
+Pinto only accepts one \code{gm} function call per \term{Season}. Pinto accepts the first \code{gm} function call provided that the timestamp in the Base block containing it is sufficiently distant from the timestamp in the Base block containing the Pinto deployment ($E_{1}$).
+
+The minimum timestamp Pinto accepts a \code{gm} function call for a given $t$ ($E_{t}^{\text{min}}$), $\forall\ E_{t}^{\text{min}}$ such that $1 < t$, and $E_{1}$ is:
+
+    $$
+        E_{t}^{\text{min}} = 
+            3600{\left
+                ({\left\lfloor\frac{E_{1}}{3600}\right\rfloor} + t\right)}
+    $$
+
+The cost to execute the \code{gm} function changes depending on the traffic on the Base network and the state of Pinto. Pinto covers the transaction cost by rewarding the sender of an accepted \code{gm} function call with newly minted Pinto. 
+
+To encourage regular \code{gm} function calls even during periods of congestion on the Base network while minimizing cost, the Pinto reward for successfully calling the \code{gm} function for $t$ ($a_{t}$), starts at $\sun$, such that $a_{t},\ \sun \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and compounds 2.01\% every additional 2 seconds that elapse past $E_{t}^{\text{min}}$ for 300 seconds.
+
+Therefore, we define $a_{t}$ for a given timestamp of the current block ($E_{\Xi}$) and $E_{t}^{\text{min}}$ as:
+
+    $$ 
+        a_{t} = \sun \times 1.0201^{\text{min}(
+                    2 \times \left \lceil \frac{E_{\Xi} - E_{t}^{\text{min}}}{2} \right \rceil,\ 
+                    300)}
+    $$
+
+To minimize the cost of calculating $a_{t}$, the \term{Sun} uses a binomial estimation with a margin of error of less than 0.05\% of $a_{t}$. Thus, Pinto creates a cost-efficient protocol-native timekeeping mechanism and ensures cost-efficient code execution on the Base network at regular intervals.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Silo   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-1mm}
+\section{Silo}
+\vspace*{-1mm}
+
+The \term{Silo} is the protocol-native \term{Deposit} facility.
+
+The \term{Silo} uses the \term{Stalk System} to create protocol-native financial incentives that contribute to security and peg maintenance. The \term{Silo} uses the \term{Seed Gauge System} to create protocol-native financial incentives that contribute to peg maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} assets on the \term{Deposit Whitelist} into the \term{Silo} to earn \term{Stalk} and \term{Seeds}.
+
+%%%%%%%%%%% Deposits, Withdrawals, Transfers and Conversions %%%%%%%%%%%
+
+\vspace*{-1.2mm}
+\subsection{Deposits, Withdrawals, Conversions and Transfers}
+\vspace*{-1.2mm}
+
+$\lambda$ can be \term{Deposited} into, \term{Withdrawn} from and \term{Transferred} within the \term{Silo} at any time. $\lambda$ can be \term{Converted} within the \term{Silo} under permitted conditions. 
+
+The protocol rewards \term{Stalk} to \term{Depositors} upon the completion of a \term{Germination} period. The protocol rewards \term{Seeds} to \term{Depositors} immediately upon \term{Depositing} $\lambda$ into the \term{Silo}. \term{Deposits} implement the ERC-1155 Standard.\fref{ethereum.org/en/developers/docs/standards/tokens/erc-1155}
+
+Upon a \term{Deposited} asset's \term{Withdrawal} from the \term{Silo}, the \term{Deposit} token is burned in addition to the number of \term{Stalk} and \term{Seeds} rewarded to it. 
+
+\term{Conversions} of \term{Deposited} $\lambda$ to \term{Deposited} $\lambda'$ are permissioned by a \term{Conversion Whitelist}. Upon an asset's \term{Conversion} within the \term{Silo}, \term{Stalk} and \term{Seeds} may be rewarded or burned depending on the details of the \term{Conversion}.
+
+The number of \term{Stalk} and \term{Seeds} rewarded to a \term{Deposit} are included in its \term{Transfer} to another address.
+
+%%%%%%%%%%%%%%%%%%%%%%% Deposit Whitelist %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Deposit Whitelist}
+
+Any ERC-20 Standard token can be added to and removed from $\Lambda$ via the \term{Pinto Contract Multisig} (\term{PCM}) (see Appendix). \Pinto\ is always on the \term{Deposit Whitelist}.
+
+In order for a given $\lambda$ to be added to $\Lambda$, the protocol requires 
+(1) its token address, 
+(2) a function to calculate the flash-loan-resistant Pinto-Denominated-Value (PDV) of a given number of \term{Deposited} $\lambda$, ($f^{L^{\lambda}}(z^{\lambda})$), such that $f^{L^{\lambda}}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Deposited}, 
+(3) the number of \term{Stalk} per PDV of $\lambda$ \term{Deposited} ($k^{\lambda}$), such that $k^{\lambda} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, 
+(4) the initial number of \term{Seeds} per PDV of $\lambda$ \term{Deposited} ($c_{\circ}^{\lambda}$),
+(5) the initial \term{LP Seed Gauge Points} of $\lambda$ ($\mathscr{L}_{\circ}^{\lambda}$), such that $\mathscr{L}_{\circ}^{\lambda} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$,
+(6) a function to calculate the \term{LP Seed Gauge Points} of $\lambda$ ($f^{\mathscr{L}^{\lambda}}$), 
+(7) a function to calculate the USD price of the non-Pinto asset in $\lambda$ ($f^{\$^{\lambda}}$), such that $f^{\$^{\lambda}} \colon \mathbb{U} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$,
+(8) a function to calculate the \term{Liquidity Weight} of $\lambda$ ($f^{\mathscr{W}^{\lambda}}$), such that $f^{\mathscr{L}^{\lambda}},\ f^{\mathscr{W}^{\lambda}} \colon \mathbb{U} \rightarrow \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, and
+(9) the optimal percent of \term{Deposited} LP PDV of $\lambda$ ($\mathscr{B}^{\lambda^{*}}$), such that $z^{\lambda},\ c_{\circ}^{\lambda},\ \mathscr{B}^{\lambda^{*}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+
+%%%%%%%%%%%%%%%%%%%%%%% Earned Pinto %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Earned \Pinto}
+
+Pinto minted to the \term{Silo} are automatically \term{Deposited} into the \term{Silo} and distributed to \term{Stalkholders} as \term{Earned} \Pinto\ ($\eta^{\pinto}$), such that $\eta^{\pinto} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+\term{Earned} \Pinto\ are rewarded \term{Stalk} upon \term{Deposit}, but (1) are not rewarded \term{Seeds}, (2) cannot be \term{Converted} and (3) cannot be \term{Transferred} until the \term{Stalkholder} calls the \code{plant} function. Upon calling the \code{plant} function, (1)  the \term{Earned} \Pinto\ become \Pinto\ and (2) the \term{Seeds} associated with the \term{Earned} \Pinto\ are \term{Planted} to start \term{Growing} \term{Stalk}. 
+
+%%%%%%%%%%%%%%%%%%%%%%% Germination %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Germination}
+
+Every $\lambda$ \term{Deposit} except \term{Earned} \Pinto\ are subject to a \term{Germination} period during which \term{Deposits} (1) cannot be \term{Converted}, (2) are not eligible for \Pinto\ mints and (3) are not included in \term{Seed Gauge System} PDV calculations. 
+
+\term{Germination} ends upon the completion of a full \term{Season} after \term{Deposit}.
+
+\newpage
+
+%%%%%%%%%%%%%%% Silo Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=.12]{figures/Silo.png}
+    \vspace*{-5mm}
+    \caption{Silo}
+    \label{Silo}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%% Conversion Whitelist %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Conversion Whitelist}
+
+\term{Conversions} can be added to and removed from the \term{Conversion Whitelist} via the \term{PCM}.
+
+In order for a given \term{Conversion} to be added to the \term{Conversion Whitelist}, the protocol requires 
+(1) the from token address, 
+(2) the to token address, 
+(3) a list of conditions under which the \term{Conversion} is permitted and 
+(4) a function to determine the number of $\lambda'$ received for \term{Converting} a given number of $\lambda$ ($f^{\lambda \rightarrow \lambda'}(z^{\lambda})$), such that $f^{\lambda \rightarrow \lambda'}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-\lambda'} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Converted} or 
+(5) a function to determine the number of \term{Mown Stalk} rewarded or burned for \term{Converting} a given number of $\lambda$ to $\lambda'$ ($f^{\lambda \rightarrow \lambda'}(z^{\lambda} \rightarrow z^{\lambda'})$), such that $f^{\lambda \rightarrow \lambda'}\colon \{j \times 10^{-\lambda} \rightarrow j' \times 10^{-\lambda'} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Converted} and where $z^{\lambda'}$ is the number of $\lambda$ output by the \term{Conversion}. 
+
+%%%%%%%%%%%%%%%%%%%%%%% Stalk System %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-1.35mm}
+\subsection{Stalk System}
+\vspace*{-1.35mm}
+
+The \term{Stalk System} decentralizes ownership of \Pinto\ over time and creates protocol-native financial incentives to (1) \term{Deposit} assets into the \term{Silo}, (2) leave assets \term{Deposited} in the \term{Silo} and (3) align \term{Depositors'} interests with the health of the protocol.
+
+\term{Stalk} are not liquid. Every \term{Season}, $\frac{1}{10000}$ additional \term{Stalk} \term{Grows} from each \term{Seed}. \term{Grown Stalk} become \term{Stalk} when \term{Mown}. Upon a \term{Deposited} asset's \term{Withdrawal} from the \term{Silo}, the number of \term{Stalk} and \term{Grown Stalk} rewarded to it must be burned.
+
+\term{Stalkholders} are entitled to a portion of Pinto mints. The distribution of Pinto paid to a \term{Stalkholder} are proportional to their \term{Stalk} holdings relative to total outstanding \term{Stalk}. \term{Stalk} holdings become less concentrated over time. Active contributions to peg maintenance within the \term{Silo} can earn additional \term{Stalk} via \term{Conversions}.
+ 
+\term{Grown Stalk} from $\lambda$ \term{Deposits} are automatically \term{Mown} each time a \term{Stalkholder} interacts with $\lambda$ in the Silo (\textit{i.e.}, \term{Deposit}, \term{Withdraw}, \term{Convert}, \term{Transfer} and \term{Plant}), or anytime a \code{mow} function is called with $\lambda$ and their address.
+
+%%%%%%%%%%%%%%%%%%%%%%% Seed Gauge System %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-1.35mm}
+\subsection{Seed Gauge System}
+\vspace*{-1.35mm}
+
+The \term{Seed Gauge System} decentralizes ownership of \Pinto\ over time and creates protocol-native financial incentives to (1) \term{Deposit} assets into the \term{Silo}, (2) leave assets \term{Deposited} in the \term{Silo} and (3) align \term{Depositors'} interests with the health of the protocol.
+
+\term{Seeds} are not liquid. At the beginning of each \term{Season}, the total number of \term{Seeds} is calculated such that a new \term{Deposit} with an average number of \term{Seeds} per PDV, averaged across all \term{Deposits} in the \term{Silo} that are not \term{Germinating}, will catch up to the average \term{Mown Stalk} per PDV across all \term{Deposits} in the \term{Silo} at the beginning of $t$ in $\mathscr{T}$ \term{Seasons}, such that $\mathscr{T}\in \mathbb{Z}^{+}$.
+
+The \term{Crop Ratio} during $t$ ($\mathscr{C}_{t}$), such that $\mathscr{C}_{t} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, determines the ratio between (1) the \term{Seeds} per \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\pinto}$) (\textit{i.e.}, $\frac{c_{t}^{\pinto}}{\mathbf{L}_{t}^{\pinto}}$) and (2) the \term{Seeds} per PDV of the $\lambda$ with the highest \term{LP Seed Gauge Points} per PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\lambda^{\text{max}}}$) (\textit{i.e.}, $\frac{c_{t}^{\lambda}}{\mathbf{L}_{t}^{\lambda^{\text{max}}}}$), such that $\mathbf{L}_{t}^{\pinto},\ \mathbf{L}_{t}^{\lambda^{\text{max}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+
+The distribution of \term{Seeds} across $\lambda$ during $t$ is a function of (1) the \term{Crop Ratio} and (2) the distribution of \term{LP Seed Gauge Points}.
+
+%%%%%%%%%%%%%%%%%%%%%%% Calculating Stalk %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-1mm}
+\subsection{Calculating Stalk}
+\vspace*{-1mm}
+
+A \term{Stalkholder's} total \term{Stalk} is the sum of the \term{Stalk} for each of their \term{Deposits} that are not \term{Germinating}.
+
+When a \term{Stalkholder} \term{Deposits} $\lambda$ during $i$, they update their total number of $\lambda$ \term{Deposited} during \term{Season} $i$ ($Z_{i}^{\lambda}$), such that $Z_{i}^{\lambda} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \}$,  and its total PDV ($L_{i}^{\lambda}$), such that $L_{i}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, as $Z_{i}^{\lambda} \mathrel{+}= z^{\lambda}$ and $L_{i}^{\lambda} \mathrel= f^{L^{\lambda}}(Z_{i}^{\lambda})$, where $z^{\lambda}$ is the number of $\lambda$ \term{Deposited}. 
+
+The number of \term{Stalk} for a given $\lambda$ \term{Deposit} are determined by its PDV, $k^{\lambda}$,  \term{Season} of \term{Deposit}, the last \term{Season} the \term{Stalkholder} \term{Mowed} $\lambda$ \term{Deposits} ($\varkappa^{\lambda}$), such that $\varkappa^{\lambda} \in \mathbb{Z}^{+}$,  and the number of \term{Seeds} per PDV of $\lambda$ \term{Deposited} during $t$ ($c_{t}^{\lambda}$), such that $c_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$,  in every \term{Season} from when it was \term{Deposited} until $\varkappa^{\lambda}$.
+
+The number of \term{Stalk} during $t$ for a given $\lambda$ \term{Deposit} \term{Deposited} during $i$ and last \term{Mowed} during $\varkappa^{\lambda}$ ({$k_{t,i,\varkappa^{\lambda}}^{\lambda}$}), such that $k_{t,i,\varkappa^{\lambda}}^{\lambda} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is:
+
+    $$
+        k_{t,i,\varkappa^{\lambda}}^{\lambda} = 
+            L_{i}^{\lambda} \left( 
+            k^{\lambda} + 
+            \sum_{i}^{\varkappa^{\lambda}} \left
+                (\frac{c_{i}^{\lambda}}
+                        {10000}\right) 
+            \right)
+    $$
+
+A \term{Stalkholder's} total \term{Stalk} during $t$ ($K_{t}$), such that $K_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is:
+
+    $$
+        K_{t} = 
+            \sum_{\lambda \in \Lambda}
+                \sum_{i=1}^{\varkappa^{\lambda}}
+                    k_{t,i,\varkappa^{\lambda}}^{\lambda}
+    $$
+
+The total \term{Stalk} in the \term{Silo} during $t$ ($\mathbf{K}_{t}$), such that $\mathbf{K}_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is the sum of every \term{Stalkholder's} total \term{Stalk} during $t$:
+
+    $$
+        \mathbf{K}_{t} = 
+            \sum{K_{t}}
+    $$
+
+\newpage
+
+The total \term{Mown Stalk} in the \term{Silo} during $t$ ($\widehat{\mathbf{K}_{t}}$), such that $\widehat{\mathbf{K}_{t}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is the sum of every \term{Stalkholder's} total \term{Stalk} during $t$, less the \term{Stalk} rewarded upon \term{Deposit} across all \term{Deposits}:
+
+
+    $$
+        \widehat{\mathbf{K}_{t}} = 
+            \mathbf{K}_{t} - \sum
+            \sum_{\lambda \in \Lambda}
+                \sum_{i=1}^{t}
+                    L_{i}^{\lambda} \times k^{\lambda}
+    $$
+
+The number of \term{Grown Stalk} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning Pinto seigniorage for a given \term{Deposit} \term{Deposited} during $i$ and last \term{Mowed} during $\varkappa^{\lambda}$ ($g_{t,i,\varkappa^{\lambda}}^{\lambda}$), such that $g_{t,i,\varkappa^{\lambda}}^{\lambda} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
+
+    $$
+        g_{t,i,\varkappa^{\lambda}}^{\lambda} = 
+            L_{i}^{\lambda}\left
+            (\sum_{\varkappa^{\lambda} + 1}^{t} 
+                    \frac{c_{i}^{\lambda}}
+                            {10000}
+            \right)
+    $$
+
+A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$ ($G_{t}$), such that $G_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
+
+    $$
+        G_{t} = 
+            \sum_{\lambda \in \Lambda}
+                \sum_{\varkappa^{\lambda} + 1}^{t} 
+                    g_{t,i,\varkappa^{\lambda}}^{\lambda}
+    $$
+
+When a \term{Stalkholder} \term{Converts} multiple $\lambda$ \term{Deposits}, their \term{Mown Stalk} per PDV amounts are averaged together, weighted by their PDVs, and rounded up.
+
+%%%%%%%%%%%%%%%%%%%%%%% Calculating Seeds %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-1mm}
+\subsection{Calculating Seeds}
+\vspace*{-1mm}
+
+A \term{Stalkholder's} total \term{Seeds} is the sum of the \term{Seeds} for each of their \term{Deposits}.
+
+The number of \term{Seeds} per PDV during $t$ for a given $\lambda$ are determined by (1) the total \term{Seeds} that \term{Season} ($\mathbf{C}_{t}$), (2) the \term{Seed Gauge Points} of $\lambda$ ($\mathscr{S}_{t}^{\lambda}$), (3) $\mathbf{L}_{t}^{\lambda}$, and (4) the total \term{Seed Gauge Points} ($\mathscr{S}_{t}$), such that $\mathbf{C}_{t}, \mathscr{S}_{t}^{\lambda},\ \mathscr{S}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+
+We define $\mathbf{C}_{t}$ for a given initial ($\overline{\mathbf{C}}^{\circ}$) and minimum average \term{Seeds} per PDV ($\overline{\mathbf{C}}^{\text{min}}$), such that $\overline{\mathbf{C}}^{\circ},\ \overline{\mathbf{C}}^{\text{min}} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}$, total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\lambda}$), such that $\mathbf{L}_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, $\forall\ \lambda \in \Lambda$, $\widehat{\mathbf{K}_{t}}$ and $\mathscr{T}$ as: 
+
+    $$ 
+        \mathbf{C}_{t} = 
+        \begin{cases}
+            \frac{\overline{\mathbf{C}}^{\circ}}
+                {\sum\limits_{\lambda \in \Lambda}
+                                            \mathbf{L}_{i}^{\lambda}}
+                & \text{if } t < \mathscr{T}\ |\
+                \frac{10000 \times \widehat{\mathbf{K}_{t}}}
+                        {\mathscr{T} \times 
+                            \sum\limits_{\lambda \in \Lambda}{\mathbf{L}_{t}^{\lambda}}}
+                < \frac{\overline{\mathbf{C}}^{\circ}}
+                    {\sum\limits_{\lambda \in \Lambda} 
+                                                \mathbf{L}_{i}^{\lambda}}\ \forall\ \mathscr{T} < t \\
+                
+            \text{max}
+            \left(\frac{\overline{\mathbf{C}}^{\text{min}}}
+                    {\sum\limits_{\lambda \in \Lambda}
+                                                \mathbf{L}_{i}^{\lambda}},\ 
+            \frac{10000 \times \widehat{\mathbf{K}_{t}}}
+                    {\mathscr{T} \times 
+                        \sum\limits_{\lambda \in \Lambda}{\mathbf{L}_{t}^{\lambda}}}
+            \right)
+                & \text{else}
+        \end{cases}
+    $$
+
+The \term{Seed Gauge Points} of $\lambda$ during $t$ are a function of $\mathscr{C}_{t}$, the \term{LP Seed Gauge Points} per PDV of $\lambda$ during $t$ ($\mathscr{V}_{t}^{\lambda}$), such that $\mathscr{V}_{t}^{\lambda} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}\ \forall\ \lambda$, and $\mathbf{L}_{t}^{\lambda}$.
+
+\newpage
+
+The \term{Crop Ratio} is a function of the \term{Crop Scalar} ($\mathscr{X}_{t}$), such that $\mathscr{X}_{t} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, the minimum \term{Crop Ratio} ($\mathscr{C}^{\text{min}}$), the maximum \term{Crop Ratio} ($\mathscr{C}^{\text{max}}$), the \term{Rain} \term{Crop Ratio} ($\mathscr{C}^{\text{rain}}$), such that $\mathscr{C}^{\text{min}},\ \mathscr{C}^{\text{max}},\ \mathscr{C}^{\text{rain}} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, the liquidity and time weighted average price of \Pinto1 over the previous \term{Season} ($P_{\overline{t-1}}$) compared to the protocol value target ($V$), such that $P_{\overline{t-1}},\ V \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the \term{Pod Rate} at the end of the previous \term{Season} ($R_{t-1}^{D}$), and the level below which debt is considered excessively low ($R^{D^{\text{lower}}}$), such that $R_{t-1}^{D},\ R^{D^{\text{lower}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+We define $\mathscr{C}_{t}$ for a given $\mathscr{C}^{\text{rain}}$, $V$, $P_{\overline{t-1}}$, $R_{t-1}^{D}$, $R^{D^{\text{lower}}}$, $\mathscr{C}^{\text{min}}$, $\mathscr{X}_{t}$ and $\mathscr{C}^{\text{max}}$ as:
+
+    $$ 
+        \mathscr{C}_{t} = 
+        \begin{cases}
+            {\mathscr{C}^{\text{rain}}} 
+                & \text{if} \; V < P_{\overline{t-1}} \mkern6mu \&\& \mkern6mu R_{t-1}^{D} < R^{D^{\text{lower}}} \\
+            
+            {\mathscr{C}^{\text{min}} + \mathscr{X}_{t}\ * \ (\mathscr{C}^{\text{max}} - \mathscr{C}^{\text{min}})} 
+                & \text{else}
+        \end{cases} 
+    $$
+
+We define $\mathscr{V}_{t}^{\lambda}$ for a given \term{LP Seed Gauge Points} of $\lambda$ during $t$ ($\mathscr{L}_{t}^{\lambda}$), such that $\mathscr{L}_{t}^{\lambda} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, and $\mathbf{L}_{t}^{\lambda}$ as:
+
+    $$
+        \mathscr{V}_{t}^{\lambda} = 
+        \begin{cases}
+            0 
+                & \text{if} \; \lambda == \Pinto  \\
+            
+            \frac{\mathscr{L}_{t}^{\lambda}}{\mathbf{L}_{t}^{\lambda}} 
+                & \text{else}
+        \end{cases} 
+    $$
+
+We define the \term{Seed Gauge Points} of $\lambda$ during $t$ as:
+
+    $$ 
+        \mathscr{S}_{t}^\lambda =
+        \begin{cases}
+            {\mathscr{C}_{t} \times \text{max(}\mathscr{V}_{t}^\lambda\text{)} \times \mathbf{L}_{t}^{\lambda}} 
+                & \text{if} \; \lambda == \Pinto  \\
+            
+            {\mathscr{L}_{t}^{\lambda}} 
+                & \text{else}
+        \end{cases} 
+    $$
+
+Therefore, we define $c_{t}^{\lambda}$ given $\mathbf{C}_{t}$, $\mathscr{S}_{t}^{\lambda}$, $\mathbf{L}_{t}^{\lambda}$ and $\mathscr{S}_{t}$ as: 
+
+    $$
+        c_{t}^{\lambda} = \frac{\mathbf{C}_{t} \times \mathscr{S}_{t}^{\lambda}}
+                                {\mathbf{L}_{t}^{\lambda} \times \mathscr{S}_{t}}
+    $$
+
+The number of \term{Seeds} for a given $\lambda$ \term{Deposit} are determined by its PDV when \term{Deposited} and $c_{t}^{\lambda}$.
+
+Therefore, the number of \term{Seeds} during $t$ for a given $\lambda$ \term{Deposit} \term{Deposited} during $i$ ($C_{t,i}^{\lambda}$), such that $C_{t,i}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, is:
+
+    $$
+        C_{t,i}^{\lambda} = c_{t}^{\lambda} \times L_{i}^{\lambda}
+    $$
+    
+A \term{Stalkholder's} total \term{Seeds} during $t$ ($C_{t}$), such that $C_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
+
+    $$
+        C_{t} = 
+            \sum_{\lambda \in \Lambda} 
+                \sum_{i=1}^{t} 
+                    C_{t,i}^{\lambda}
+    $$
+    
+The number of \term{Plantable Seeds} associated with a \term{Stalkholder's} $\eta^{\pinto}$ that can be \term{Planted} during $t$ to start earning \term{Grown Stalk} ($\eta_{t}^{c}$), such that $\eta_{t}^{c} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
+
+    $$
+        \eta_{t}^{c} = c_{t}^{\pinto} \times \eta^{\pinto}
+    $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Field   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Field}
+\vspace{-0.4cm}
+
+The Pinto peg maintenance mechanism requires the ability to borrow Pinto. The \term{Field} is the protocol-native credit facility. 
+
+\vspace{-0.2cm}
+
+Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 5 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the peg maintenance mechanism.
+
+%%%%%%%%%%%%%%%%%%%%%%% Soil %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{-0.35cm}
+\subsection{Soil}
+\vspace{-0.35cm}
+
+We define \term{Soil} ($S$), such that $S \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as the current number of Pinto that can be \term{Sown} in exchange for \term{Pods}. \Pinto1 is \term{Sown} in one \term{Soil}. The protocol permanently removes \term{Sown} \Pinto\ from the Pinto supply. 
+
+\vspace{-0.2cm}
+
+When the protocol is willing to borrow more Pinto to remove them from the Pinto supply, it creates more \term{Soil}. The protocol changes the \term{Minimum Soil} ($S_{t_{q}}^{\text{min}}$), such that $S_{t_{q}}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$, such that $q \in \mathbb{Z}^{+}$, of the \term{Morning} of $t$ according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Minimum Soil}.\fref{en.wikipedia.org/wiki/Dutch\_auction} 
+
+%%%%%%%%%%%%%%%%%%%%%%% Pods %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{-0.35cm}
+\subsection{Pods}
+\vspace{-0.35cm}
+
+\term{Pods} are the primary debt asset of Pinto. The protocol never defaults on debt. \term{Pods} automatically \term{Yield} from \term{Sown} \Pinto\ and never expire.
+
+\vspace{-0.2cm}
+
+In the future, when the average price of \Pinto1 is above its value target over a \term{Season}, \term{Pods} \term{Ripen} and become \term{Harvestable} (redeemable) for \Pinto1 at anytime. \term{Pods} \term{Ripen} on a FIFO basis: \term{Pods} \term{Yielded} from Pinto that are \term{Sown} first \term{Ripen} into \term{Harvestable Pods} first. \term{Pod} holders can \term{Harvest} their \term{Harvestable Pods} anytime by calling the \code{harvest} function. There is no penalty for waiting to \term{Harvest} \term{Pods}.
+
+\vspace{-0.2cm}
+
+\term{Pods} are transferable. In practice, \term{Pods} are non-callable zero-coupon bonds with priority for maturity represented as a place in line. The number of \term{Pods} that \term{Yield} from \term{Sown} \Pinto\ is determined by the \term{Temperature}.
+
+\vspace{-0.35cm}
+
+%%%%%%%%%%%%%%% Field Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=.085]{figures/Field.png}
+    \vspace*{-5mm}
+    \caption{Field}
+    \label{Field}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Temperature}
+\vspace*{-1mm}
+
+We define the \term{Temperature} ($h$), such that $h \in \mathbb{Z}^{+}$, as the percentage of additional Pinto ultimately \term{Harvested} from 1 \term{Sown} \Pinto.
+
+The number of \term{Pods} ($d$) that \term{Yield} from a given number of \term{Sown} \Pinto\ ($u$), such that $d,\ u \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, \term{Sown} with a given $h$ is:
+
+    $$
+        d = u \times \left(1 + \frac{h}
+                                {100}
+                    \right)
+    $$
+
+The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \mathbb{Z}^{+}$, at the beginning of each \term{Season} according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Peg Maintenance   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Peg Maintenance}
+
+Pinto faces the fundamental limitation that it cannot fix the price of \Pinto1 at its value target, but instead must encourage widespread participation in peg maintenance through protocol-native financial incentives. Stability is a function of how frequently and regularly the price of \Pinto1 crosses, and the magnitudes of price deviations from, its value target. The protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run decreases and increases in demand for Pinto.
+
+The protocol has five primary peg maintenance tools available: (1) increase the Pinto supply, (2) change the \term{Soil} supply, (3) change the \term{Maximum Temperature}, (4) change the \term{Crop Ratio}, and (5) \term{Flood} (defined below). At the beginning of every \term{Season}, the protocol evaluates its position (\textit{i.e.}, price, debt level and liquidity level) and current state (\textit{i.e.}, direction and acceleration) with respect to ideal equilibrium, and dynamically adjusts the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio} to move closer to ideal equilibrium.
+
+%%%%%%%%%%%%%%%%%%%%%%% Ideal Equilibrium %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Ideal Equilibrium}
+
+Pinto derive their value from the credit of the protocol and liquidity they trade against. The protocol only fails if it can no longer attract creditors and there is no liquidity trading against Pinto. A healthy level of debt and liquidity attracts creditors and liquidity. Therefore, in addition to the Pinto price, the peg maintenance mechanism considers the protocol debt and liquidity levels (defined below). 
+
+The protocol is in ideal equilibrium when the Pinto price and protocol debt and liquidity levels are at their optimal levels, and the demand for \term{Soil} is steady (defined below). The protocol affects the supply of and demand for Pinto to return to ideal equilibrium in response to the Pinto price, the protocol debt and liquidity levels, and changing demand for \term{Soil}, by adjusting the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio}. 
+
+Pinto supply increases and \term{Soil} supply changes primarily affect the Pinto supply. \term{Maximum Temperature} and \term{Crop Ratio} changes primarily affect demand for Pinto. In order to make the proper adjustments, the protocol closely monitors the states of both the Pinto and \term{Soil} markets.
+
+In practice, maintaining ideal equilibrium is impossible. Deviations from ideal equilibrium along each axis are normal and expected. As the protocol grows, the durations and magnitudes of deviations should decrease. 
+
+%%%%%%%%%%%%%%%%%%%%%%% Price Level %%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{2mm}
+\subsection{Price Level}
+\vspace*{2mm}
+
+At the beginning of each \term{Season}, the protocol calculates a sum of time weighted average shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season} ($\Delta B_{\overline{t-1}}$), such that $\Delta B_{\overline{t-1}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$. Liquidity pools can be added to and removed from the \term{Minting Whitelist} via the \term{PCM}.
+
+$\Delta B_{\overline{t-1}}$ can be used to infer $P_{\overline{t-1}}$. If there was a time weighted average shortage of Pinto across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season} (\textit{i.e.}, $0 < \Delta B_{\overline{t-1}}$), the protocol infers $V < P_{\overline{t-1}}$. If there was a time weighted average excess of Pinto across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season} (\textit{i.e.}, $\Delta B_{\overline{t-1}} < 0$), the protocol infers $P_{\overline{t-1}} < V$. If there was neither a time weighted shortage nor excess of Pinto across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season} (\textit{i.e.}, $\Delta B_{\overline{t-1}} = 0$), the protocol infers $P_{\overline{t-1}} = V$. 
+
+If $0 < \Delta B_{\overline{t-1}}$, the protocol calculates $P_{\overline{t-1}}$ from the pool on the \term{Minting Whitelist} with the most non-Pinto USD-denominated value at the beginning of the \term{Season}.
+
+$\Delta B_{\overline{t-1}} = 0$ for each \term{Season} that contains a \term{Pause} and \term{Unpause} (see Appendix).
+
+The protocol requires two $P$ levels to be set: (1) $P^{*}$, the optimal price (\textit{i.e.}, $P^{*} = V$), and (2) $P^{\text{upper}}$, above which the price is considered excessively high, such that $P^{*},\ P^{\text{upper}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} \leq P^{\text{upper}}$ and $P_{\overline{t-1}} \neq P^{*}$ (\textit{i.e.}, not optimal), $P_{\overline{t-1}}$ is considered reasonable.
+
+%%%%%%%%% Price Level Figure %%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \include{./figures/Price-Level}
+    \vspace*{-7mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Price Level}
+    \label{Price Level}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Debt Level %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Debt Level}
+
+The \term{Pod Rate} ($R^{D}$), such that $R^{D} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, represents the protocol debt level relative to the Pinto supply.
+
+The protocol does not consider \term{Burnt} \Pinto, \term{Sown} \Pinto\  nor \term{Unharvestable Pods}, but does consider \term{Harvestable Pods}, as part of the total Pinto supply.
+
+We define the total Pinto supply ($B$) for a given total Pinto minted over all \term{Seasons} ($M$), such that $B,\ M \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, total \term{Sown} \Pinto\ over all \term{Seasons} ($U$), and total \term{Burnt} \Pinto\ over all \term{Seasons} ($N$), such that $U,\ N \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
+
+    $$
+        B = M - (U + N)
+    $$
+
+We define $R^{D}$ for a given the total number of \term{Unharvestable Pods} ($D$), such that $D \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and $B$ as:
+
+    $$
+        R^{D} = \frac{D}{B}
+    $$
+
+\newpage
+
+The protocol requires three $R^{D}$ levels to be set: (1) $R^{D^{\text{lower}}}$, (2) $R^{D^{*}}$, an optimal level of debt, and (3) $R^{D^{\text{upper}}}$, above or equal to which debt is considered excessively high, such that $R^{D^{*}},\ R^{D^{\text{upper}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $R^{D^{\text{lower}}} \leq R^{D} < R^{D^{\text{upper}}}$ and $R^{D} \neq R^{D^{*}}$ (\textit{i.e.}, not optimal), $R^{D}$ is considered reasonable.
+
+%%%%%%%%%%%%%%% Debt Level Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \include{./figures/Debt-Level}
+    \vspace*{-7mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Debt Level}
+    \label{Debt Level}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Liquidity Level %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Liquidity Level}
+
+The \term{Liquidity Rate} ($R^{W}$), such that $R^{W} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, represents the protocol liquidity level relative to the Pinto supply.
+
+The total non-Pinto USD-denominated value of liquidity in the \term{Silo} ($W$), such that $W \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is a function of $f^{\mathscr{W}^{\lambda}}$, the function to calculate the time weighted average non-Pinto USD-denominated value in a given number of \term{Deposited} $\lambda$ ($f^{\$}(z^{\lambda})$), such that $f^{\$}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, and $\mathbf{L}_{t}^{\lambda}$.
+
+We define $f^{\$}(z^{\lambda})$ for a given inter-block MEV manipulation resistant TWA non-Pinto reserves in the Multi Flow \term{Pump}\fref{Any italicized terms not defined herein are defined by Pinto Exchange.} of $\lambda$ from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\nonpinto} \mid j \in \mathbb{Z}^{+} \}$, $f^{\$^{\lambda}}$, and the inter-block MEV manipulation resistant TWA number of $\lambda$ LP tokens from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \}$ as:
+
+    $$
+        f^{\$}(z^{\lambda}) = \frac{z^{\lambda} \times 
+                                    \lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}} \times 
+                                    f^{\$^{\lambda}}(3600)}
+                                {\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}}
+    $$
+
+Therefore, we define $W$ for a given $f^{\mathscr{W}^{\lambda}}$, $f^{\$}(z^{\lambda})$ and $\mathbf{L}_{t}^{\lambda}$ as:
+
+    $$
+        W = \sum_{\lambda \in \Lambda \setminus \pinto} 
+                    f^{\mathscr{W}^{\lambda}} \times 
+                        f^{\$}(\mathbf{L}_{t}^{\lambda})
+    $$
+
+Therefore, we define $R^{W}$ for a given $W$ and $B$ as:
+
+    $$
+        R^{W} = \frac{W}{B}
+    $$
+
+\newpage 
+
+The protocol requires three $R^{W}$ levels to be set: (1) $R^{W^{\text{lower}}}$, below which liquidity is considered excessively low, (2) $R^{W^{*}}$, an optimal level of liquidity, and (3) $R^{W^{\text{upper}}}$, above or equal to which liquidity is considered excessively high, such that $R^{W^{\text{lower}}},\ R^{W^{*}},\ R^{W^{\text{upper}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $R^{W^{\text{lower}}} \leq R^{W} < R^{W^{\text{upper}}}$ and $R^{W} \neq R^{W^{*}}$ (\textit{i.e.}, not optimal), $R^{W}$ is considered reasonable.
+
+\begin{figure}[h!]
+    \centering
+    \include{./figures/Liquidity-Level}
+    \vspace*{-7mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Liquidity Level}
+    \label{Liquidity Level}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Position %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Position}
+
+The position of the protocol with respect to ideal equilibrium can be represented on a graph with axes $R^{D}$, $R^{W}$ and $P$, and ideal equilibrium at the origin ($R^{D^{*}}$, $R^{W^{*}}$, $P^{*}$). The current state of the protocol is determined in part by the position of the protocol with respect to ideal equilibrium. 
+
+%%%%%%%%%%%%%%% Position Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=.14]{./figures/Position} % change scale to change size
+    \caption{Position}
+    \label{Position}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Direction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Direction}
+\vspace{0.1cm}
+
+The position of the protocol with respect to ideal equilibrium changes at the beginning of each \term{Season}. The current state of the protocol with respect to ideal equilibrium is determined in part by the direction of this change. 
+
+\vspace{0.1cm}
+
+The direction of change in position of the protocol at the beginning of $t$ is considered either toward or away from ideal equilibrium, based on $R_{t-1}^{D}$ and $P_{\overline{t-1}}$. When $V < P_{\overline{t-1}}$ (\textit{i.e.}, $0 < \Delta B_{\overline{t-1}}$), debt is paid back; when $P_{\overline{t-1}} \leq V$ (\textit{i.e.}, $\Delta B_{\overline{t-1}} \leq 0$), debt can only increase or remain constant.
+
+\vspace{0.1cm}
+
+Therefore, when $R^{D^{*}} < R_{t-1}^{D}$ (\textit{i.e.}, there was more than optimal debt):
+
+\vspace{0.1cm}
+
+\begin{itemize}[topsep=0pt, itemsep=1pt]
+    \item If $V < P_{\overline{t-1}}$, the protocol moves toward ideal equilibrium; and \vspace{0.1cm}
+    \item If $P_{\overline{t-1}} \leq V$, the protocol moves away from ideal equilibrium.
+\end{itemize}
+
+\vspace{0.1cm}
+
+When $R_{t-1}^{D} \leq R^{D^{*}}$ (\textit{i.e.}, there was less than optimal or optimal debt):
+
+\begin{itemize}[topsep=0pt, itemsep=1pt]
+    \item If $V < P_{\overline{t-1}}$, the protocol moves away from ideal equilibrium; or \vspace{0.1cm}
+    \item If $P_{\overline{t-1}} \leq V$, the protocol moves toward ideal equilibrium.
+\end{itemize}
+
+\vspace{0.1cm}
+
+%%%%%%%%%%%%%%% Direction Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Direction}
+    \vspace*{2mm}
+    \caption{Direction}
+    \label{Direction}
+\end{figure}
+
+\vspace{0.1cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Acceleration %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Acceleration}
+\vspace{0.1cm}
+
+The current state of the protocol with respect to ideal equilibrium is also determined by the rate of change of direction of the protocol at the beginning of each \term{Season} (\textit{i.e.}, its acceleration).
+
+\vspace{0.1cm}
+
+The acceleration of the protocol is considered decelerating, steady or accelerating, based on $P_{\overline{t-1}}$, $R_{t-1}^{D}$ and changing demand for \term{Soil}. Demand for \term{Soil} is considered decreasing, steady or increasing. 
+
+\vspace{0.1cm}
+
+When demand for \term{Soil} is decreasing:
+
+\vspace{0.1cm}
+
+\begin{itemize}[topsep=0pt, itemsep=1pt]
+    \item If $V < P_{\overline{t-1}}$, the protocol is decelerating; and \vspace{0.1cm}
+    \item If $P_{\overline{t-1}} \leq V$, the protocol is accelerating.
+\end{itemize}
+
+\vspace{0.1cm}
+
+When demand for \term{Soil} is steady, the protocol is steady.
+
+\newpage 
+
+When demand for \term{Soil} is increasing:
+
+\begin{itemize}[topsep=0pt, itemsep=1pt]
+    \item If $V < P_{\overline{t-1}}$, the protocol is accelerating; and
+    \item If $P_{\overline{t-1}} \leq V$, the protocol is decelerating.
+\end{itemize}
+
+%%%%%%%%%%%%%%% Acceleration Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1.12cm
+    \includetable{Acceleration}
+    \vspace*{2mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Acceleration}
+    \label{Acceleration}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Demand for Soil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{-3.5mm}
+\subsection{Demand for Soil}
+\vspace*{-3mm}
+
+In order to properly classify its acceleration, the protocol must accurately measure changing demand for \term{Soil}.
+
+The number of \term{Sown} \Pinto\ each \term{Season} ($u_{t}$), such that $u_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, indicates demand for \term{Soil} over the course of that \term{Season}. The rate of change of $u_{t}$ from \term{Season} to \term{Season} ($\frac{\partial u_{t}}{\partial t}$), such that $\frac{\partial u_{t}}{\partial t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, indicates changing demand for \term{Soil}.
+
+We define $\frac{\partial u_{t}}{\partial t}$ over the previous two \term{Seasons}, $u_{t-1}$ and $u_{t-2}$, respectively, as:
+
+    $$
+        \frac{\partial u_{t}}{\partial t} = \frac{u_{t-1}}{u_{t-2}}
+    $$
+
+The protocol requires two $\frac{\partial u_{t}}{\partial t}$ levels to be set: (1) $\frac{\partial u_{t}}{\partial t}^{\text{lower}}$, below which demand for \term{Soil} is considered decreasing, and (2) $\frac{\partial u_{t}}{\partial t}^{\text{upper}}$, above or equal to which demand for \term{Soil} is considered increasing, such that $\frac{\partial u_{t}}{\partial t}^{\text{lower}},\ \frac{\partial u_{t}}{\partial t}^{\text{upper}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $\frac{\partial u_{t}}{\partial t}^{\text{lower}} \leq \frac{\partial u_{t}}{\partial t} < \frac{\partial u_{t}}{\partial t}^{\text{upper}}$, demand for \term{Soil} is considered steady.
+
+%%%%%%%%%%%%%%% Soil Demand Changes From Derivative Figure %%%%%%%%%%%%%%%
+
+\vspace*{-3.5mm}
+\begin{figure}[h!]
+    \centering
+    \include{./figures/Soil-Demand-Changes-From-Derivative}
+    \vspace*{-10.5mm}
+    \caption{Soil Demand Changes From $\frac{\partial u_{t}}{\partial t}$}
+    \label{Soil Demand Changes From Derivative}
+\end{figure}
+
+However, when Pinto are \term{Sown} in all \term{Soil} in a \term{Season} (defined as $S_{t}^{\text{end}} \leq S^{\text{all}}$), $\frac{\partial u_{t}}{\partial t}$ can inaccurately measure changing demand for \term{Soil}. The first time Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, after one or more \term{Seasons} where Pinto were not \term{Sown} in all \term{Soil}, demand for \term{Soil} is considered increasing. When Pinto are \term{Sown} in all \term{Soil} in consecutive \term{Seasons} (\textit{i.e.}, $t-1$ and $t-2$), the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} ($\Delta E_{t}^{u}$), such that $\Delta E_{t}^{u} \in \mathbb{Z}$, can provide a more accurate measurement. 
+
+In order to measure $\Delta E_{t}^{u}$, the protocol logs the time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season} ($\Delta E_{t}^{u^{\text{first}}}$), such that $\Delta E_{t}^{u^{\text{first}}} \in \mathbb{N}$, as the difference between the Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil} ($E_{t}^{u^{\text{first}}}$) and $E_{\Xi}$. 
+
+We define $\Delta E_{t}^{u^{\text{first}}}$ for a given $E_{t}^{u^{\text{first}}}$ and $E_{\Xi}$ as:
+
+    $$
+        \Delta E_{t}^{u^{\text{first}}} = 
+            E_{t}^{u^{\text{first}}} - E_{\Xi}
+    $$
+
+If Pinto were \term{Sown} in all \term{Soil} in the first 10 minutes of the previous \term{Season} (\textit{i.e.}, $\Delta E_{t-1}^{u^{\text{first}}} < \Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$), demand for \term{Soil} is considered increasing. If Pinto were \term{Sown} in all \term{Soil} in both $t-1$ and $t-2$, but $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}} \leq \Delta E_{t-1}^{u^{\text{first}}}$, at the beginning of $t$ the protocol compares $\Delta E_{t-1}^{u^{\text{first}}}$ with $\Delta E_{t-2}^{u^{\text{first}}}$ to calculate $\Delta E_{t}^{u}$.
+
+We define $\Delta E_{t}^{u}$ for a given $\Delta E_{t-1}^{u^{\text{first}}}$ and $\Delta E_{t-2}^{u^{\text{first}}}$ as:
+
+    $$
+        \Delta E_{t}^{u} = 
+            \Delta E_{t-2}^{u^{\text{first}}} - \Delta E_{t-1}^{u^{\text{first}}}
+    $$
+
+If the above condition is met, changing demand for \term{Soil} is measured by $\Delta E_{t}^{u}$. the protocol requires two $\Delta E_{t}^{u}$ levels to be set: (1) $\Delta E_{t}^{u^{\text{lower}}}$, below which demand for \term{Soil} is considered decreasing, and (2) $\Delta E_{t}^{u^{\text{upper}}}$, above or equal to which demand for \term{Soil} is considered increasing, such that $\Delta E_{t}^{u^{\text{lower}}},\ \Delta E_{t}^{u^{\text{upper}}} \in \mathbb{Z}$. When $\Delta E_{t}^{u^{\text{lower}}} \leq \Delta E_{t}^{u} < \Delta E_{t}^{u^{\text{upper}}}$, demand for \term{Soil} is considered steady.
+
+Thus, the protocol measures changing demand for \term{Soil}.
+
+%%%%%%%%%%%%%%% Soil Demand Changes From Time Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \include{./figures/Soil-Demand-Changes-From-Time}
+    \vspace*{-10.5mm} % reduce space before caption
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Soil Demand Changes From $\Delta E_{t}^{u}$}
+    \label{Soil Demand Changes From Time}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Current State %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Current State}
+
+We define the current state of the protocol with respect to ideal equilibrium as the combination of its direction and acceleration with respect to ideal equilibrium. With two potential directions and three potential accelerations, the protocol has six potential current states:
+
+\begin{multicols}{2}
+\begin{itemize}[midsep]
+    \item Accelerating away from ideal equilibrium;
+    \item Steady away from ideal equilibrium;
+    \item Decelerating away from ideal equilibrium;
+    \item Accelerating toward ideal equilibrium;
+    \item Steady toward ideal equilibrium; and
+    \item Decelerating toward ideal equilibrium.
+\end{itemize}
+\end{multicols}
+
+%%%%%%%%%%%%%%% Current State Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Current-State}
+    \vspace*{0mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Current State}
+    \label{Current State}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Optimal State %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\subsection{Optimal State}
+
+An optimal state of the protocol is an optimal current state and determined by $R_{t-1}^{D}$.
+
+We define an optimal state of the protocol as accelerating toward ideal equilibrium, or either steady or decelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is excessively high or low, the optimal state is accelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is reasonably high or low, the optimal state is either steady or decelerating toward ideal equilibrium.
+
+%%%%%%%%%%%%%%% Optimal State Figure %%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Optimal-State}
+    \vspace*{2mm}
+    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \caption{Optimal State}
+    \label{Optimal State}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pinto Supply %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Pinto Supply}
+
+At the beginning of each \term{Season}, if $V < P_{\overline{t-1}}$, the protocol increases the Pinto supply based on $\Delta B_{\overline{t-1}}$ in addition to the reward for successfully calling the \code{gm} function. Up to 48.5\% of the additional Pinto supply increase is used to pay off \term{Pods}, up to 3\% of the additional Pinto supply increase is distributed to the Pinto development budget\fref{basescan.org/address/0xb0cdb715D8122bd976a30996866Ebe5e51bb18b0} or to repay Beanstalk debt\fref{pinto.money/repay-beanstalk-debt}, and the remainder is distributed to \term{Stalkholders}. If the Pinto supply is less than 1 billion, 3\% is distributed to the Pinto development budget. If the Pinto supply is greater than 1 billion, up to 3\% is distributed to repay Beanstalk debt.
+
+At the beginning of each \term{Season}, the protocol mints $m_{t}$ Pinto, such that $m_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+
+We define $m_{t}$ for a given $\Delta B_{\overline{t-1}}$ and $a_{t}$ as:
+
+    $$
+        m_{t} = 
+            \text{max}(0,\ \Delta B_{\overline{t-1}}) + a_{t}
+    $$
+
+The distribution of the additional mint is dependent on $\Delta B_{\overline{t-1}}$, $D$ and $B$. If $0 < \frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000} < D$ (\textit{i.e.}, there are at least $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ \term{Unharvestable Pods}), $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ \term{Pods} \term{Ripen} and become \term{Harvestable}, up to $\frac{\Delta B_{\overline{t-1}}\ \times\ 30}{1000}$ newly minted Pinto are distributed to the Pinto development budget or to repay Beanstalk debt, and the remaining newly minted Pinto are distributed to \term{Stalkholders}. If $0 < D < \frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ (\textit{i.e.}, there are less \term{Unharvestable Pods} than $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$), $D$ \term{Pods} \term{Ripen} and become \term{Harvestable}, up to $\frac{\Delta B_{\overline{t-1}}\ \times\ 30}{1000}$ newly minted Pinto are distributed to the Pinto development budget or to repay Beanstalk debt, and the remaining newly minted Pinto are distributed to \term{Stalkholders}.
+
+\newpage
+
+Therefore, the number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season} ($\Delta D_{t}$), such that $\Delta D_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
+
+    $$
+        \Delta D_{t} = 
+            \text{min}\left(
+                \text{max}\left
+                    (0,\ 
+                    \frac{\Delta B_{\overline{t-1}}\ \times\ 485}
+                            {1000}\right),\ 
+                D\right)
+    $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Soil Supply %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Soil Supply}
+
+Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \mathbb{Z}^{+}$, and (3) $R_{t-1}^{D}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on $\Delta B_{\overline{t-1}}$ and the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$.
+
+We define $S_{t_{q}}^{\text{min}}$ for a given $\Delta D_{t}$, $h_{t_{q}}$, $R^{D^{\text{upper}}}$, $R_{t-1}^{D}$ and $R^{D^{\text{lower}}}$ as:
+
+\vspace*{2mm}
+
+    $$
+        S_{t_{q}}^{\text{min}} = 
+            \begin{cases} 
+                \dfrac{0.5 \times \Delta D_{t}}
+                        {1 + \frac{h_{t_{q}}}
+                                    {100}}
+                    & \text{if} \; R^{D^{\text{upper}}} \leq R_{t-1}^{D} \vspace{.3cm} \\ 
+                    
+                \dfrac{\Delta D_{t}}
+                        {1 + \frac{h_{t_{q}}}
+                                    {100}} 
+                    & \text{if} \; R^{D^{\text{lower}}} < R_{t-1}^{D} \vspace{.3cm} \\ 
+                    
+                \dfrac{1.5 \times \Delta D_{t}}
+                        {1 + \frac{h_{t_{q}}}
+                                    {100}} 
+                    & \text{else} 
+            \end{cases}
+    $$
+
+\vspace*{2mm}
+
+The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such that $S_{t_{q}}^{\text{max}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$ of the \term{Morning} of $t$ for a given $\Delta B_{\overline{t-1}}$, $\Delta B_{\Xi-1}^{\text{EMA}}$ and $S_{t_{q}}^{\text{min}}$ as:
+
+    $$
+        S_{t_{q}}^{\text{max}} = 
+            \begin{cases} 
+                -\text{max}(\Delta B_{\Xi-1}^{\text{EMA}}, \Delta B_{\overline{t-1}}) 
+                    & \text{if} \; 
+                        \Delta B_{\overline{t-1}} < 0 \mkern6mu \&\& \mkern6mu \Delta B_{\Xi-1}^{\text{EMA}} < 0 \\
+
+                -\Delta B_{\overline{t-1}}
+                    & \text{if} \; 
+                        \Delta B_{\overline{t-1}} < 0 \mkern6mu \&\& \mkern6mu \Delta B_{\Xi-1}^{\text{EMA}} > 0 \\
+                
+                S_{t_{q}}^{\text{min}}
+                    & \text{else} 
+            \end{cases} 
+    $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Temperature}
+
+The protocol attempts to regularly cross the price of \Pinto1 over its value target during long run decreases and increases in demand for Pinto by adjusting the \term{Maximum Temperature} in an attempt to maintain an optimal state, or to move from its current state into an optimal state. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature} increases at the beginning of each interval. 
+
+%%%%%%%%%%%%%%%%%%% Maximum Temperature %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Maximum Temperature}
+
+The \term{Maximum Temperature} change at the beginning of $t$ is determined by $R_{t-1}^{D}$, $R_{t-1}^{W}$, $P_{\overline{t-1}}$ and changing demand for \term{Soil}.
+
+The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$), such that $H^{m} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and absolute manner ($H^{b}$), such that $H^{b} \in \mathbb{Z}$, at the beginning of $t$ as:
+
+    $$
+        H_{t} = \text{max}(
+                    H^{m} \times H_{t-1} + H^{b}, 
+                    1)
+    $$
+
+$H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$).
+
+%%%%%%%%%%%%%% Maximum Temperature Change Figures %%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Max-Temp-Changes-Excessively-Low-Liquidity}
+    \vspace*{2mm}
+    \caption{Maximum Temperature Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with an Excessively Low $R_{t-1}^{W}$}
+    \label{Max Temp Changes Excessively Low Liquidity}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Max-Temp-Changes-Reasonably-Low-Liquidity}
+    \vspace*{2mm}
+    \caption{Maximum Temperature Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably Low $R_{t-1}^{W}$}
+    \label{Max Temp Changes Reasonably Low Liquidity}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Max-Temp-Changes-Reasonably-High-Liquidity}
+    \vspace*{2mm}
+    \caption{Maximum Temperature Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably High $R_{t-1}^{W}$}
+    \label{Max Temp Changes Reasonably High Liquidity}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Max-Temp-Changes-Excessively-High-Liquidity}
+    \vspace*{2mm}
+    \caption{Maximum Temperature Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with an Excessively High $R_{t-1}^{W}$}
+    \label{Max Temp Changes Excessively High Liquidity}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%% Morning %%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\subsubsection{Morning}
+\vspace{-0.025cm}
+
+The \term{Temperature} increases logarithmically in each interval of the \term{Morning} of $t$ based on $H_{t}$, the number of intervals in the \term{Morning} ($\mathfrak{Q}$), such that $\mathfrak{Q} \in \mathbb{Z}^{+}$, and a control variable ($\sigma$), such that $\sigma \in \{j \times 10^{-\infty} \mid j \in \mathbb{Z}^{+} \}$, as:
+
+\vspace{-0.025cm}
+
+    $$ 
+        h_{t_{q}} =
+            \begin{cases}
+                1
+                    & \text{if} \; q = 0 \\
+                    
+                \text{max}(
+                        H_{t}*\text{log}_{\mathfrak{Q}\sigma + 1}(q\sigma + 1),\ 
+                        1)
+                    & \text{if} \; 0 < q < \mathfrak{Q} \\
+                    
+                H_{t} 
+                    & \text{else}
+            \end{cases} 
+    $$
+
+\vspace{-0.025cm}
+
+Thus, the protocol changes the \term{Temperature} in an attempt to regularly cross the price of \Pinto1 over its value target during long run decreases and increases in demand for Pinto.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Crop Ratio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{-0.025cm}
+\subsection{Crop Ratio}
+\vspace{-0.025cm}
+
+The protocol attempts to regularly cross the price of \Pinto1 over its value target during long run decreases and increases in demand for Pinto by adjusting the \term{Crop Ratio}. In practice, the protocol adjusts the \term{Crop Ratio} by changing the \term{Crop Scalar}. The \term{Crop Scalar} change at the beginning of $t$ is determined by $R_{t-1}^{D}$, $R_{t-1}^{W}$, $P_{\overline{t-1}}$ and changing demand for \term{Soil}. 
+
+\vspace{-0.025cm}
+
+The protocol changes the \term{Crop Scalar} in both a relative ($\mathscr{X}^{m}$), such that $\mathscr{X}^{m} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, and absolute manner ($\mathscr{X}^{b}$), such that $\mathscr{X}^{b} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, at the beginning of $t$ as:
+
+\vspace{-0.025cm}
+
+$$
+    \mathscr{X}_{t} = \text{min}(
+                        \text{max}(
+                            \mathscr{X}^{m} \times \mathscr{X}_{t-1} + \mathscr{X}^{b}, 
+                            0), 
+                        1)
+$$
+
+\vspace{-0.025cm}
+
+$\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures 17, 18, 19 and 20 as ($\mathscr{X}^{m}$, $\mathscr{X}^{b}$).
+
+%%%%%%%%%%%%%%%%%%% Crop Scalar Change Figures %%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Crop-Scalar-Changes-Excessively-Low-Liquidity}
+    \vspace*{2mm}
+    \caption{Crop Scalar Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with an Excessively Low $R_{t-1}^{W}$}
+    \label{Crop Scalar Changes Excessively Low Liquidity}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Crop-Scalar-Changes-Reasonably-Low-Liquidity}
+    \vspace*{2mm}
+    \caption{Crop Scalar Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably Low $R_{t-1}^{W}$}
+    \label{Crop Scalar Changes Reasonably Low Liquidity}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Crop-Scalar-Changes-Reasonably-High-Liquidity}
+    \vspace*{2mm}
+    \caption{Crop Scalar Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably High $R_{t-1}^{W}$}
+    \label{Crop Scalar Changes Reasonably High Liquidity}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h!]
+    \centering
+    \advance\leftskip-1cm
+    \includetable{Crop-Scalar-Changes-Excessively-High-Liquidity}
+    \vspace*{2mm}
+    \caption{Crop Scalar Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with an Excessively High $R_{t-1}^{W}$}
+    \label{Crop Scalar Changes Excessively High Liquidity}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Flood %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{-0.15cm}
+\subsection{Flood}
+\vspace{-0.15cm}
+
+During long run increases in demand for Pinto, at the beginning of each \term{Season}, the protocol sells newly minted Pinto on the open market if increasing the Pinto supply, lowering the \term{Maximum Temperature} and lowering the \term{Crop Ratio} have not crossed the average nor current prices of \Pinto1 over its value target.
+
+\vspace{-0.05cm}
+
+If $V < P_{\overline{t-1}}$ and $R_{t-1}^{D} < R^{D^{\text{lower}}}$, it is \term{Raining}. If it has \term{Rained} for $F$, such that $F \in \mathbb{Z}^{+}$, consecutive full \term{Seasons} and at the beginning of the next \term{Season} it is still \term{Raining}, it \term{Floods}. 
+
+\vspace{-0.05cm}
+
+At the beginning of each \term{Season} in which it \term{Floods}, the protocol mints additional Pinto and sells them directly in the pools on the \term{Flood Whitelist} with the highest shortage of Pinto at the end of the previous \term{Season}. Proceeds from the sale are distributed to \term{Stalkholders} at the beginning of $t$ in proportion to their \term{Stalk} holdings when it began to \term{Rain} that they still have. At the beginning of each \term{Season} in which it Floods, up to 0.1\% of the Pinto supply worth of \term{Pods} that grew from Pinto \term{Sown} before it began to \term{Rain} \term{Ripen} and become \term{Harvestable}.
+
+\vspace{-0.05cm}
+
+The number of Pinto that are minted and sold to return the price of \Pinto1 to its value target is calculated from the sum of differences between the optimal number of Pinto and the number of Pinto in each liquidity pool on the \term{Flood Whitelist} in the current transaction ($\Delta B_{\Game}$), such that $\Delta B_{\Game} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$. For each marginal Pinto minted to be sold, the protocol sells it into the pool with the highest shortage of Pinto until all Pinto are sold.
+
+\vspace{-0.05cm}
+
+In a \term{Flood}, $m_{t}$ for a given number of \term{Unharvestable Pods} that grew prior to the \term{Flood} ($D_{\gamma}$), the maximum percent of the Pinto supply worth of \term{Pods} that grew from Pinto \term{Sown} before it began to \term{Rain} that become \term{Harvestable} ($D_{\gamma}^{F}$), such that $D_{\gamma},\ D_{\gamma}^{F} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, $B$, $a_{t}$, $\Delta B_{\overline{t-1}}$ and $\Delta B_{\Game}$ is:
+
+\vspace{-0.05cm}
+
+    $$
+        m_{t} = 
+            \text{min}(D_\gamma, B \times D_{\gamma}^{F}) + 
+            a_{t} + 
+            \Delta B_{\overline{t-1}} + 
+            \Delta B_{\Game}
+    $$
+
+\vspace{-0.05cm}
+
+Thus, the protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run increases and decreases in demand for Pinto.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Toolshed   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Toolshed}
+\vspace{0.1cm}
+
+The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in peg maintenance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pod Market %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Pod Market}
+\vspace{0.1cm}
+
+The \term{Pod Market} is a peer-to-peer marketplace that allows \term{Pods} to be bought and sold in a trustless fashion without trading fees. Specifications of the \term{Pod Market} are outside the scope of this whitepaper. For information on the \term{Pod Market}, refer to the Appendix.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Depot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Depot}
+\vspace{0.1cm}
+
+Complex interactions with Base-native protocols can be tedious, cumbersome and expensive. The \term{Depot} facilitates complex, gas-efficient interactions with other Base-native protocols in a single transaction. Any external protocol with a \term{Pipeline} to the \term{Depot} can be used through the protocol in a single transaction. \term{Pipelines} to the \term{Depot} can be added and removed via the \term{PCM}. The specifications of specific \term{Pipelines} are outside the scope of this whitepaper. For information on the \term{Depot}, refer to the Appendix.
+
+%%%%%%%%%%%%%%%%%%%%%%%% Farm Balances %%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Farm Balances}
+\vspace{0.1cm}
+
+\term{Farm Balances} are assets stored on the \term{Farm} that are not \term{Deposited} in the \term{Silo} or locked in \term{Pod Orders}. \term{Farm Balances} enable the protocol to store any ERC-20 token on behalf of a user.
+
+All interactions with the protocol that use a user's ERC-20 tokens can use tokens from both \term{Farm} and \term{Wallet Balances}.
+
+%%%%%%%%%%%%%%%%%%%%%%%% Tractor %%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Tractor}
+\vspace{0.1cm}
+
+\term{Tractor} is a peer-to-peer transaction marketplace that allows third parties to perform pre-authorized actions through the protocol on behalf of a user. Specifications of \term{Tractor} are outside the scope of this whitepaper.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Economics   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\section{Economics}
+\vspace{0.1cm}
+
+The protocol is designed from economic first principles to increase trustlessness, stability and liquidity over time.
+
+%%%%%%%%%%%%%%% Ownership Concentration %%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+\subsection{Ownership Concentration}
+
+A design that lowers the Gini coefficient\fref{wikipedia.org/wiki/Gini\_coefficient} of Pinto and \term{Stalk} over time is essential to censorship resistance.
+
+Older \term{Deposits} have their \term{Stalk} diluted relative to newer \term{Deposits} every \term{Season}. Therefore, newly minted Pinto are more widely distributed over time.
+
+The protocol does not require a pre-mine. The first 1000 Pinto are created when the \code{init} function is called to deploy the protocol.
+
+%%%%%%%%%%%%%%% Strong Credit %%%%%%%%%%%%%%%
+
+\subsection{Strong Credit}
+
+Pinto is credit based and only fails if it can no longer attract creditors. A reasonable level of debt, strong credit history, competitive interest rate and reasonable level of liquidity attract creditors. 
+
+The protocol attempts to change the \term{Temperature} and \term{Crop Ratio} to return $R^{D}$ to $R^{D^{*}}$ while regularly crossing the price of \Pinto1 over its value target. The protocol acts more aggressively when $R^{D}$ is excessively high or low.
+
+The protocol never defaults on debt and is willing to issue \term{Pods} every \term{Season}. 
+
+%%%%%%%%%%%%%%% Deep Liquidity %%%%%%%%%%%%%%%
+
+\subsection{Deep Liquidity}
+
+The value of \Pinto\ is derived from the liquidity they trade against. Reasonable levels of debt and liquidity attract more liquidity. 
+
+The protocol attempts to change the \term{Temperature} and \term{Crop Ratio} to return $R^{W}$ to $R^{W^{*}}$ while regularly crossing the price of \Pinto1 over its value target. The protocol acts more aggressively when $R^{W}$ is excessively high or low.
+
+%%%%%%%%%%%%%%% Marginal Rate of Substitution %%%%%%%%%%%%%%%
+
+\subsection{Marginal Rate of Substitution}
+
+There are a wide variety of opportunities Pinto has to compete with for creditors and liquidity providers. Therefore, the protocol does not define an optimal \term{Temperature} or \term{Crop Ratio}, but instead adjusts them to move closer to ideal equilibrium. 
+
+%%%%%%%%%%%%%%% Low Friction %%%%%%%%%%%%%%%
+
+\subsection{Low Friction}
+
+Minimizing the cost of using Pinto and barriers to the \term{Farm} maximizes utility for users and appeal to creditors. The \term{Depot} realizes the benefits of composability on Base.
+
+The FIFO \term{Pod} \term{Harvest} schedule allows smaller \term{Sowers} to participate in peg maintenance and decreases the benefit of large scale price manipulation. The combination of non-expiry, the FIFO \term{Harvest} schedule, the Dutch auction, transferability, a liquid secondary market and \term{Tractor} enables \term{Sowers} to \term{Sow} Pinto as efficiently as possible. By maximizing the efficiency of the \term{Soil} market, Pinto minimizes its cost to attract creditors, the durations and magnitudes of price deviations below its value target, and excess \term{Pod} issuance.
+
+%%%%%%%%%%%%%%% Equilibrium %%%%%%%%%%%%%%%
+
+\subsection{Equilibrium}
+\vspace{-0.15cm}
+
+Equilibrium is a state of equivalent marginal quantity supplied and demanded. The protocol affects the supply of and demand for Pinto in attempt to regularly cross the equilibrium price of \Pinto1 over its value target. 
+
+\vspace{-0.15cm}
+
+While the protocol can arbitrarily increase the Pinto supply when the equilibrium price of \Pinto1 is above its value target, it cannot arbitrarily decrease the Pinto supply when the equilibrium price of \Pinto1 is below it. The protocol relies on the codependence between the equilibria of Pinto and \term{Soil} to work around this limitation. 
+
+%%%%%%%%%%%%%%% Incentives %%%%%%%%%%%%%%%
+
+\vspace{-0.15cm}
+\subsection{Incentives}
+\vspace{-0.15cm}
+
+Protocol-native financial incentives are designed to increase trustlessness, stability and liquidity over time by coordinating independently financially motivated actors (\textit{i.e}, \term{Stalkholders} and \term{Sowers}). 
+
+\vspace{-0.15cm}
+
+The \term{Stalk} and \term{Seed Gauge Systems} incentivize (1) \term{Depositing} assets in the \term{Silo}, (2) leaving assets \term{Deposited} in the \term{Silo} continuously by creating opportunity cost to \term{Withdraw} assets from the \term{Silo}, (3) adding value to liquidity pools with Pinto by rewarding at least as many \term{Seeds} to at least one \term{Deposited} LP token as \term{Deposited} \Pinto, and (4) returning the price of \Pinto1 to its value target by allowing \term{Conversions} within the \term{Silo} without forfeiting \term{Stalk}.
+
+\vspace{-0.15cm}
+
+When $V < P_{\overline{t}}$, there is an incentive to buy Pinto to earn a portion of the upcoming Pinto seigniorage. This is exacerbated when $R^{D}$ is lower and $R^{W}$ is higher. The \term{Germination} period reduces this incentive significantly. The combination of the commitment to (1) automatically return the price of \Pinto1 to its value target and (2) distribute proceeds from the sale to current \term{Stalkholders} based on \term{Stalk} ownership when it began to \term{Rain}, removes this incentive entirely during \term{Seasons} where it is \term{Raining}.
+
+\vspace{-0.15cm}
+
+Thus, the protocol is designed to consistently increase trustlessness, stability and liquidity over time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Risk   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{-0.15cm}
+\section{Risk}
+\vspace{-0.15cm}
+
+There are numerous risks associated with Pinto.\fref{docs.pinto.money/disclosures} This is not an exhaustive list.
+
+\vspace{-0.15cm}
+
+The protocol code base and peg maintenance mechanism are novel. Neither had been tested in the “real world” prior to the initial protocol deployment. Portions of the Pinto code base are unaudited.\footnote{\href{https://docs.pinto.money/resources/audits}{docs.pinto.money/resources/audits}} The open source nature of Pinto means that anyone can take advantage of any bugs, flaws or deficiencies in Pinto and launch identical or very similar low-volatility money implementations.
+
+\vspace{-0.15cm}
+
+A trustless implementation of Pinto has four external dependencies:
+
+\begin{enumerate}[label=(\arabic*)]
+    \item A trustless computer network that supports composability and both fungible and semi-fungible token standards (\textit{e.g.}, Base and the ERC-20 and ERC-1155 Standards, respectively);
+    \item A trustless exchange protocol with an inter-block MEV manipulation resistant oracle that runs on (1) (\textit{e.g.}, Pinto Exchange\fref{pinto.exchange} and Multi Flow, respectively); 
+    \item A liquid, trustless network-native asset with endogenous value (\textit{e.g.}, ETH); and
+    \item A trustless oracle for the value of (3) in $V$, or a non-network-native exogenous value convertible stablecoin protocol native to (1) that offers convertibility to its non-network-native exogenous value collateral (\textit{e.g.}, USDC, USDT) that trades on (2) against (3) with sufficient liquidity.
+\end{enumerate}
+
+The current implementation of Pinto lacks (4) and has three additional external dependencies: 
+
+\begin{enumerate}[label=(\arabic*), start=5]
+    \item The non-network-native assets in each $\lambda$ on the \term{Deposit Whitelist};
+    \item Non-network-native data feeds that facilitate reading inter-block MEV manipulation resistant USD-denominated prices of (3) and (5) (\textit{e.g.}, the ETH/USD\fref{data.chain.link/feeds/base/base/eth-usd} and SOL/USD\fref{data.chain.link/feeds/base/base/sol-usd} Chainlink data feeds); and 
+    \item Pipeline\fref{evmpipeline.org}, in order to facilitate complex, gas-efficient interactions with other Base-native protocols in a single transaction.
+\end{enumerate}
+
+To date, the Base network is one of the most developed and trust-minimized smart contract platforms and has an active community. The ERC-20 and ERC-1155 Standards are the most widely used fungible and semi-fungible token standards, respectively. ETH is the most censorship resistant and liquid asset on the Base network. Chainlink is the most widely used oracle network on Base. In general, open source protocols with large amounts of value on them are high value targets for exploits. Long track records indicate security. 
+
+The code bases of Pinto Exchange, Multi Flow and Pipeline are novel. They had not been tested in the “real world” prior to their initial deployments. Their open source nature means anyone can exploit any bugs, flaws or deficiencies. Although Pinto Exchange, Multi Flow and Pipeline have been audited\fref{github.com/BeanstalkFarms/Beanstalk-Audits\#ecosystem-reports}, it is no guarantee of security.
+
+Pinto inherits the security of the Base network, ERC-20 Standard, ERC-1155 Standard, Pinto Exchange, Multi Flow, non-Pinto assets in each $\lambda$ on the \term{Deposit Whitelist}, Chainlink and Pipeline. 
+
+The Pinto price oracle contains exposure to risk related to the centralized nature of Chainlink. There is no guarantee the node operators for the Chainlink data feeds used by assets on the \term{Deposit Whitelist} report price data accurately. The protocol assumes the accuracy of these data feeds.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Future Work   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Future Work}
+
+Pinto is a work in progress. The following are potential improvements that can be incorporated into Pinto as one or more \term{Pinto Improvements} (see Appendix):
+
+\begin{itemize}
+    \item Implement a \term{Fork Migration System} (see Appendix);
+    \item Add a mechanism to pay back old Beanstalk holders after the Pinto supply reaches 1 billion;
+    \item Change parameters until 2 weeks after the first time the Pinto supply reaches 500M (\textit{e.g.}, $\mathscr{T}$, $R^{D}$ and $R^{W}$ thresholds, $\Lambda$, $\mathscr{B}^{\lambda^{*}}$, etc.);
+    \item The price oracle can be replaced with a trustless one; and
+    \item Contracts can be made immutable.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Appendix   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Appendix}
+\input{appendix/Current-Parameters} % Current Parameters
+
+\newpage
+\input{appendix/Upgradability} % Upgradability
+
+\newpage
+\input{appendix/Delta-B-Calculations} % Delta B Calculations
+
+\newpage
+\input{appendix/PDV-Calculations} % PDV Calculations
+
+\newpage
+\input{appendix/Gauge-Point-Functions} % Gauge Point Functions
+
+\newpage
+\input{appendix/Non-Pinto-USD-Price-Functions} % Non-Pinto USD Price Functions
+
+\newpage
+\input{appendix/Liquidity-Weight-Functions} % Liquidity Weight Functions
+
+\newpage
+\input{appendix/Deposit-Whitelist} % Deposit Whitelist
+
+\newpage
+\input{appendix/Conversion-Whitelist} % Conversion Whitelist
+
+\newpage
+\input{appendix/Minting-Whitelist} % Minting Whitelist
+
+\newpage
+\input{appendix/Flood-Whitelist} % Flood Whitelist
+
+\newpage
+\input{appendix/Pod-Market} % Pod Market
+
+\newpage
+\input{appendix/Depot} % Depot
+
+\newpage
+\input{appendix/Glossary} % Glossary
+
+\end{document}

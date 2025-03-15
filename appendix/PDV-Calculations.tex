@@ -1,0 +1,51 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+\usepackage{utfsym} % water drop
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PDV Calculations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{PDV Calculations}
+
+The following PDV function can be used by assets on the \term{Deposit Whitelist}.
+
+%%%%%%%%%%%%%%%%%%%%%%% Default PDV Function  %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$}
+
+The PDV of a number of \term{Well} LP tokens is calculated using the using the inter-block MEV manipulation resistant instantaneous Pinto reserves ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$), such that $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and non-Pinto reserves ($\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$), such that $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}} \in \{j \times 10^{-\nonpinto} \mid j \in \mathbb{Z}^{+} \}$, in the Multi Flow \term{Pump} of $\mathfrak{w}$ in the current transaction.
+        
+The protocol calculates the inter-block MEV manipulation resistant derivative of the $\mathfrak{w}$ LP token supply with respect to Pinto ($\frac{\partial \mathfrak{w}}{\partial \pinto}$), such that $\frac{\partial \mathfrak{w}}{\partial \pinto} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, by calling the \term{Well Function} \code{calcLpTokenSupply} function with $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$ and $\mathfrak{w}^{*}$ as:
+
+    $$
+        \frac{\partial \mathfrak{w}}{\partial \pinto} = 
+            \code{calcLpTokenSupply(}
+                [\mathfrak{w}_{\pinto,\Game}^{\text{EMA}} - 1,\ 
+                    \mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}],\ 
+                \mathfrak{w}^{*} \code{)} - 
+            \code{calcLpTokenSupply(}
+                [\mathfrak{w}_{\pinto,\Game}^{\text{EMA}},\ 
+                    \mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}],\ 
+                \mathfrak{w}^{*} \code{)}
+    $$
+
+Therefore, we define $f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$ for a given $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}^{\text{min}(\pinto)}$ and $\frac{\partial \mathfrak{w}}{\partial \pinto}$ as:
+
+    $$
+        f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}}) =
+            \begin{cases}
+                \text{REVERT}
+                    & \text{if} \; \mathfrak{w}_{\pinto,\Game}^{\text{EMA}} < \mathfrak{w}^{\text{min}(\pinto)}  \\
+                
+                \frac{z^{\mathfrak{w}} \times 10^6}
+                    {\frac{\partial \mathfrak{w}}
+                            {\partial \pinto}}
+                    & \text{else}
+            \end{cases} 
+    $$
+
+\end{document}

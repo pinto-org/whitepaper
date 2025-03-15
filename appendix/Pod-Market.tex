@@ -1,0 +1,57 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pod Market %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Pod Market}
+
+The \term{Pod Market} is a peer-to-peer marketplace that allows \term{Pods} to be bought and sold in a trustless fashion without trading fees.
+
+%%%%%%%%%%%%%%%%%%%%%%%% Pod Orders %%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Pod Orders}
+
+Anyone with Pinto not in the \term{Silo} can \term{Order} \term{Pods}. 
+
+A \term{Pod Order} has four inputs:
+\begin{enumerate}
+    \item The maximum number of \term{Pods} to be purchased;
+    \item The maximum place in the \term{Pod Line} (\textit{i.e.}, the number of \term{Pods} that will become \term{Harvestable} before a given \term{Pod}) to purchase from;
+    \item The minimum number of Pods that can \term{Fill} the \term{Pod Order}; and
+    \item A constant that represents the maximum price per \term{Pod}, denominated in Pinto.
+\end{enumerate}
+
+A \term{Pod Order} can be \term{Cancelled} at any time until it is entirely \term{Filled}. To facilitate instant clearance, Pinto are locked in a \term{Pod Order} until it is entirely \term{Filled} or \term{Cancelled}. Pinto can only be locked in a single \term{Pod Order} at a time.
+
+%%%%%%%%%%%%%%%%%%%%%%%% Pod Listings %%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Pod Listings}
+
+\term{Pods} that \term{Yield} from Pinto that were \term{Sown} from a single call of the \code{sow} function form a \term{Plot}. Anyone with a \term{Plot} can \term{List} a whole or partial \term{Plot} to be sold for Pinto.
+
+A \term{Pod Listing} has six inputs: 
+
+\begin{enumerate}
+    \item The \term{Plot} being \term{Listed};
+    \item The difference between the front of the portion of the \term{Plot} included in the \term{Pod Listing} from the front of the whole \term{Plot}, denominated in \term{Pods}, where a null input \term{Lists} from the back of the \term{Plot};
+    \item The number of \term{Pods} in the \term{Plot} for sale, where a null input \term{Lists} the whole \term{Plot};
+    \item The minimum number of Pods that can \term{Fill} the \term{Pod Listing}; 
+    \item The maximum number of total \term{Pods} that can become \term{Harvestable} over all \term{Seasons} before the \term{Pod Listing} expires; and
+    \item A constant that represents the minimum price per \term{Pod}, denominated in Pinto.
+\end{enumerate}
+
+A \term{Pod Listing} can be \term{Cancelled} at any time until it is entirely \term{Filled}. \term{Plots} can only be \term{Listed} in a single \term{Pod Listing} at a time. \term{Pod Listings} are automatically \term{Cancelled} if the owner of the \term{Plot} transfers, or simultaneously includes in another \term{Listing}, any \term{Pods} in the \term{Plot}.
+
+%%%%%%%%%%%%%%%%%%%%%%%% Clearance %%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Clearance}
+
+An outstanding \term{Pod Order} can be entirely or partially \term{Filled} at any time by a \term{Pod} seller. If the \term{Pod Order} is partially \term{Filled}, the rest of the \term{Pod Order} remains. Similarly, an outstanding \term{Pod Listing} can be entirely or partially \term{Filled} at any time by a \term{Pod} buyer. If the \term{Pod Listing} is partially \term{Filled}, the rest of the \term{Pod Listing} remains.
+
+In instances where $0 < \Delta D_t$ causes a \term{Pod Order} and \term{Pod Listing} that previously were not overlapping to overlap, either the buyer or seller can \term{Fill} their \term{Order} or \term{Listing}, respectively, at their preferred price. 
+
+\end{document}

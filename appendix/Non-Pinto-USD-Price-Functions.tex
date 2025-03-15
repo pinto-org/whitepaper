@@ -1,0 +1,21 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Non-Pinto USD Price Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Non-Pinto USD Price Functions}
+
+The following non-Pinto USD price function can be used by assets on the \term{Deposit Whitelist}.
+
+%%%%%%%%%%%%%%% Default Non-Pinto USD Price Function %%%%%%%%%%%%%%%
+
+\subsubsection{$f^{\$^{\lambda'}}(\mathfrak{K})$}
+
+If $\mathfrak{K} = 0$, such that $\mathfrak{K} \in \mathbb{N}$, the protocol calculates the USD price of the non-Pinto asset in $\lambda'$ by calling the Chainlink \code{latestRoundData}, otherwise the protocol calculates it as the time weighted average of Chainlink \code{getRoundData} over the last $\mathfrak{K}$ seconds. 
+
+\end{document}

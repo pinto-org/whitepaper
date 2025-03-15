@@ -1,0 +1,442 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Conversion Whitelist %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Conversion Whitelist} 
+
+The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
+
+%%%%%%%%%%%%%%%%%%%%%%% Lambda to Lambda %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\lambda$ $\rightarrow$ $\lambda$}
+
+\begin{enumerate}
+
+    \item \textbf{From Token Address:} The from token address must match the to token address.
+    
+    \item \textbf{To Token Address:} The to token address must match the from token address.
+    
+    \item \textbf{Conditions:} \term{Deposited} $\lambda$ can be \term{Converted} to a $\lambda$ \term{Deposit} at anytime by the $\lambda$ \term{Deposit} holder. 
+    
+    \item \textbf{Convert Function:} The number of $\lambda$ received for \term{Converting} \term{Deposited} $\lambda$ within the \term{Silo} is equivalent to the number of $\lambda$ \term{Converted}. Therefore, we define the function as:
+    
+        $$
+            f^{\lambda \rightarrow \lambda}(z^{\lambda}) = 
+                z^{\lambda}
+        $$
+
+        The stored PDV of a $\lambda$ \term{Deposit} will only update if it increases above the previously stored value.
+
+    \item \textbf{Mown Stalk Reward / Burn Function:} N/A
+    
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%% Anti Lambda to Lambda %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\lambda^{\circ}$ $\rightarrow$ $\lambda^{\circ}$}
+
+\begin{enumerate}
+
+    \item \textbf{From Token Address:} The from token address must match the to token address.
+    
+    \item \textbf{To Token Address:} The to token address must match the from token address.
+    
+    \item \textbf{Conditions:} \term{Deposited} $\lambda^{\circ}$ can be \term{Converted} to a $\lambda^{\circ}$ \term{Deposit} at anytime by any account on Base.
+    
+    \item \textbf{Convert Function:} The number of $\lambda$ received for \term{Converting} \term{Deposited} $\lambda^{\circ}$ within the \term{Silo} is equivalent to the number of $\lambda^{\circ}$ \term{Converted}. Therefore, we define the function as:
+    
+        $$
+            f^{\lambda^{\circ} \rightarrow \lambda^{\circ}}(z^{\lambda^{\circ}}) = 
+                z^{\lambda^{\circ}}
+        $$
+        
+    Upon a $\lambda^{\circ}$ $\rightarrow$ $\lambda^{\circ}$ \term{Conversion}, the stored PDV of a $\lambda^{\circ}$ \term{Deposit} is updated.
+
+    Upon a $\lambda^{\circ}$ $\rightarrow$ $\lambda^{\circ}$ \term{Conversion} during $t$, the number of \term{Stalk} of the output $\lambda^{\circ}$ \term{Deposit} initially \term{Deposited} during $i$ ($k_{t,i,t}^{\lambda^{\circ}}$), such that $k_{t,i,t}^{\lambda^{\circ}} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is recalculated to account for the change in PDV of the \term{Deposit} as:
+
+    $$
+        k_{t,i,t}^{\lambda^{\circ}} = 
+            f^{L^{\lambda}}\left(z^{\lambda^{\circ}}\right) 
+            \left( 
+                k^{\lambda^{\circ}} + 
+                \sum_{i}^{t} 
+                \left
+                    (\frac{c_{i}^{\lambda^{\circ}}}
+                            {10000}
+                \right) 
+            \right)
+    $$
+
+    The $i$ associated with a \term{Converted} \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
+
+    \item \textbf{Mown Stalk Reward / Burn Function:} N/A
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%% Generalized Convert %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Generalized Convert (\textit{i.e.}, $\lambda \rightarrow \lambda'$)}
+
+\begin{enumerate}
+    \item \textbf{From Token Address:} The from token address can be any token address on the \term{Deposit Whitelist}.
+    
+    \item \textbf{To Token Address:} The to token address can be any token address on the \term{Deposit Whitelist}.
+    
+    \item \textbf{Conditions:} \term{Deposited} $\lambda$ can be \term{Converted} to a $\lambda'$ \term{Deposit} at anytime by the $\lambda$ \term{Deposit} holder.
+    
+    \item \textbf{Convert Function:} N/A
+
+    \item \textbf{Mown Stalk Reward / Burn Function:} 
+
+    Upon a $\lambda \rightarrow \lambda'$ \term{Conversion} during $t$, the number of \term{Stalk} of the output $\lambda'$ \term{Deposit} initially \term{Deposited} during $i$ ($k_{t,i,t}^{\lambda'}$) is calculated to account for (1) the change in PDV of the \term{Deposit} and (2) the \term{Mown Stalk} penalty ($g^{\lambda'^{*}}$), such that $k_{t,i,t}^{\lambda'},\ g^{\lambda'^{*}} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$.
+    
+    The \term{Mown Stalk} penalty is a function of (1) the PDV of the output $\lambda'$ \term{Deposit}, (2) the maximum change in current $\Delta b$ (\textit{i.e.}, $|\Delta b_{\Game} - \Delta b_{<\Game}|$) of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of changes across all $\lambda \in \Lambda$, adjusted for the changes in current supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively ($\Delta \mathfrak{B}^\text{max}$), and (3) the maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block, ($\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$), such that $\Delta \mathfrak{B}^\text{max},\ \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+    $\Delta \mathfrak{B}^\text{max}$ is a function of (1) a function to determine the magnitude of the movement away from $\Delta b = 0$ given the $\Delta b$ before and after a transaction ($f^{\Delta b^{*}}$), such that $f^{\Delta b^{*}}\colon \{(j,\ j') \times 10^{-6} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, (2) $\Delta b_{<\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, (3) $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, and (4) the current supply of $\lambda$ before and after the \term{Conversion} $\forall\ \lambda \in \Lambda$.
+
+    We define $f^{\Delta b^{*}}$ for a given $\Delta b$ before a transaction ($\Delta b_{<\Game}$) and $\Delta b$ after the transaction ($\Delta b_{\Game}$), such that $\Delta b_{<\Game},\ \Delta b_{\Game} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, as:
+
+        $$
+            f^{\Delta b^{*}}(\Delta b_{<\Game},\ \Delta b_{\Game}) =
+                \begin{cases}
+                    |\Delta b_{\Game} - \Delta b_{<\Game}| 
+                        & \text{if } \Delta b_{<\Game} \times \Delta b_{\Game} > 0\ 
+                    \text{\&\&}\ |\Delta b_{\Game}| > |\Delta b_{<\Game}| \\
+                    
+                    0 
+                        & \text{if } \Delta b_{<\Game} \times \Delta b_{\Game} > 0\ 
+                    \text{\&\&}\ |\Delta b_{\Game}| \leq |\Delta b_{<\Game}| \\
+                    
+                    |\Delta b_{\Game}| 
+                        & \text{else }
+            \end{cases}
+        $$
+    
+    Therefore, we define $\Delta \mathfrak{B}^\text{max}$ for a given $f^{\Delta b^{*}}$, $\Delta b_{<\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, and current supply of $\lambda$ before and after the \term{Conversion} $\forall\ \lambda \in \Lambda$ as:
+
+        \begin{align*}
+            \Delta \mathfrak{B}^\text{max} = 
+                \text{max} \Bigg(
+                    & f^{\Delta b^{*}}
+                    \left(
+                        \Delta b_{<\Game}^{\lambda},\ 
+                        \frac
+                        {\Delta b_{\Game}^{\lambda} \times
+                        \code{calcLpTokenSupply(}
+                            [\lambda_{<\Game}^{\pinto} ,\ 
+                            \lambda_{<\Game}^{\nonpinto}],\
+                            \lambda^{*} \code{)}}
+                                {\code{calcLpTokenSupply(}
+                                    [\lambda_{\Game}^{\pinto} ,\ 
+                                    \lambda_{\Game}^{\nonpinto}],\
+                                    \lambda^{*} \code{)}}
+                    \right),
+                    \\
+                    & f^{\Delta b^{*}}
+                    \left(
+                        \Delta b_{<\Game}^{\lambda'},\ 
+                        \frac
+                        {\Delta b_{\Game}^{\lambda'} \times
+                        \code{calcLpTokenSupply(}
+                            [\lambda'_{<\Game}^{\pinto} ,\ 
+                            \lambda'_{<\Game}^{\nonpinto}],\
+                            \lambda'^{*} \code{)}}
+                                {\code{calcLpTokenSupply(}
+                                    [\lambda'_{\Game}^{\pinto} ,\ 
+                                    \lambda'_{\Game}^{\nonpinto}],\
+                                    \lambda'^{*} \code{)}}
+                    \right),
+                    \\
+                    \sum_{\lambda \in \Lambda}
+                    & f^{\Delta b^{*}}
+                    \left(
+                        \Delta b_{<\Game}^{\lambda},\ 
+                        \frac
+                        {\Delta b_{\Game}^{\lambda} \times
+                        \code{calcLpTokenSupply(}
+                            [\lambda_{<\Game}^{\pinto} ,\ 
+                            \lambda_{<\Game}^{\nonpinto}],\
+                            \lambda^{*} \code{)}}
+                                {\code{calcLpTokenSupply(}
+                                    [\lambda_{\Game}^{\pinto} ,\ 
+                                    \lambda_{\Game}^{\nonpinto}],\
+                                    \lambda^{*} \code{)}}
+                    \right)
+                \Bigg)
+        \end{align*}
+
+    \newpage
+    $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ is a function of (1) $f^{\Delta b^{*}}$, (2) the maximum remaining \term{Conversions} of $\lambda$ permitted before a penalty is accrued ($\lambda_{\Xi-1}^{\text{LAST}^{*}}$), such that $\lambda_{\Xi-1}^{\text{LAST}^{*}} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{N} \}$, $\forall\ \lambda \in \Lambda$, and (3) $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$.
+
+    In order to properly decrement $\lambda_{\Xi-1}^{\text{LAST}^{*}}$, at the beginning of each block Pinto stores the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} of $\lambda$ ($\Delta b_{\Xi-1}^{\lambda^{\text{LAST}}})$, such that $\Delta b_{\Xi-1}^{\lambda^{\text{LAST}}} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \}$, $\forall\ \lambda \in \Lambda$ (\textit{i.e.}, $\lambda_{\Xi-1}^{\text{LAST}^{*}} = \Delta b_{\Xi-1}^{\lambda^{\text{LAST}}}$), and the sign of $\Delta b_{\Xi-1}^{\lambda^{\text{LAST}}}$ ($\lambda_{\Xi-1}^{\text{LAST}^{\text{SIGN}}}$), such that $\lambda_{\Xi-1}^{\text{LAST}^{\text{SIGN}}} \in \{1,\ 0\}$, $\forall\ \lambda \in \Lambda$, where 1 indicates a positive value and 0 indicates a negative value. 
+
+    Upon each successful \term{Conversion}, the protocol updates $\lambda_{\Xi-1}^{\text{LAST}^{*}}$ as:
+
+        \begin{adjustwidth}{-2cm}{-2cm}
+            $$
+            \lambda_{\Xi-1}^{\text{LAST}^{*}} = 
+                \begin{cases}
+                    \text{max}
+                    \left(
+                        0,\ 
+                        \left(
+                            |\lambda_{\Xi-1}^{\text{LAST}^{*}}| - 
+                            \frac{|(\Delta b_{\Game}^{\lambda} - \Delta b_{<\Game}^{\lambda})| \times 
+                            \code{calcLpTokenSupply(}
+                                [\lambda_{\pinto,\Game}^{\text{LAST}} ,\ 
+                                \lambda^{\text{LAST}}_{\nonpinto, \Game}],\
+                                \lambda^{*} \code{)}}
+                                    {\code{calcLpTokenSupply(}
+                                        [\lambda_{\Game}^{\pinto} ,\ 
+                                        \lambda_{\Game}^{\nonpinto}],\
+                                        \lambda^{*} \code{)}}
+                        \right)
+                    \right)
+                        & \text{if } \lambda_{\Xi-1}^{\text{LAST}^{\text{SIGN}}} == 1 \\
+                    
+                    \text{min}
+                    \left(
+                        0,\ 
+                        \left(
+                            |\lambda_{\Xi-1}^{\text{LAST}^{*}}| - 
+                            \frac{|(\Delta b_{\Game}^{\lambda} - \Delta b_{<\Game}^{\lambda})| \times 
+                            \code{calcLpTokenSupply(}
+                                [\lambda_{\pinto,\Game}^{\text{LAST}} ,\ 
+                                \lambda_{\nonpinto,\Game}^{\text{LAST}}],\
+                                \lambda^{*} \code{)}}
+                                    {\code{calcLpTokenSupply(}
+                                        [\lambda_{\Game}^{\pinto} ,\ 
+                                        \lambda_{\Game}^{\nonpinto}],\
+                                        \lambda^{*} \code{)}}
+                        \right)
+                        \times -1
+                    \right)
+                        & \text{else }
+                \end{cases}   
+            $$
+        \end{adjustwidth}
+    
+    Therefore, we define $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ for a given $f^{\Delta b^{*}}$, $\lambda_{\Xi-1}^{\text{LAST}^{*}}\ \forall\ \lambda \in \Lambda$, and $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$ as:
+
+        \begin{align*}
+            \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} = 
+                \text{max} \Bigg(
+                    & f^{\Delta b^{*}}
+                    (\lambda_{\Xi-1}^{\text{LAST}^{*}},\ \Delta b_{\Game}^{\lambda}),
+                    \\
+                    & f^{\Delta b^{*}}
+                    (\lambda_{\Xi-1}^{\text{LAST}^{*}},\ \Delta b_{\Game}^{\lambda'}),
+                    \\
+                    \sum_{\lambda \in \Lambda}
+                    & f^{\Delta b^{*}}
+                    (\lambda_{\Xi-1}^{\text{LAST}^{*}},\ \Delta b_{\Game}^{\lambda})
+                \Bigg)
+        \end{align*}
+
+    Therefore, we define the \term{Mown Stalk} penalty for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $\Delta \mathfrak{B}^\text{max}$ and $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ as:
+
+        $$
+             g^{\lambda'^{*}} = 1 - 
+                \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
+                     (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
+                     {f^{L^{\lambda'}}(z^{\lambda'})} 
+                \right)
+        $$
+
+    Therefore, we define $k_{t,i,t}^{\lambda'}$ for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $k^{\lambda'}$, $f^{L^{\lambda}}(z^{\lambda})$, $g^{\lambda'^{*}}$, and $c_{t}^{\lambda'}$ in every \term{Season} from when it was \term{Deposited} until $t$ as:
+
+        \begin{adjustwidth}{-2cm}{-2cm}
+        $$
+            k_{t,i,t}^{\lambda'} = 
+                \begin{cases}
+                    f^{L^{\lambda'}}(z^{\lambda'}) 
+                    \times 
+                    k^{\lambda'} +
+                    f^{L^{\lambda}}(z^{\lambda})
+                    \times g^{\lambda'^{*}} \times
+                    \sum\limits_{i}^{t} 
+                    \left
+                        (\frac{c_{i}^{\lambda}}{10000}
+                    \right) 
+                        & \text{if } f^{L^{\lambda'}}(z^{\lambda'}) \geq f^{L^{\lambda}}(z^{\lambda}) \\
+                    
+                    f^{L^{\lambda'}}(z^{\lambda'}) 
+                    \left( 
+                        k^{\lambda'} + 
+                        g^{\lambda'^{*}} \times
+                        \sum\limits_{i}^{t} 
+                        \left
+                            (\frac{c_{i}^{\lambda}}{10000}
+                        \right) 
+                    \right)
+                        & \text{else}\\
+                \end{cases}
+        $$
+        \end{adjustwidth}
+
+    The $i$ associated with a \term{Converted} \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
+    
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%% Pinto to Well LP %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\Pinto\ $\rightarrow$ $\mathfrak{w}$}
+
+\begin{enumerate}
+
+    \item \textbf{From Token Address:} $\Pinto^{@}$
+    
+    \item \textbf{To Token Address:} $\mathfrak{w}^{@}$ 
+    
+    \item \textbf{Conditions:} \term{Deposited} \Pinto\ can be \term{Converted} to \term{Deposited} $\mathfrak{w}$ if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} > 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
+    
+    \item \textbf{Convert Function:} The number of $\mathfrak{w}$ received for \term{Converting} \term{Deposited} Pinto within the \term{Silo} for a given Pinto contract address ($\PintoContract^{@}$, such that $\PintoContract^{@} \in \{j \in \mathbb{N} \mid j < 16^{40} \}$, $\PintoContract^{@} = \\ \text{0xD1A0D188E861ed9d15773a2F3574a2e94134bA8f}$) and minimum $\mathfrak{w}$ received ($\mathfrak{w}^{\text{min}}$), such that $\mathfrak{w}^{\text{min}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, is the result of calling the \term{Well Implementation} \code{sync} function on $\mathfrak{w}$ immediately after sending $z^{\pinto}$ to $\mathfrak{w}$, as:
+    
+        $$
+            f^{\pinto \rightarrow \mathfrak{w}}(z^{\pinto}) = 
+                \mathfrak{w} \code{.sync(}
+                            \PintoContract^{@},
+                            \mathfrak{w}^{\text{min}}
+                        \code{)}
+        $$
+
+    Upon each successful \term{Conversion}, the protocol updates $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ as:
+
+        \begin{adjustwidth}{-2cm}{-2cm}
+            $$
+            \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}} = 
+                \begin{cases}
+                    \text{max}
+                    \left(
+                        0,\ 
+                        \left(
+                            |\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}| - 
+                            \frac{|(\Delta b_{\Game}^{\mathfrak{w}} - \Delta b_{<\Game}^{\mathfrak{w}})| \times 
+                            \code{calcLpTokenSupply(}
+                                [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}} ,\ 
+                                \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\
+                                \mathfrak{w}^{*} \code{)}}
+                                    {\code{calcLpTokenSupply(}
+                                        [\mathfrak{w}_{\Game}^{\pinto} ,\ 
+                                        \mathfrak{w}_{\Game}^{\nonpinto}],\
+                                        \mathfrak{w}^{*} \code{)}}
+                        \right)
+                    \right)
+                        & \text{if } \mathfrak{w}^{\text{LAST}^{\text{SIGN}}}_{\Xi-1} == 1 \\
+                        
+                    \text{min}
+                    \left(
+                        0,\ 
+                        \left(
+                            |\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}| - 
+                            \frac{|(\Delta b_{\Game}^{\mathfrak{w}} - \Delta b_{<\Game}^{\mathfrak{w}})| \times 
+                            \code{calcLpTokenSupply(}
+                                [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}} ,\ 
+                                \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\
+                                \mathfrak{w}^{*} \code{)}}
+                                    {\code{calcLpTokenSupply(}
+                                        [\mathfrak{w}_{\Game}^{\pinto} ,\ 
+                                        \mathfrak{w}_{\Game}^{\nonpinto}],\
+                                        \mathfrak{w}^{*} \code{)}}
+                        \right)
+                        \times -1
+                    \right)
+                        & \text{else}
+                \end{cases}   
+            $$
+        \end{adjustwidth}
+    
+    The stored PDV of a \term{Converted} $\mathfrak{w}$ \term{Deposit} will only update if it increases above the previously stored value.
+
+    The $i$ associated with a \term{Converted} $\mathfrak{w}$ \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
+
+    \item \textbf{Mown Stalk Reward / Burn Function:} N/A 
+    
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%% Well LP to Pinto %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\mathfrak{w}$ $\rightarrow$ \Pinto}
+
+\begin{enumerate}
+
+    \item \textbf{From Token Address:} $\mathfrak{w}^{@}$
+    
+    \item \textbf{To Token Address:} $\Pinto^{@}$
+    
+    \item \textbf{Conditions:} \term{Deposited} $\mathfrak{w}$ can be \term{Converted} to \term{Deposited} \Pinto\ if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} < 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
+    
+    \item \textbf{Convert Function:} The number of \Pinto\ received for \term{Converting} \term{Deposited} $\mathfrak{w}$ within the \term{Silo} for a given $\Pinto^{@}$, minimum number of \Pinto\ received ($\Pinto^{\text{min}}$), such that $\Pinto^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, $\PintoContract^{@}$ and \code{block.timestamp} is the result of calling the \term{Well Implementation} \code{removeLiquidityOneToken} function on $\mathfrak{w}$ as:
+
+    $$
+        f^{\mathfrak{w} \rightarrow \pinto}(z^{\mathfrak{w}}) = 
+            \mathfrak{w} \code{.removeLiquidityOneToken(} 
+                        z^{\mathfrak{w}},\ 
+                        \Pinto^{@},\ 
+                        \Pinto^{\text{min}},\ 
+                        \PintoContract^{@},\
+                        \code{block.timestamp} 
+                    \code{)}
+    $$
+
+    Upon each successful \term{Conversion}, the protocol updates $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ as:
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+    \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}} = 
+        \begin{cases}
+            \text{max}
+            \left(
+                0,\ 
+                \left(
+                    |\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}| - 
+                    \frac{|(\Delta b_{\Game}^{\mathfrak{w}} - \Delta b_{<\Game}^{\mathfrak{w}})| \times 
+                    \code{calcLpTokenSupply(}
+                        [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}} ,\ 
+                        \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\
+                        \mathfrak{w}^{*} \code{)}}
+                            {\code{calcLpTokenSupply(}
+                                [\mathfrak{w}_{\Game}^{\pinto} ,\ 
+                                \mathfrak{w}_{\Game}^{\nonpinto}],\
+                                \mathfrak{w}^{*} \code{)}}
+                \right)
+            \right)
+            & \text{if } \mathfrak{w}^{\text{LAST}^{\text{SIGN}}}_{\Xi-1} == 1 \\
+            
+            \text{min}
+                \left(
+                0,\ 
+                \left(
+                    |\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}| - 
+                    \frac{|(\Delta b_{\Game}^{\mathfrak{w}} - \Delta b_{<\Game}^{\mathfrak{w}})| \times 
+                    \code{calcLpTokenSupply(}
+                        [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}} ,\ 
+                        \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\
+                        \mathfrak{w}^{*} \code{)}}
+                            {\code{calcLpTokenSupply(}
+                                [\mathfrak{w}_{\Game}^{\pinto} ,\ 
+                                \mathfrak{w}_{\Game}^{\nonpinto}],\
+                                \mathfrak{w}^{*} \code{)}}
+                \right)
+                \times -1
+            \right)
+            & \text{else}
+        \end{cases}   
+    $$
+    \end{adjustwidth}
+
+    The stored PDV of a \term{Converted} $\Pinto$ \term{Deposit} will only update if it increases above the previously stored value.
+
+    The $i$ associated with a \term{Converted} $\Pinto$ \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
+
+    \item \textbf{Mown Stalk Reward / Burn Function:} N/A   
+    
+\end{enumerate}
+
+\end{document}

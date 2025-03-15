@@ -1,0 +1,67 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LP Seed Gauge Point Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{LP Seed Gauge Point Functions}
+
+The following \term{LP Seed Gauge Point} function can be used by assets on the \term{Deposit Whitelist}.
+
+%%%%%%%%%%%%%%%%%%%%%% Default LP Seed Gauge Point Function %%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$f^{\mathscr{L}^{\lambda'}}$}
+
+$f^{\mathscr{L}^{\lambda'}}$ increases the magnitude of the change of \term{LP Seed Gauge Points} of $\lambda'$ the further away the percent of \term{Deposited} LP PDV of $\lambda'$ ($\mathscr{B}^{\lambda'}$), such that $\mathscr{B}^{\lambda'} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, is from $\mathscr{B}^{{\lambda'}^{*}}$.
+
+$f^{\mathscr{L}^{\lambda'}}$ requires three $\mathscr{L}^{\lambda'}$ levels to be set: (1) $\mathscr{L}^{\lambda'^{\text{close}}}$, (2) $\mathscr{L}^{\lambda'^{\text{far}}}$, and (3) $\mathscr{L}^{\lambda'^{\text{vfar}}}$, such that $\mathscr{L}^{\lambda'^{\text{close}}},\ \mathscr{L}^{\lambda'^{\text{far}}},\ \mathscr{L}^{\lambda'^{\text{vfar}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, such that:
+
+\begin{itemize}
+    \item If $\mathscr{B}^{\lambda'}$ is between $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{close}}})$ and $\mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{close}}})$ (\textit{i.e.}, $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{close}}}) < \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{close}}})$), $\mathscr{B}^{\lambda'}$ is considered excessively close;
+    
+    \item Otherwise, if $\mathscr{B}^{\lambda'}$ is between $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{far}}})$ and $\mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{far}}})$ (\textit{i.e.}, $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{far}}}) < \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{far}}})$), $\mathscr{B}^{\lambda'}$ is considered reasonably close;
+    
+    \item Otherwise, if $\mathscr{B}^{\lambda'}$ is between $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{vfar}}})$ and $\mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{vfar}}})$ (\textit{i.e.}, $\mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{vfar}}}) < \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{vfar}}})$), $\mathscr{B}^{\lambda'}$ is considered reasonably far;
+    
+    \item Otherwise, (\textit{i.e.}, $\mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{vfar}}})\ ||\ \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{vfar}}}) < \mathscr{B}^{\lambda'}$), $\mathscr{B}^{\lambda'}$ is considered excessively far. 
+\end{itemize}
+ 
+The \term{LP Seed Gauge Points} of $\lambda'$ during $t$ is calculated using the maximum \term{LP Seed Gauge Points} for a given $\lambda'$ ($\mathscr{L}^{\lambda'^{\text{max}}}$), such that $\mathscr{L}^{\lambda'^{\text{max}}} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, $\mathscr{L}_{t-1}^{\lambda'}$, $\mathscr{B}^{\lambda'}$, $\mathscr{B}^{\lambda'^{*}}$, $\mathscr{L}^{\lambda'^{\text{vfar}}}$, $\mathscr{L}^{\lambda'^{\text{far}}}$, and $\mathscr{L}^{\lambda'^{\text{close}}}$ as:
+
+    $$
+        f^{\mathscr{L}^{\lambda'}} = 
+            \text{min}\left(
+                \mathscr{L}^{\lambda'^{\text{max}}},\ 
+                \text{max}\left(
+                    0,\ 
+                    \begin{cases}
+                        \mathscr{L}_{t-1}^{\lambda'} + 5
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{vfar}}})  \\
+                        
+                        \mathscr{L}_{t-1}^{\lambda'} + 3
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{far}}})  \\
+                        
+                        \mathscr{L}_{t-1}^{\lambda'} + 1 
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} - ( \mathscr{B}^{\lambda'^{*}} \times \mathscr{L}^{\lambda'^{\text{close}}})  \\
+                        
+                        \mathscr{L}_{t-1}^{\lambda'}
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{close}}})  \\
+                        
+                        \mathscr{L}_{t-1}^{\lambda'} - 1
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{far}}})  \\
+
+                        \mathscr{L}_{t-1}^{\lambda'} - 3
+                        & \text{if} \; \mathscr{B}^{\lambda'} < \mathscr{B}^{\lambda'^{*}} + ((1 - \mathscr{B}^{\lambda'^{*}}) \times \mathscr{L}^{\lambda'^{\text{vfar}}})  \\
+                        
+                        \mathscr{L}_{t-1}^{\lambda'} - 5
+                            & \text{else}
+                    \end{cases} 
+                \right)
+            \right)
+    $$
+
+\end{document}

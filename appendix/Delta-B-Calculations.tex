@@ -1,0 +1,330 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+\usepackage{utfsym} % water drop
+\usepackage{amsmath}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Delta B Calculations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{$\Delta b$ Calculations}
+
+The following $\Delta b$ calculations are used throughout this whitepaper.
+
+%%%%%%%%%%%%%%%%%%% End of the Transaction %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\Delta b_{\Game}^{\mathfrak{w}}$}
+
+The excess or shortage of Pinto in a \term{Well} at the end of the current transaction ($\Delta b_{\Game}^{\mathfrak{w}}$), such that $\Delta b_{\Game}^{\mathfrak{w}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal number of Pinto ($\mathfrak{w}_{\Game}^{\pinto^{*}}$) and the number of Pinto ($\mathfrak{w}_{\Game}^{\pinto}$) in $\mathfrak{w}$ at the end of the current transaction, such that $\mathfrak{w}_{\Game}^{\pinto^{*}}$, $\mathfrak{w}_{\Game}^{\pinto} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+}\}$.
+
+The protocol calculates $\mathfrak{w}_{\Game}^{\pinto^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with the number of Pinto ($\mathfrak{w}_{\Game}^{\pinto}$), such that $\mathfrak{w}_{\Game}^{\pinto} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and the number of non-Pinto in $\mathfrak{w}$ at the end of the current transaction ($\mathfrak{w}_{\Game}^{\nonpinto}$), such that $\mathfrak{w}_{\Game}^{\nonpinto} \in \{j \times 10^{-\nonpinto} \mid j \in \mathbb{Z}^{+} \}$, $f^{\$^\mathfrak{w}}$, and the data associated with the \term{Well Function} ($\mathfrak{w}^{*}$) as:
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+        \mathfrak{w}_{\Game}^{\pinto^{*}} = 
+            \begin{cases} 
+                    \code{calcReserveAtRatioSwap(}
+                                [\mathfrak{w}_{\Game}^{\pinto} ,\ \mathfrak{w}_{\Game}^{\nonpinto}],\ 
+                                0,\ 
+                                [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                                \mathfrak{w}^{*} 
+                            \code{)}
+                        & \text{if} \; 
+                            n > 8\colon \mathfrak{w}_{\Game}^{\nonpinto} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
+                            
+                    \code{calcReserveAtRatioSwap(}
+                            [\mathfrak{w}_{\Game}^{\pinto} ,\ \mathfrak{w}_{\Game}^{\nonpinto}],\ 
+                            0,\ 
+                            [10^{12} ,\ \frac{10^{30}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                            \mathfrak{w}^{*} 
+                        \code{)}
+                        & \text{else} 
+                \end{cases}
+    $$
+    \end{adjustwidth}
+
+The protocol calculates $\Delta b_{\Game}^{\mathfrak{w}}$ for a given $\mathfrak{w}_{\Game}^{\pinto}$, the minimum number of Pinto required in a \term{Well} in order to calculate PDV or $\Delta b$ ($\mathfrak{w}^{\text{min}(\pinto)}$), such that $\mathfrak{w}^{\text{min}(\pinto)} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, and $\mathfrak{w}_{\Game}^{\pinto^{*}}$ as:
+
+    $$
+        \Delta b_{\Game}^{\mathfrak{w}} = 
+            \begin{cases} 
+                0 
+                    & \text{if} \; 
+                        \mathfrak{w}_{\Game}^{\pinto} < \mathfrak{w}^{\text{min}(\pinto)} \vspace{.3cm} \\
+                        
+                \mathfrak{w}_{\Game}^{\pinto^{*}} - \mathfrak{w}_{\Game}^{\pinto}
+                    & \text{else} \;             
+            \end{cases}
+    $$
+
+%%%%%%%%%%%%%%%%%%% TOTAL: End of the Transaction %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\Delta B_{\Game}$}
+
+The protocol calculates $\Delta B_{\Game}$ for a given shortage or excess of Pinto in $\lambda$ at the end of the current transaction ($\Delta b_{\Game}^{\lambda}$), such that $\Delta b_{\Game}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, $\forall \lambda \in$ \term{Minting Whitelist}, as:
+
+    $$
+        \Delta B_{\Game} = 
+            \sum_{\lambda \in \Lambda} 
+                    \Delta b_{\Game}^{\lambda}
+    $$
+
+%%%%%%%%%%%%%%%%%%% Beginning of the Transaction %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\Delta b_{<\Game}^{\mathfrak{w}}$}
+
+The excess or shortage of Pinto in a \term{Well} at the beginning of the current transaction ($\Delta b_{<\Game}^{\mathfrak{w}}$), such that $\Delta b_{<\Game}^{\mathfrak{w}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal number of Pinto ($\mathfrak{w}_{<\Game}^{\pinto^{*}}$) and the number of Pinto ($\mathfrak{w}_{\Game}^{\pinto}$) in $\mathfrak{w}$ at the beginning of the current transaction, such that $\mathfrak{w}_{<\Game}^{\pinto^{*}}$, $\mathfrak{w}_{<\Game}^{\pinto} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+}\}$.
+
+The protocol calculates $\mathfrak{w}_{<\Game}^{\pinto^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with $\mathfrak{w}_{<\Game}^{\pinto}$, $\mathfrak{w}_{<\Game}^{\nonpinto}$, $f^{\$^\mathfrak{w}}$ and $\mathfrak{w}^{*}$ as:
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+        \mathfrak{w}_{<\Game}^{\pinto^{*}} = 
+            \begin{cases} 
+                    \code{calcReserveAtRatioSwap(}
+                                [\mathfrak{w}_{<\Game}^{\pinto} ,\ \mathfrak{w}_{<\Game}^{\nonpinto}],\ 
+                                0,\ 
+                                [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                                \mathfrak{w}^{*} 
+                            \code{)}
+                        & \text{if} \; 
+                            n > 8\colon \mathfrak{w}_{<\Game}^{\nonpinto} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
+                            
+                    \code{calcReserveAtRatioSwap(}
+                            [\mathfrak{w}_{<\Game}^{\pinto} ,\ \mathfrak{w}_{<\Game}^{\nonpinto}],\ 
+                            0,\ 
+                            [10^{12} ,\ \frac{10^{30}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                            \mathfrak{w}^{*} 
+                        \code{)}
+                        & \text{else} 
+                \end{cases}
+    $$
+    \end{adjustwidth}
+
+The protocol calculates $\Delta b_{<\Game}^{\mathfrak{w}}$ for a given $\mathfrak{w}_{<\Game}^{\pinto}$, $\mathfrak{w}^{\text{min}(\pinto)}$ and $\mathfrak{w}_{<\Game}^{\pinto^{*}}$ as:
+
+    $$
+        \Delta b_{<\Game}^{\mathfrak{w}} = 
+            \begin{cases} 
+                0 
+                    & \text{if} \; 
+                        \mathfrak{w}_{<\Game}^{\pinto} < \mathfrak{w}^{\text{min}(\pinto)} \vspace{.3cm} \\
+                        
+                \mathfrak{w}_{<\Game}^{\pinto^{*}} - \mathfrak{w}_{<\Game}^{\pinto}
+                    & \text{else} \;
+            \end{cases}
+    $$
+
+%%%%%%%%%%%%%%%%%%% End of the Last Block %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$}
+
+The excess or shortage of Pinto in a \term{Well} at the end of the last block ($\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$), such that $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$) and the number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$) in $\mathfrak{w}$ at the end of the last block, such that $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}},\ \mathfrak{w}_{\pinto,\Game}^{\text{LAST}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+}\}$.
+
+The protocol calculates $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$, $\mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}$, $f^{\$^\mathfrak{w}}$ and $\mathfrak{w}^{*}$ as:
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+        \mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}} = 
+            \begin{cases} 
+                    \code{calcReserveAtRatioSwap(}
+                                [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}} ,\ \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\ 
+                                0,\ 
+                                [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                                \mathfrak{w}^{*} 
+                            \code{)}
+                        
+                        & \text{if} \; 
+                            n > 8\colon \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
+                            
+                    \code{calcReserveAtRatioSwap(}
+                            [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}  ,\ \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\ 
+                            0,\ 
+                            [10^{12} ,\ \frac{10^{30}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                            \mathfrak{w}^{*} 
+                        \code{)}
+                        & \text{else} 
+                \end{cases}
+    $$
+    \end{adjustwidth}
+
+The protocol calculates $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$ for a given $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$, $\mathfrak{w}^{\text{min}(\pinto)}$ and $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ as:
+
+    $$
+        \Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}} = 
+            \begin{cases} 
+                0 
+                    & \text{if} \; 
+                        \mathfrak{w}_{\pinto,\Game}^{\text{LAST}} < \mathfrak{w}^{\text{min}(\pinto)} \vspace{.3cm} \\
+                        
+                \mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}} - \mathfrak{w}_{\pinto,\Game}^{\text{LAST}}
+                    & \text{else} \;    
+            \end{cases}
+    $$    
+
+%%%%%%%%%%%%%%%%%%% Instantaneous EMA Reserves %%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$}
+
+The excess or shortage of Pinto in a \term{Well} based on the inter-block MEV manipulation resistant instantaneous reserves in the Multi Flow \term{Pump} ($\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$) of $\mathfrak{w}$, such that $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$) and the number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$) in $\mathfrak{w}$ based on the instantaneous reserves in the Multi Flow \term{Pump}, such that $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}},\ \mathfrak{w}_{\pinto,\Game}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+}\}$.
+
+The protocol calculates $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$, $f^{\$^\mathfrak{w}}$ and $\mathfrak{w}^{*}$ as:
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+        \mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}} = 
+            \begin{cases} 
+                    \code{calcReserveAtRatioSwap(}
+                                [\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}  ,\ \mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}],\ 
+                                0,\ 
+                                [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                                \mathfrak{w}^{*} 
+                            \code{)}
+                        & \text{if} \; 
+                            n > 8\colon \mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
+                            
+                    \code{calcReserveAtRatioSwap(}
+                            [\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}  ,\ \mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}],\ 
+                            0,\ 
+                            [10^{12} ,\ \frac{10^{30}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                            \mathfrak{w}^{*} 
+                        \code{)}
+                        & \text{else} 
+                \end{cases}
+    $$
+    \end{adjustwidth}
+
+\newpage
+
+The protocol calculates $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$ for a given $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}^{\text{min}(\pinto)}$ and $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ as:
+
+\vspace{0.1cm}
+
+    $$
+        \Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} = 
+            \begin{cases} 
+                0 
+                    & \text{if} \; 
+                        \mathfrak{w}_{\pinto,\Game}^{\text{EMA}} < \mathfrak{w}^{\text{min}(\pinto)} \vspace{.3cm} \\
+                        
+                \mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}} - \mathfrak{w}_{\pinto,\Game}^{\text{EMA}}
+                    & \text{else} \;
+            \end{cases}
+    $$    
+
+%%%%%%%%%%%%%%%%%%% TOTAL: Instantaneous EMA Reserves %%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+
+\subsubsection{$\Delta B_{\Xi-1}^{\text{EMA}}$}
+
+\vspace{0.1cm}
+
+The protocol calculates $\Delta B_{\Xi-1}^{\text{EMA}}$ for a given shortage or excess of Pinto in $\lambda$ calculated using the inter-block MEV manipulation resistant instantaneous reserves in the Multi Flow \term{Pump} of $\lambda$ ($\Delta b_{\Xi-1}^{\lambda^{\text{EMA}}}$), such that $\Delta b_{\Xi-1}^{\lambda^{\text{EMA}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, $\forall \lambda \in$ \term{Minting Whitelist}, as:
+
+\vspace{0.1cm}
+
+    $$
+        \Delta B_{\Xi-1}^{\text{EMA}} = 
+            \sum_{\lambda \in \Lambda} 
+                    \Delta b_{\Xi-1}^{\lambda^{\text{EMA}}}
+    $$
+
+%%%%%%%%%%%%%%%%%%% Time Weighted Average SMA Reserves %%%%%%%%%%%%%%%%%%%
+
+\vspace{0.1cm}
+
+\subsubsection{$\Delta b_{\overline{t-1}}^{\mathfrak{w}}$}
+
+\vspace{0.1cm}
+
+The time weighted average shortage or excess of Pinto in a \term{Well} over the previous \term{Season} ($\Delta b_{\overline{t-1}}^{\mathfrak{w}}$), such that $\Delta b_{\overline{t-1}}^{\mathfrak{w}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal time weighted average number of Pinto in $\mathfrak{w}$ over the previous \term{Season} ($\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$), such that $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$.
+
+\vspace{0.1cm}
+
+The protocol calculates $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$, $\mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$, $f^{\$^\mathfrak{w}}$ and $\mathfrak{w}^{*}$ as:
+
+\vspace{0.1cm}
+
+    \begin{adjustwidth}{-2cm}{-2cm}
+    $$
+        \mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}} = 
+            \begin{cases} 
+                    \code{calcReserveAtRatioSwap(}
+                                [\mathfrak{w}_{\pinto, {t-1}_0,\Game}^{\text{SMA}}  ,\ \mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}],\ \\ 
+                                \hspace{4.2cm} 0,\ 
+                                [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                                \mathfrak{w}^{*} 
+                            \code{)}
+                        \hspace{1cm} \text{if} \; 
+                            n > 8\colon \mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
+                            
+                    \code{calcReserveAtRatioSwap(}
+                            [\mathfrak{w}_{\pinto, {t-1}_0,\Game}^{\text{SMA}}  ,\ \mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}],\ 
+                            0,\ 
+                            [10^{12} ,\ \frac{10^{30}}{f^{\$^\mathfrak{w}}(0)}],\ 
+                            \mathfrak{w}^{*} 
+                        \code{)}
+                        \hspace{1cm} \text{else} 
+                \end{cases}
+    $$
+    \end{adjustwidth}
+
+\vspace{0.1cm}
+
+The protocol calculates $\Delta b_{\overline{t-1}}^{\mathfrak{w}}$ for a given $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$, $\mathfrak{w}^{\text{min}(\pinto)}$, $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$, the Pinto supply at the end of the previous \term{Season} ($B_{t-1}$), such that $B_{t-1} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the relative per \term{Well} minting cap ($\Delta b^{\text{MAX}^{\text{m}}}$), and the absolute per \term{Well} minting cap ($\Delta b^{\text{MAX}^{\text{b}}}$), such that $\Delta b^{\text{MAX}^{\text{m}}},\ \Delta b^{\text{MAX}^{\text{b}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
+
+\vspace{0.1cm}
+
+    $$
+        \Delta b_{\overline{t-1}}^{\mathfrak{w}} = 
+            \begin{cases} 
+                0 
+                    & \text{if} \; 
+                        \mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}} < \mathfrak{w}^{\text{min}(\pinto)} \vspace{.3cm} \\
+                
+                \text{max}\left(
+                        \mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}} - 
+                                \mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}, \mkern6mu
+                        \text{min}(-\Delta b^{\text{MAX}^{\text{m}}} \times B_{t-1},
+                        -\Delta b^{\text{MAX}^{\text{b}}}) \right)
+                    & \text{if} \; \mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}} - \mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}} < 0 \vspace{.3cm} \\ 
+                
+                \text{min}\left(
+                        \mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}} - 
+                                \mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}},  \mkern6mu
+                        \text{max}(\Delta b^{\text{MAX}^{\text{m}}} \times B_{t-1},
+                        \Delta b^{\text{MAX}^{\text{b}}}) \right)
+                    & \text{else} 
+            \end{cases}
+    $$
+
+%%%%%%%%%%%%%%%%%%% TOTAL: Time Weighted Average SMA Reserves %%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\subsubsection{$\Delta B_{\overline{t-1}}$}
+
+The protocol calculates $\Delta B_{\overline{t-1}}$ for a given shortage or excess of Pinto in $\lambda$ over the previous \term{Season} ($\Delta b_{\overline{t-1}}^{\lambda}$), such that $\Delta b_{\overline{t-1}}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, $\forall \lambda \in$ \term{Minting Whitelist}, the total relative minting cap ($\Delta B^{\text{MAX}^{\text{m}}}$), and the total absolute minting cap ($\Delta b^{\text{MAX}^{\text{b}}}$), such that $\Delta B^{\text{MAX}^{\text{m}}},\ \Delta B^{\text{MAX}^{\text{b}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
+
+    $$
+        \Delta B_{\overline{t-1}} = 
+            \begin{cases} 
+                \text{max}\left(
+                         \sum\limits_{\lambda \in \Lambda} \Delta b_{\overline{t-1}}^{\lambda}, 
+                        \text{min}(-\Delta B^{\text{MAX}^{\text{m}}} \times B_{t-1},
+                        -\Delta B^{\text{MAX}^{\text{b}}}) \right)
+                    & \text{if} \; \sum\limits_{\lambda \in \Lambda} \Delta b_{\overline{t-1}}^{\lambda} < 0 \\ 
+                
+                \text{min}\left(
+                         \sum\limits_{\lambda \in \Lambda} \Delta b_{\overline{t-1}}^{\lambda}, 
+                        \text{max}(\Delta B^{\text{MAX}^{\text{m}}} \times B_{t-1},
+                        \Delta B^{\text{MAX}^{\text{b}}}) \right)
+                    & \text{else} 
+            \end{cases}
+    $$
+
+\end{document}
