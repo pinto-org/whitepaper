@@ -149,8 +149,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $c_{t}^{\lambda}$ - The \term{Seeds} during $t$ for a given \term{Deposit};
     \item[] $\Delta D_{t}$ - The number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season};
     \item[] $D$ - The total number of \term{Unharvestable Pods};
-    \item[] $D_{\gamma}$ - The number of \term{Unharvestable Pods} that grew prior to the \term{Flood};
-    \item[] $D_{\gamma}^{F}$ - The maximum percent of the Pinto supply worth of \term{Pods} that grew from Pinto \term{Sown} before it began to \term{Rain} that become \term{Harvestable} during a \term{Flood};
+    \item[] $D^{F}$ - The maximum percent of the Pinto supply worth of \term{Pods} that become \term{Harvestable} during a \term{Flood};
     \item[] $d$ - The number of \term{Pods} that \term{Yield} from a given number of \term{Sown} \Pinto;
     \item[] $E$ - Base block timestamps;
     \item[] $E_{1}$ - The timestamp in the Base block containing the Pinto deployment;
@@ -274,12 +273,13 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\mathscr{L}^{\lambda'^{\text{vfar}}}$ - The percent level above which the \term{LP Seed Gauge Points} of $\lambda'$ is considered very far from optimal;
     \item[] $f^{\mathscr{L}^{\lambda}}$ - The function to calculate the \term{LP Seed Gauge Points} of $\lambda$;
     \item[] $f^{\mathscr{L}^{\lambda'}}$ - The function to calculate the \term{LP Seed Gauge Points} of $\lambda'$;
-    \item[] $f^{\mathscr{W}^{\lambda}}$ - The function to calculate the \term{Liquidity Weight} of $\lambda$;
-    \item[] $f^{\mathscr{W}^{\lambda'}}$ - The function to calculate the \term{Liquidity Weight} of $\lambda'$;
+    \item[] $f^{\mathscr{P}}(R_{t-1}^{D})$ - The function to calculate the coefficient on the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season} given $R_{t-1}^{D}$;
     \item[] $\mathscr{S}_{t}$ - The total \term{Seed Gauge Points} during $t$;
     \item[] $\mathscr{S}_{t}^{\lambda}$ - The \term{Seed Gauge Points} of $\lambda$ during $t$;
     \item[] $\mathscr{T}$ - The number of \term{Seasons} for a new \term{Deposit} with an average number of \term{Seeds} per PDV, averaged across all \term{Deposits} in the \term{Silo} that are not \term{Germinating}, to catch up to the average \term{Mown Stalk} per PDV across all \term{Deposits} in the \term{Silo};
     \item[] $\mathscr{V}_{t}^{\lambda}$ - The \term{LP Seed Gauge Points} per PDV of $\lambda$ during $t$;
+    \item[] $f^{\mathscr{W}^{\lambda}}$ - The function to calculate the \term{Liquidity Weight} of $\lambda$;
+    \item[] $f^{\mathscr{W}^{\lambda'}}$ - The function to calculate the \term{Liquidity Weight} of $\lambda'$;
     \item[] $\mathscr{X}_{t}$ - The \term{Crop Scalar} during $t$;
     \item[] $\mathscr{X}^{b}$ - Absolute change to the \term{Crop Scalar};
     \item[] $\mathscr{X}^{m}$ - Relative change to the \term{Crop Scalar};

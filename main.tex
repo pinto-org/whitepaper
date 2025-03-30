@@ -213,16 +213,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.0.3}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.0.4}}
 
         \vspace{-0.25cm}
         \footnotesize{Published:} {\normalsize{March 30, 2025}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol}{\normalsize{1.0.3}}\footnote{\href{https://github.com/pinto-org/protocol}{github.com/pinto-org/protocol}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.0.4}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{November 27, 2024}}
+        \footnotesize{Deployed:} {\normalsize{December 4, 2024}}
         
         \vspace{0.1cm}
 
@@ -305,7 +305,8 @@ Pinto is the culmination of previous development, evolution and experimentation 
 
 Pinto requires a robust, trustless computer network that supports composability and both fungible and semi-fungible token standards (\term{e.g.}, Ethereum and Base) with a network-native automated market maker (AMM) decentralized exchange with a manipulation-resistant oracle (\term{e.g.}, Pinto Exchange\fref{pinto.exchange}). 
 
-Pinto is a fork of Beanstalk\fref{bean.money}. 
+Pinto was inspired by Beanstalk\fref{bean.money}. The performance of Beanstalk and other algorithmic stablecoin implementations provided invaluable information that influenced the design of Pinto. A significant portion of the Pinto codebase was forked from the Beanstalk codebase.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Farm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -379,15 +380,23 @@ The protocol rewards \term{Stalk} to \term{Depositors} upon the completion of a 
 
 Upon a \term{Deposited} asset's \term{Withdrawal} from the \term{Silo}, the \term{Deposit} token is burned in addition to the number of \term{Stalk} and \term{Seeds} rewarded to it. 
 
+\vspace*{1.2mm}
+
 \term{Conversions} of \term{Deposited} $\lambda$ to \term{Deposited} $\lambda'$ are permissioned by a \term{Conversion Whitelist}. Upon an asset's \term{Conversion} within the \term{Silo}, \term{Stalk} and \term{Seeds} may be rewarded or burned depending on the details of the \term{Conversion}.
+
+\vspace*{1.2mm}
 
 The number of \term{Stalk} and \term{Seeds} rewarded to a \term{Deposit} are included in its \term{Transfer} to another address.
 
 %%%%%%%%%%%%%%%%%%%%%%% Deposit Whitelist %%%%%%%%%%%%%%%%%%%%%%%
 
+\vspace*{1.2mm}
 \subsubsection{Deposit Whitelist}
+\vspace*{1.2mm}
 
 Any ERC-20 Standard token can be added to and removed from $\Lambda$ via the \term{Pinto Contract Multisig} (\term{PCM}) (see Appendix). \Pinto\ is always on the \term{Deposit Whitelist}.
+
+\vspace*{1.2mm}
 
 In order for a given $\lambda$ to be added to $\Lambda$, the protocol requires 
 (1) its token address, 
@@ -402,17 +411,25 @@ In order for a given $\lambda$ to be added to $\Lambda$, the protocol requires
 
 %%%%%%%%%%%%%%%%%%%%%%% Earned Pinto %%%%%%%%%%%%%%%%%%%%%%%
 
+\vspace*{1.2mm}
 \subsubsection{Earned \Pinto}
+\vspace*{1.2mm}
 
 Pinto minted to the \term{Silo} are automatically \term{Deposited} into the \term{Silo} and distributed to \term{Stalkholders} as \term{Earned} \Pinto\ ($\eta^{\pinto}$), such that $\eta^{\pinto} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+\vspace*{1.2mm}
 
 \term{Earned} \Pinto\ are rewarded \term{Stalk} upon \term{Deposit}, but (1) are not rewarded \term{Seeds}, (2) cannot be \term{Converted} and (3) cannot be \term{Transferred} until the \term{Stalkholder} calls the \code{plant} function. Upon calling the \code{plant} function, (1)  the \term{Earned} \Pinto\ become \Pinto\ and (2) the \term{Seeds} associated with the \term{Earned} \Pinto\ are \term{Planted} to start \term{Growing} \term{Stalk}. 
 
 %%%%%%%%%%%%%%%%%%%%%%% Germination %%%%%%%%%%%%%%%%%%%%%%%
 
+\vspace*{1.2mm}
 \subsubsection{Germination}
+\vspace*{1.2mm}
 
 Every $\lambda$ \term{Deposit} except \term{Earned} \Pinto\ are subject to a \term{Germination} period during which \term{Deposits} (1) cannot be \term{Converted}, (2) are not eligible for \Pinto\ mints and (3) are not included in \term{Seed Gauge System} PDV calculations. 
+
+\vspace*{1.2mm}
 
 \term{Germination} ends upon the completion of a full \term{Season} after \term{Deposit}.
 
@@ -666,7 +683,7 @@ The Pinto peg maintenance mechanism requires the ability to borrow Pinto. The \t
 
 \vspace{-0.2cm}
 
-Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 5 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the peg maintenance mechanism.
+Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 10 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the peg maintenance mechanism.
 
 %%%%%%%%%%%%%%%%%%%%%%% Soil %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1094,16 +1111,27 @@ The distribution of the additional mint is dependent on $\Delta B_{\overline{t-1
 
 \newpage
 
-Therefore, the number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season} ($\Delta D_{t}$), such that $\Delta D_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
+In a \term{Flood} (defined below), the number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season} ($\Delta D_{t}$), such that $\Delta D_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is based on the maximum percent of the Pinto supply worth of \term{Pods} that become \term{Harvestable} during a \term{Flood} ($D^{F}$), such that $D^{F} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$, $D^{F}$ and $D$ as:
 
     $$
-        \Delta D_{t} = 
-            \text{min}\left(
-                \text{max}\left
-                    (0,\ 
+        \Delta D_{t} =
+            \begin{cases}
+               {\text{min}\left(
                     \frac{\Delta B_{\overline{t-1}}\ \times\ 485}
-                            {1000}\right),\ 
-                D\right)
+                            {1000} + B \times D^{F},\ 
+                        D\right)}\
+                    & \text{if } \term{Flooding} \\
+
+               {\text{min}\left(
+                    \text{max}\left
+                        (0,\ 
+                        \frac{\Delta B_{\overline{t-1}}\ \times\ 485}
+                                {1000}\right),\ 
+                            D\right)}
+                    & \text{else }   
+            \end{cases}
     $$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Soil Supply %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1112,28 +1140,31 @@ Therefore, the number of \term{Pods} that \term{Ripen} and become \term{Harvesta
 
 Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \mathbb{Z}^{+}$, and (3) $R_{t-1}^{D}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on $\Delta B_{\overline{t-1}}$ and the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$.
 
-We define $S_{t_{q}}^{\text{min}}$ for a given $\Delta D_{t}$, $h_{t_{q}}$, $R^{D^{\text{upper}}}$, $R_{t-1}^{D}$ and $R^{D^{\text{lower}}}$ as:
+The coefficient on the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season} ($f^{\mathscr{P}}(R_{t-1}^{D})$), such that $f^{\mathscr{P}}(R_{t-1}^{D})\colon \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, is:
+
+    $$
+        f^{\mathscr{P}}(R_{t-1}^{D}) = 
+            \begin{cases} 
+                0.5
+                    & \text{if} \; R^{D^{\text{upper}}} \leq R_{t-1}^{D} \vspace{.3cm} \\ 
+                
+                1
+                    & \text{if} \; R^{D^{\text{lower}}} < R_{t-1}^{D} \vspace{.3cm} \\ 
+                    
+                1.2
+                    & \text{else} 
+            \end{cases}
+    $$
+
+We define $S_{t_{q}}^{\text{min}}$ for a given $f^{\mathscr{P}}(R_{t-1}^{D})$, $\Delta D_{t}$ and $h_{t_{q}}$ as:
 
 \vspace*{2mm}
 
     $$
         S_{t_{q}}^{\text{min}} = 
-            \begin{cases} 
-                \dfrac{0.5 \times \Delta D_{t}}
-                        {1 + \frac{h_{t_{q}}}
-                                    {100}}
-                    & \text{if} \; R^{D^{\text{upper}}} \leq R_{t-1}^{D} \vspace{.3cm} \\ 
-                    
-                \dfrac{\Delta D_{t}}
-                        {1 + \frac{h_{t_{q}}}
-                                    {100}} 
-                    & \text{if} \; R^{D^{\text{lower}}} < R_{t-1}^{D} \vspace{.3cm} \\ 
-                    
-                \dfrac{1.5 \times \Delta D_{t}}
-                        {1 + \frac{h_{t_{q}}}
-                                    {100}} 
-                    & \text{else} 
-            \end{cases}
+            \dfrac{f^{\mathscr{P}}(R_{t-1}^{D}) \times \Delta D_{t}}
+                    {1 + \frac{h_{t_{q}}}
+                                {100}}
     $$
 
 \vspace*{2mm}
@@ -1158,17 +1189,26 @@ The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newpage
+
 \subsection{Temperature}
+\vspace*{1.4mm}
 
 The protocol attempts to regularly cross the price of \Pinto1 over its value target during long run decreases and increases in demand for Pinto by adjusting the \term{Maximum Temperature} in an attempt to maintain an optimal state, or to move from its current state into an optimal state. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature} increases at the beginning of each interval. 
 
 %%%%%%%%%%%%%%%%%%% Maximum Temperature %%%%%%%%%%%%%%%%%%%
 
+\vspace*{1.4mm}
 \subsubsection{Maximum Temperature}
+\vspace*{1.4mm}
 
 The \term{Maximum Temperature} change at the beginning of $t$ is determined by $R_{t-1}^{D}$, $R_{t-1}^{W}$, $P_{\overline{t-1}}$ and changing demand for \term{Soil}.
 
+\vspace*{1.4mm}
+
 The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$), such that $H^{m} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and absolute manner ($H^{b}$), such that $H^{b} \in \mathbb{Z}$, at the beginning of $t$ as:
+
+\vspace*{1.4mm}
 
     $$
         H_{t} = \text{max}(
@@ -1176,7 +1216,11 @@ The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$)
                     1)
     $$
 
+\vspace*{1.4mm}
+
 $H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$).
+
+\vspace*{1.4mm}
 
 %%%%%%%%%%%%%% Maximum Temperature Change Figures %%%%%%%%%%%%%%
 
@@ -1198,8 +1242,6 @@ $H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$)
     \label{Max Temp Changes Reasonably Low Liquidity}
 \end{figure}
 
-\clearpage
-
 \begin{figure}[h!]
     \centering
     \advance\leftskip-1cm
@@ -1208,6 +1250,8 @@ $H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$)
     \caption{Maximum Temperature Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably High $R_{t-1}^{W}$}
     \label{Max Temp Changes Reasonably High Liquidity}
 \end{figure}
+
+\clearpage
 
 \begin{figure}[h!]
     \centering
@@ -1220,8 +1264,6 @@ $H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$)
 
 %%%%%%%%%%%%%%%%%%% Morning %%%%%%%%%%%%%%%%%%%
 
-\newpage
-
 \subsubsection{Morning}
 \vspace{-0.025cm}
 
@@ -1232,13 +1274,10 @@ The \term{Temperature} increases logarithmically in each interval of the \term{M
     $$ 
         h_{t_{q}} =
             \begin{cases}
-                1
-                    & \text{if} \; q = 0 \\
-                    
                 \text{max}(
                         H_{t}*\text{log}_{\mathfrak{Q}\sigma + 1}(q\sigma + 1),\ 
-                        1)
-                    & \text{if} \; 0 < q < \mathfrak{Q} \\
+                        \frac{H_{t}}{100})
+                    & \text{if} \; q < \mathfrak{Q} \\
                     
                 H_{t} 
                     & \text{else}
@@ -1286,8 +1325,6 @@ $\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures 17, 18, 19 and 20 a
     \label{Crop Scalar Changes Excessively Low Liquidity}
 \end{figure}
 
-\clearpage
-
 \begin{figure}[h!]
     \centering
     \advance\leftskip-1cm
@@ -1297,6 +1334,8 @@ $\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures 17, 18, 19 and 20 a
     \label{Crop Scalar Changes Reasonably Low Liquidity}
 \end{figure}
 
+\clearpage
+
 \begin{figure}[h!]
     \centering
     \advance\leftskip-1cm
@@ -1305,8 +1344,6 @@ $\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures 17, 18, 19 and 20 a
     \caption{Crop Scalar Changes From $P_{\overline{t-1}}$, Demand for Soil Changes and $R_{t-1}^{D}$ with a Reasonably High $R_{t-1}^{W}$}
     \label{Crop Scalar Changes Reasonably High Liquidity}
 \end{figure}
-
-\clearpage
 
 \begin{figure}[h!]
     \centering
@@ -1339,13 +1376,13 @@ The number of Pinto that are minted and sold to return the price of \Pinto1 to i
 
 \vspace{-0.05cm}
 
-In a \term{Flood}, $m_{t}$ for a given number of \term{Unharvestable Pods} that grew prior to the \term{Flood} ($D_{\gamma}$), the maximum percent of the Pinto supply worth of \term{Pods} that grew from Pinto \term{Sown} before it began to \term{Rain} that become \term{Harvestable} ($D_{\gamma}^{F}$), such that $D_{\gamma},\ D_{\gamma}^{F} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, $B$, $a_{t}$, $\Delta B_{\overline{t-1}}$ and $\Delta B_{\Game}$ is:
+In a \term{Flood}, $m_{t}$ for a given $D$, $B$, $D^{F}$, $a_{t}$, $\Delta B_{\overline{t-1}}$ and $\Delta B_{\Game}$ is:
 
 \vspace{-0.05cm}
 
     $$
         m_{t} = 
-            \text{min}(D_\gamma, B \times D_{\gamma}^{F}) + 
+            \text{min}(D, B \times D^{F}) + 
             a_{t} + 
             \Delta B_{\overline{t-1}} + 
             \Delta B_{\Game}
@@ -1408,30 +1445,47 @@ The protocol is designed from economic first principles to increase trustlessnes
 
 \vspace{0.1cm}
 \subsection{Ownership Concentration}
+\vspace{0.1cm}
 
 A design that lowers the Gini coefficient\fref{wikipedia.org/wiki/Gini\_coefficient} of Pinto and \term{Stalk} over time is essential to censorship resistance.
 
+\vspace{0.1cm}
+
 Older \term{Deposits} have their \term{Stalk} diluted relative to newer \term{Deposits} every \term{Season}. Therefore, newly minted Pinto are more widely distributed over time.
+
+\vspace{0.1cm}
 
 The protocol does not require a pre-mine. The first 1000 Pinto are created when the \code{init} function is called to deploy the protocol.
 
 %%%%%%%%%%%%%%% Strong Credit %%%%%%%%%%%%%%%
 
+\vspace{0.1cm}
 \subsection{Strong Credit}
+\vspace{0.1cm}
 
 Pinto is credit based and only fails if it can no longer attract creditors. A reasonable level of debt, strong credit history, competitive interest rate and reasonable level of liquidity attract creditors. 
 
+\vspace{0.1cm}
+
 The protocol attempts to change the \term{Temperature} and \term{Crop Ratio} to return $R^{D}$ to $R^{D^{*}}$ while regularly crossing the price of \Pinto1 over its value target. The protocol acts more aggressively when $R^{D}$ is excessively high or low.
+
+\vspace{0.1cm}
 
 The protocol never defaults on debt and is willing to issue \term{Pods} every \term{Season}. 
 
 %%%%%%%%%%%%%%% Deep Liquidity %%%%%%%%%%%%%%%
 
+\vspace{0.1cm}
 \subsection{Deep Liquidity}
+\vspace{0.1cm}
 
 The value of \Pinto\ is derived from the liquidity they trade against. Reasonable levels of debt and liquidity attract more liquidity. 
 
+\vspace{0.1cm}
+
 The protocol attempts to change the \term{Temperature} and \term{Crop Ratio} to return $R^{W}$ to $R^{W^{*}}$ while regularly crossing the price of \Pinto1 over its value target. The protocol acts more aggressively when $R^{W}$ is excessively high or low.
+
+\newpage
 
 %%%%%%%%%%%%%%% Marginal Rate of Substitution %%%%%%%%%%%%%%%
 
