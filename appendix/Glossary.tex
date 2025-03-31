@@ -49,6 +49,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Flood} - When the protocol mints extra Pinto and sells them directly in liquidity pools on the \term{Flood Whitelist};
     \item[] \term{Flood Whitelist} - The whitelist of pools that the protocol sells Pinto directly in when it mints extra Pinto during a \term{Flood};
     \item[] \term{Fork Migration System} - A protocol-native system that allows users to migrate assets from one or more Pinto deployments to another;
+    \item[] \term{Furrow Scalar} - A coefficient on \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
     \item[] \term{Germination} - The period during which \term{Deposits} (1) cannot be \term{Converted}, (2) are not eligible for \Pinto\ mints and (3) are not included in \term{Seed Gauge System} PDV calculations;
     \item[] \term{Grow} - {\term{Stalk} being created by \term{Seeds};
     \item[] \term{Grown Stalk} - \term{Stalk} that has been created by \term{Seeds} and not yet \term{Mown};
@@ -102,6 +103,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Stalk System} - The protocol-native mechanism for \term{Stalk};
     \item[] \term{Sun} - The protocol-native timekeeping and code execution mechanism;
     \item[] \term{Temperature} - The interest rate on Pinto loans;
+    \item[] \term{Till Scalar} - A coefficient on \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} > 0$ or $\Delta B_{\overline{t-1}} > 0$;
     \item[] \term{Toolshed} - A suite of tools that decrease friction to use Pinto and participate in peg maintenance;
     \item[] \term{Tractor} - A protocol-native marketplace that allows third parties to perform pre-authorized actions through the protocol on behalf of a user;
     \item[] \term{Transfer} - Send a \term{Deposit};
@@ -265,6 +267,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\mathscr{C}^{\text{max}}$ - The maximum \term{Crop Ratio};
     \item[] $\mathscr{C}^{\text{min}}$ - The minimum \term{Crop Ratio};
     \item[] $\mathscr{C}^{\text{rain}}$ - The \term{Crop Ratio} when it is \term{Raining};
+    \item[] $\mathscr{F}$ - The \term{Furrow Scalar};
     \item[] $\mathscr{L}_{t}^{\lambda}$ - The \term{LP Seed Gauge Points} of $\lambda$ during $t$;
     \item[] $\mathscr{L}_{\circ}^{\lambda}$ - The initial \term{LP Seed Gauge Points} of $\lambda$;
     \item[] $\mathscr{L}^{\lambda'^{\text{max}}}$ - The maximum \term{LP Seed Gauge Points} of $\lambda'$;
@@ -273,7 +276,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\mathscr{L}^{\lambda'^{\text{vfar}}}$ - The percent level above which the \term{LP Seed Gauge Points} of $\lambda'$ is considered very far from optimal;
     \item[] $f^{\mathscr{L}^{\lambda}}$ - The function to calculate the \term{LP Seed Gauge Points} of $\lambda$;
     \item[] $f^{\mathscr{L}^{\lambda'}}$ - The function to calculate the \term{LP Seed Gauge Points} of $\lambda'$;
-    \item[] $f^{\mathscr{P}}(R_{t-1}^{D})$ - The function to calculate the coefficient on the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season} given $R_{t-1}^{D}$;
+    \item[] $\mathscr{P}$ - The \term{Till Scalar};
     \item[] $\mathscr{S}_{t}$ - The total \term{Seed Gauge Points} during $t$;
     \item[] $\mathscr{S}_{t}^{\lambda}$ - The \term{Seed Gauge Points} of $\lambda$ during $t$;
     \item[] $\mathscr{T}$ - The number of \term{Seasons} for a new \term{Deposit} with an average number of \term{Seeds} per PDV, averaged across all \term{Deposits} in the \term{Silo} that are not \term{Germinating}, to catch up to the average \term{Mown Stalk} per PDV across all \term{Deposits} in the \term{Silo};

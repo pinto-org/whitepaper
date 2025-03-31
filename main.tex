@@ -213,16 +213,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.0.5}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.0.6}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{March 30, 2025}}
+        \footnotesize{Published:} {\normalsize{March 31, 2025}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.0.5}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.0.6}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{December 8, 2024}}
+        \footnotesize{Deployed:} {\normalsize{January 2, 2025}}
         
         \vspace{0.1cm}
 
@@ -740,7 +740,7 @@ The number of \term{Pods} ($d$) that \term{Yield} from a given number of \term{S
                     \right)
     $$
 
-The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \mathbb{Z}^{+}$, at the beginning of each \term{Season} according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
+The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, at the beginning of each \term{Season} according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Peg Maintenance   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1017,7 +1017,7 @@ We define $\Delta E_{t}^{u^{\text{first}}}$ for a given $E_{t}^{u^{\text{first}}
             E_{t}^{u^{\text{first}}} - E_{\Xi}
     $$
 
-If Pinto were \term{Sown} in all \term{Soil} in the first 10 minutes of the previous \term{Season} (\textit{i.e.}, $\Delta E_{t-1}^{u^{\text{first}}} < \Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$), demand for \term{Soil} is considered increasing. If Pinto were \term{Sown} in all \term{Soil} in both $t-1$ and $t-2$, but $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}} \leq \Delta E_{t-1}^{u^{\text{first}}}$, at the beginning of $t$ the protocol compares $\Delta E_{t-1}^{u^{\text{first}}}$ with $\Delta E_{t-2}^{u^{\text{first}}}$ to calculate $\Delta E_{t}^{u}$.
+If Pinto were \term{Sown} in all \term{Soil} in the first 20 minutes of the previous \term{Season} (\textit{i.e.}, $\Delta E_{t-1}^{u^{\text{first}}} < \Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$), demand for \term{Soil} is considered increasing. If Pinto were \term{Sown} in all \term{Soil} in both $t-1$ and $t-2$, but $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}} \leq \Delta E_{t-1}^{u^{\text{first}}}$, at the beginning of $t$ the protocol compares $\Delta E_{t-1}^{u^{\text{first}}}$ with $\Delta E_{t-2}^{u^{\text{first}}}$ to calculate $\Delta E_{t}^{u}$.
 
 We define $\Delta E_{t}^{u}$ for a given $\Delta E_{t-1}^{u^{\text{first}}}$ and $\Delta E_{t-2}^{u^{\text{first}}}$ as:
 
@@ -1138,18 +1138,21 @@ Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$
 
 \subsection{Soil Supply}
 
-Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \mathbb{Z}^{+}$, and (3) $R_{t-1}^{D}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on $\Delta B_{\overline{t-1}}$ and the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$.
+Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (3) the \term{Till Scalar} ($\mathscr{P}$), such that $\mathscr{P} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on (4) the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, (5) $\Delta B_{\overline{t-1}}$, (6) the \term{Furrow Scalar} ($\mathscr{F}$), such that $\mathscr{F} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, and (7) $W$.
 
-The coefficient on the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season} ($f^{\mathscr{P}}(R_{t-1}^{D})$), such that $f^{\mathscr{P}}(R_{t-1}^{D})\colon \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, is:
+We define the \term{Till Scalar} for a given $R^{D^{\text{upper}}}$, $R_{t-1}^{D}$, $R^{D^{*}}$ and $R^{D^{\text{lower}}}$ as:
 
     $$
-        f^{\mathscr{P}}(R_{t-1}^{D}) = 
+        \mathscr{P} = 
             \begin{cases} 
-                0.5
+                0.25
                     & \text{if} \; R^{D^{\text{upper}}} \leq R_{t-1}^{D} \vspace{.3cm} \\ 
-                
+
+                0.5
+                    & \text{if} \; R^{D^{*}} \leq R_{t-1}^{D} < R^{D^{\text{upper}}} \vspace{.3cm} \\ 
+                    
                 1
-                    & \text{if} \; R^{D^{\text{lower}}} < R_{t-1}^{D} \vspace{.3cm} \\ 
+                    & \text{if} \; R^{D^{\text{lower}}} \leq R_{t-1}^{D} < R^{D^{*}} \vspace{.3cm} \\ 
                     
                 1.2
                     & \text{else} 
@@ -1162,23 +1165,23 @@ We define $S_{t_{q}}^{\text{min}}$ for a given $f^{\mathscr{P}}(R_{t-1}^{D})$, $
 
     $$
         S_{t_{q}}^{\text{min}} = 
-            \dfrac{f^{\mathscr{P}}(R_{t-1}^{D}) \times \Delta D_{t}}
+            \dfrac{\mathscr{P} \times \Delta D_{t}}
                     {1 + \frac{h_{t_{q}}}
                                 {100}}
     $$
 
 \vspace*{2mm}
 
-The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such that $S_{t_{q}}^{\text{max}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$ of the \term{Morning} of $t$ for a given $\Delta B_{\overline{t-1}}$, $\Delta B_{\Xi-1}^{\text{EMA}}$ and $S_{t_{q}}^{\text{min}}$ as:
+The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such that $S_{t_{q}}^{\text{max}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$ of the \term{Morning} of $t$ for a given $\Delta B_{\Xi-1}^{\text{EMA}}$, $\Delta B_{\overline{t-1}}$, $\mathscr{F}$, $W$, $\mathscr{P}$ and $S_{t_{q}}^{\text{min}}$ as:
 
     $$
         S_{t_{q}}^{\text{max}} = 
             \begin{cases} 
-                -\text{max}(\Delta B_{\Xi-1}^{\text{EMA}}, \Delta B_{\overline{t-1}}) 
+                \text{min}(-\Delta B_{\Xi-1}^{\text{EMA}}, -\Delta B_{\overline{t-1}}) \times \mathscr{F} \times (1 - W)
                     & \text{if} \; 
                         \Delta B_{\overline{t-1}} < 0 \mkern6mu \&\& \mkern6mu \Delta B_{\Xi-1}^{\text{EMA}} < 0 \\
 
-                -\Delta B_{\overline{t-1}}
+                \mathscr{P} \times \frac{-\Delta B_{\overline{t-1}}}{100}
                     & \text{if} \; 
                         \Delta B_{\overline{t-1}} < 0 \mkern6mu \&\& \mkern6mu \Delta B_{\Xi-1}^{\text{EMA}} > 0 \\
                 
