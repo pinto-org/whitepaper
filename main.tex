@@ -213,16 +213,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.0.6}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.1.0}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{March 31, 2025}}
+        \footnotesize{Published:} {\normalsize{April 2, 2025}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.0.6}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.1.0}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{January 2, 2025}}
+        \footnotesize{Deployed:} {\normalsize{March 12, 2025}}
         
         \vspace{0.1cm}
 
@@ -1138,7 +1138,7 @@ Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$
 
 \subsection{Soil Supply}
 
-Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (3) the \term{Till Scalar} ($\mathscr{P}$), such that $\mathscr{P} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on (4) the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, (5) $\Delta B_{\overline{t-1}}$, (6) the \term{Furrow Scalar} ($\mathscr{F}$), such that $\mathscr{F} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, and (7) $W$.
+Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (3) the \term{Till Scalar} ($\mathscr{P}$), such that $\mathscr{P} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on (4) the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, (5) $\Delta B_{\overline{t-1}}$, (6) the \term{Furrow Scalar} ($\mathscr{F}$), such that $\mathscr{F} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, (7) $W$, (8) the \term{Soil Diffusion Period} ($\mathscr{R}$), such that $\mathscr{R} \in \mathbb{Z}^{+}$, (9) the \term{Cultivation Factor} during $t$ ($\mathfrak{C}_{t}$), such that $\mathfrak{C}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (10) the minimum \term{Soil} issued ($\overline{S}^{\text{min}}$), such that $\overline{S}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
 
 We define the \term{Till Scalar} for a given $R^{D^{\text{upper}}}$, $R_{t-1}^{D}$, $R^{D^{*}}$ and $R^{D^{\text{lower}}}$ as:
 
@@ -1172,12 +1172,13 @@ We define $S_{t_{q}}^{\text{min}}$ for a given $f^{\mathscr{P}}(R_{t-1}^{D})$, $
 
 \vspace*{2mm}
 
-The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such that $S_{t_{q}}^{\text{max}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$ of the \term{Morning} of $t$ for a given $\Delta B_{\Xi-1}^{\text{EMA}}$, $\Delta B_{\overline{t-1}}$, $\mathscr{F}$, $W$, $\mathscr{P}$ and $S_{t_{q}}^{\text{min}}$ as:
+The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such that $S_{t_{q}}^{\text{max}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$ of the \term{Morning} of $t$ for a given $\Delta B_{\Xi-1}^{\text{EMA}}$, $\Delta B_{\overline{t-1}}$, $\mathscr{F}$, $W$, $\mathscr{R}$, $\mathfrak{C}_{t}$, $\overline{S}^{\text{min}}$, $\mathscr{P}$ and $S_{t_{q}}^{\text{min}}$ as:
 
+    \begin{adjustwidth}{-2cm}{-2cm}
     $$
         S_{t_{q}}^{\text{max}} = 
             \begin{cases} 
-                \text{min}(-\Delta B_{\Xi-1}^{\text{EMA}}, -\Delta B_{\overline{t-1}}) \times \mathscr{F} \times (1 - W)
+                \text{max}(\text{min}(-\Delta B_{\Xi-1}^{\text{EMA}}, -\Delta B_{\overline{t-1}}) \times \mathscr{F} \times \text{min}(0.01, 1 - W) \times \frac{1}{\mathscr{R}} \times \mathfrak{C}_{t}, \overline{S}^{\text{min}})
                     & \text{if} \; 
                         \Delta B_{\overline{t-1}} < 0 \mkern6mu \&\& \mkern6mu \Delta B_{\Xi-1}^{\text{EMA}} < 0 \\
 
@@ -1189,6 +1190,7 @@ The protocol calculates the \term{Maximum Soil} ($S_{t_{q}}^{\text{max}}$), such
                     & \text{else} 
             \end{cases} 
     $$
+    \end{adjustwidth}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1596,6 +1598,9 @@ Pinto is a work in progress. The following are potential improvements that can b
 
 \newpage
 \input{appendix/Upgradability} % Upgradability
+
+\newpage
+\input{appendix/Gauge-Implementations} % Gauge Implementations
 
 \newpage
 \input{appendix/Delta-B-Calculations} % Delta B Calculations

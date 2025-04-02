@@ -1,0 +1,45 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Gauge Implementations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Gauge Implementations}
+
+The following \term{Gauge Implementations} are used throughout this whitepaper.
+
+%%%%%%%%%%%%%%%%%%%%%% Cultivation Factor %%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\mathfrak{C}_{t}$}
+
+The protocol increases the \term{Cultivation Factor} when Pinto is \term{Sown} in all \term{Soil} in the previous \term{Season}. Conversely, if Pinto is not \term{Sown} in all \term{Soil} in the previous \term{Season}, the protocol decreases the \term{Cultivation Factor} more aggressively than it increases it.
+
+$\mathfrak{C}_{t}$ was initialized to $0.5$ at the time of PI-6\fref{pinto.money/pi-6} deployment (\textit{i.e.}, $t$ = $2710$).
+
+The \term{Cultivation Factor} during $t$ is based on (1) the \term{Cultivation Factor} during the previous \term{Season}, (2) the change in \term{Cultivation Factor} this \term{Season} ($\Delta \mathfrak{C}_{t}$), such that $\Delta \mathfrak{C}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, (3) $P_{\overline{t-1}}$, (4) the \term{Soil} remaining at the end of the previous \term{Season}, and (5) $S^{\text{all}}$.
+
+We define $\Delta \mathfrak{C}_{t}$ for a given $R_{t-1}^{D}$, $R^{D^{\text{upper}}}$ and $R^{D^{\text{lower}}}$ as:
+
+    $$
+        \Delta \mathfrak{C}_{t} =
+            0.02 - \frac{\text{max(min($R_{t-1}^{D}$, $R^{D^{\text{upper}}}$)} - \text{$R^{D^{\text{lower}}}$}, 0)} {\text{$R^{D^{\text{upper}}}$} - \text{$R^{D^{\text{lower}}}$}} \times 0.015
+    $$
+
+Therefore, we define $\mathfrak{C}_{t}$ for a given $\mathfrak{C}_{t-1}$, $\Delta \mathfrak{C}_{t}$, $P_{\overline{t-1}}$, $S_{t-1}^{\text{end}}$ and $S^{\text{all}}$ as:
+
+    $$
+        \mathfrak{C}_{t} = 
+            \begin{cases}     
+            \min(1, \mathfrak{C}_{t-1} + (\Delta \mathfrak{C}_{t} \times P_{\overline{t-1}})) 
+                & \text{if } S_{t-1}^{\text{end}} \leq S^{\text{all}} \\  
+                
+            \max(0.01, \mathfrak{C}_{t-1} - (\frac{0.01}{\Delta \mathfrak{C}_{t} \times P_{\overline{t-1}}})) 
+                & \text{else}
+            \end{cases}
+    $$
+
+\end{document}
