@@ -34,7 +34,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Conversion} - Exchange one \term{Deposited} $\lambda$ for another within the \term{Silo};
     \item[] \term{Conversion Whitelist} - The whitelist that permissions \term{Conversions} within the \term{Silo};
     \item[] \term{Crop Ratio} - Determines the ratio between (1) the \term{Seeds} per \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ and (2) the \term{Seeds} per PDV of the $\lambda$ with the highest \term{LP Seed Gauge Points} per PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
-    \item[] \term{Crop Scalar} - The value adjusted by the peg maintenance mechanism in order to change the \term{Crop Ratio};
+    \item[] \term{Crop Scalar} - The value adjusted by the target maintenance mechanism in order to change the \term{Crop Ratio};
     \item[] \term{Cultivation Factor} - The value adjusted by a \term{Gauge Implementation} that causes the \term{Soil} issued to increase as Pinto is \term{Sown} into all \term{Soil}, and decrease otherwise. 
     \item[] DeFi - Decentralized finance;
     \item[] \term{Deposit} - An asset in the \term{Silo};
@@ -43,7 +43,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Depot} - Facilitates complex, gas-efficient interactions with other Base-native protocols in a single transaction;
     \item[] \term{Earned} \Pinto\ - Pinto paid to a \term{Stalkholder} after the last \term{Season} the \term{Stalkholder} called the \code{plant} function;
     \item[] ETH - Ether;
-    \item[] \term{Farm} - Where Pinto peg maintenance and use of Pinto take place;
+    \item[] \term{Farm} - Where Pinto target maintenance and use of Pinto take place;
     \item[] \term{Farm Balances} - Assets stored on the \term{Farm} that are not \term{Deposited} in the \term{Silo} or locked in \term{Pod Orders};
     \item[] \term{Field} - The protocol-native credit facility;
     \item[] FIFO - First in, first out;
@@ -108,7 +108,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Sun} - The protocol-native timekeeping and code execution mechanism;
     \item[] \term{Temperature} - The interest rate on Pinto loans;
     \item[] \term{Till Scalar} - A coefficient for \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} > 0$ or $\Delta B_{\overline{t-1}} > 0$;
-    \item[] \term{Toolshed} - A suite of tools that decrease friction to use Pinto and participate in peg maintenance;
+    \item[] \term{Toolshed} - A suite of tools that decrease friction to use Pinto and participate in target maintenance;
     \item[] \term{Tractor} - A protocol-native marketplace that allows third parties to perform pre-authorized actions through the protocol on behalf of a user;
     \item[] \term{Transfer} - Send a \term{Deposit};
     \item[] TWA - Time weighted average;

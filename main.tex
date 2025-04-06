@@ -314,21 +314,21 @@ Pinto was inspired by Beanstalk\fref{bean.money}. The performance of Beanstalk a
 
 Well designed decentralized protocols create utility for end users without requiring, but never preventing, participation in protocol maintenance. Protocol-native incentives encourage performance of work to create utility for end users. Low barriers to and variety in work enable a diverse set of participants. A diverse set of well incentivized workers can create censorship resistant utility. 
 
-Pinto peg maintenance takes place on the \term{Farm}. Anyone can join the \term{Farm} to profit from participation in protocol maintenance. The \term{Farm} has four primary components: the \term{Sun}, \term{Silo}, \term{Field} and \term{Toolshed}. Protocol-native financial incentives coordinate the components to regularly cross the price of \Pinto1 over its value target without collateral.
+Pinto target maintenance takes place on the \term{Farm}. Anyone can join the \term{Farm} to profit from participation in protocol maintenance. The \term{Farm} has four primary components: the \term{Sun}, \term{Silo}, \term{Field} and \term{Toolshed}. Protocol-native financial incentives coordinate the components to regularly cross the price of \Pinto1 over its value target without collateral.
 
 The \term{Sun} offers payment for participating in timekeeping and code execution. Time on the \term{Farm} is kept in \term{Seasons}. Anyone can earn Pinto for successfully calling the \code{gm} function to begin the next \term{Season} at the top of each hour.
 
-The \term{Silo} offers passive yield opportunities to owners of \Pinto\ and other assets ($\lambda$) on the \term{Deposit Whitelist} ($\Lambda$) (\textit{i.e.}, $\Pinto \subset \lambda \in \Lambda$) for contributing to peg maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} $\lambda$ into the \term{Silo} and earning \term{Stalk}. \term{Stalkholders} are rewarded Pinto when the Pinto supply increases on a pro rata basis. Active contributions to peg maintenance within the \term{Silo} can earn additional \term{Stalk}.
+The \term{Silo} offers passive yield opportunities to owners of \Pinto\ and other assets ($\lambda$) on the \term{Deposit Whitelist} ($\Lambda$) (\textit{i.e.}, $\Pinto \subset \lambda \in \Lambda$) for contributing to target maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} $\lambda$ into the \term{Silo} and earning \term{Stalk}. \term{Stalkholders} are rewarded Pinto when the Pinto supply increases on a pro rata basis. Active contributions to target maintenance within the \term{Silo} can earn additional \term{Stalk}.
 
-The \term{Field} offers yield opportunities to creditors for supporting peg maintenance. Anyone can become a \term{Sower} by lending Pinto that are not in the \term{Silo} to the protocol. \term{Sowers} are repaid with interest when the Pinto supply increases on a first in, first out (FIFO) basis. 
+The \term{Field} offers yield opportunities to creditors for supporting target maintenance. Anyone can become a \term{Sower} by lending Pinto that are not in the \term{Silo} to the protocol. \term{Sowers} are repaid with interest when the Pinto supply increases on a first in, first out (FIFO) basis. 
 
-The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in peg maintenance.
+The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in target maintenance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Sun   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Sun}
 
-The Pinto peg maintenance mechanism requires a protocol-native timekeeping mechanism and regular code execution on the Base network. The \term{Sun} creates a cost-efficient protocol-native timekeeping mechanism and incentivizes cost-efficient code execution on Base at regular intervals. In general, Pinto uses Base block timestamps ($E$), such that $E \in \mathbb{Z}^{+}$.
+The Pinto target maintenance mechanism requires a protocol-native timekeeping mechanism and regular code execution on the Base network. The \term{Sun} creates a cost-efficient protocol-native timekeeping mechanism and incentivizes cost-efficient code execution on Base at regular intervals. In general, Pinto uses Base block timestamps ($E$), such that $E \in \mathbb{Z}^{+}$.
 
 \newpage
 
@@ -366,7 +366,7 @@ To minimize the cost of calculating $a_{t}$, the \term{Sun} uses a binomial esti
 
 The \term{Silo} is the protocol-native \term{Deposit} facility.
 
-The \term{Silo} uses the \term{Stalk System} to create protocol-native financial incentives that contribute to security and peg maintenance. The \term{Silo} uses the \term{Seed Gauge System} to create protocol-native financial incentives that contribute to peg maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} assets on the \term{Deposit Whitelist} into the \term{Silo} to earn \term{Stalk} and \term{Seeds}.
+The \term{Silo} uses the \term{Stalk System} to create protocol-native financial incentives that contribute to security and target maintenance. The \term{Silo} uses the \term{Seed Gauge System} to create protocol-native financial incentives that contribute to target maintenance. Anyone can become a \term{Stalkholder} by \term{Depositing} assets on the \term{Deposit Whitelist} into the \term{Silo} to earn \term{Stalk} and \term{Seeds}.
 
 %%%%%%%%%%% Deposits, Withdrawals, Transfers and Conversions %%%%%%%%%%%
 
@@ -468,7 +468,7 @@ The \term{Stalk System} decentralizes ownership of \Pinto\ over time and creates
 
 \term{Stalk} are not liquid. Every \term{Season}, $\frac{1}{10000}$ additional \term{Stalk} \term{Grows} from each \term{Seed}. \term{Grown Stalk} become \term{Stalk} when \term{Mown}. Upon a \term{Deposited} asset's \term{Withdrawal} from the \term{Silo}, the number of \term{Stalk} and \term{Grown Stalk} rewarded to it must be burned.
 
-\term{Stalkholders} are entitled to a portion of Pinto mints. The distribution of Pinto paid to a \term{Stalkholder} are proportional to their \term{Stalk} holdings relative to total outstanding \term{Stalk}. \term{Stalk} holdings become less concentrated over time. Active contributions to peg maintenance within the \term{Silo} can earn additional \term{Stalk} via \term{Conversions}.
+\term{Stalkholders} are entitled to a portion of Pinto mints. The distribution of Pinto paid to a \term{Stalkholder} are proportional to their \term{Stalk} holdings relative to total outstanding \term{Stalk}. \term{Stalk} holdings become less concentrated over time. Active contributions to target maintenance within the \term{Silo} can earn additional \term{Stalk} via \term{Conversions}.
  
 \term{Grown Stalk} from $\lambda$ \term{Deposits} are automatically \term{Mown} each time a \term{Stalkholder} interacts with $\lambda$ in the Silo (\textit{i.e.}, \term{Deposit}, \term{Withdraw}, \term{Convert}, \term{Transfer} and \term{Plant}), or anytime a \code{mow} function is called with $\lambda$ and their address.
 
@@ -679,11 +679,11 @@ The number of \term{Plantable Seeds} associated with a \term{Stalkholder's} $\et
 \section{Field}
 \vspace{-0.4cm}
 
-The Pinto peg maintenance mechanism requires the ability to borrow Pinto. The \term{Field} is the protocol-native credit facility. 
+The Pinto target maintenance mechanism requires the ability to borrow Pinto. The \term{Field} is the protocol-native credit facility. 
 
 \vspace{-0.2cm}
 
-Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 10 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the peg maintenance mechanism.
+Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 10 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the target maintenance mechanism.
 
 %%%%%%%%%%%%%%%%%%%%%%% Soil %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -695,7 +695,7 @@ We define \term{Soil} ($S$), such that $S \in \{j \times 10^{-6} \mid j \in \mat
 
 \vspace{-0.2cm}
 
-When the protocol is willing to borrow more Pinto to remove them from the Pinto supply, it creates more \term{Soil}. The protocol changes the \term{Minimum Soil} ($S_{t_{q}}^{\text{min}}$), such that $S_{t_{q}}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$, such that $q \in \mathbb{Z}^{+}$, of the \term{Morning} of $t$ according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Minimum Soil}.\fref{en.wikipedia.org/wiki/Dutch\_auction} 
+When the protocol is willing to borrow more Pinto to remove them from the Pinto supply, it creates more \term{Soil}. The protocol changes the \term{Minimum Soil} ($S_{t_{q}}^{\text{min}}$), such that $S_{t_{q}}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, in each interval $q$, such that $q \in \mathbb{Z}^{+}$, of the \term{Morning} of $t$ according to the target maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Minimum Soil}.\fref{en.wikipedia.org/wiki/Dutch\_auction} 
 
 %%%%%%%%%%%%%%%%%%%%%%% Pods %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -740,21 +740,21 @@ The number of \term{Pods} ($d$) that \term{Yield} from a given number of \term{S
                     \right)
     $$
 
-The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, at the beginning of each \term{Season} according to the peg maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
+The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, at the beginning of each \term{Season} according to the target maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Peg Maintenance   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    Target Maintenance   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Peg Maintenance}
+\section{Target Maintenance}
 
-Pinto faces the fundamental limitation that it cannot fix the price of \Pinto1 at its value target, but instead must encourage widespread participation in peg maintenance through protocol-native financial incentives. Stability is a function of how frequently and regularly the price of \Pinto1 crosses, and the magnitudes of price deviations from, its value target. The protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run decreases and increases in demand for Pinto.
+Pinto faces the fundamental limitation that it cannot fix the price of \Pinto1 at its value target, but instead must encourage widespread participation in target maintenance through protocol-native financial incentives. Stability is a function of how frequently and regularly the price of \Pinto1 crosses, and the magnitudes of price deviations from, its value target. The protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run decreases and increases in demand for Pinto.
 
-The protocol has five primary peg maintenance tools available: (1) increase the Pinto supply, (2) change the \term{Soil} supply, (3) change the \term{Maximum Temperature}, (4) change the \term{Crop Ratio}, and (5) \term{Flood} (defined below). At the beginning of every \term{Season}, the protocol evaluates its position (\textit{i.e.}, price, debt level and liquidity level) and current state (\textit{i.e.}, direction and acceleration) with respect to ideal equilibrium, and dynamically adjusts the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio} to move closer to ideal equilibrium.
+The protocol has five primary target maintenance tools available: (1) increase the Pinto supply, (2) change the \term{Soil} supply, (3) change the \term{Maximum Temperature}, (4) change the \term{Crop Ratio}, and (5) \term{Flood} (defined below). At the beginning of every \term{Season}, the protocol evaluates its position (\textit{i.e.}, price, debt level and liquidity level) and current state (\textit{i.e.}, direction and acceleration) with respect to ideal equilibrium, and dynamically adjusts the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio} to move closer to ideal equilibrium.
 
 %%%%%%%%%%%%%%%%%%%%%%% Ideal Equilibrium %%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Ideal Equilibrium}
 
-Pinto derive their value from the credit of the protocol and liquidity they trade against. The protocol only fails if it can no longer attract creditors and there is no liquidity trading against Pinto. A healthy level of debt and liquidity attracts creditors and liquidity. Therefore, in addition to the Pinto price, the peg maintenance mechanism considers the protocol debt and liquidity levels (defined below). 
+Pinto derive their value from the credit of the protocol and liquidity they trade against. The protocol only fails if it can no longer attract creditors and there is no liquidity trading against Pinto. A healthy level of debt and liquidity attracts creditors and liquidity. Therefore, in addition to the Pinto price, the target maintenance mechanism considers the protocol debt and liquidity levels (defined below). 
 
 The protocol is in ideal equilibrium when the Pinto price and protocol debt and liquidity levels are at their optimal levels, and the demand for \term{Soil} is steady (defined below). The protocol affects the supply of and demand for Pinto to return to ideal equilibrium in response to the Pinto price, the protocol debt and liquidity levels, and changing demand for \term{Soil}, by adjusting the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio}. 
 
@@ -1402,7 +1402,7 @@ Thus, the protocol attempts to regularly cross the price of \Pinto1 over its val
 \section{Toolshed}
 \vspace{0.1cm}
 
-The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in peg maintenance.
+The \term{Toolshed} offers a suite of tools that decrease friction to using the protocol and participating in target maintenance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pod Market %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1504,7 +1504,7 @@ There are a wide variety of opportunities Pinto has to compete with for creditor
 
 Minimizing the cost of using Pinto and barriers to the \term{Farm} maximizes utility for users and appeal to creditors. The \term{Depot} realizes the benefits of composability on Base.
 
-The FIFO \term{Pod} \term{Harvest} schedule allows smaller \term{Sowers} to participate in peg maintenance and decreases the benefit of large scale price manipulation. The combination of non-expiry, the FIFO \term{Harvest} schedule, the Dutch auction, transferability, a liquid secondary market and \term{Tractor} enables \term{Sowers} to \term{Sow} Pinto as efficiently as possible. By maximizing the efficiency of the \term{Soil} market, Pinto minimizes its cost to attract creditors, the durations and magnitudes of price deviations below its value target, and excess \term{Pod} issuance.
+The FIFO \term{Pod} \term{Harvest} schedule allows smaller \term{Sowers} to participate in target maintenance and decreases the benefit of large scale price manipulation. The combination of non-expiry, the FIFO \term{Harvest} schedule, the Dutch auction, transferability, a liquid secondary market and \term{Tractor} enables \term{Sowers} to \term{Sow} Pinto as efficiently as possible. By maximizing the efficiency of the \term{Soil} market, Pinto minimizes its cost to attract creditors, the durations and magnitudes of price deviations below its value target, and excess \term{Pod} issuance.
 
 %%%%%%%%%%%%%%% Equilibrium %%%%%%%%%%%%%%%
 
@@ -1547,7 +1547,7 @@ There are numerous risks associated with Pinto.\fref{docs.pinto.money/disclosure
 
 \vspace{-0.15cm}
 
-The protocol code base and peg maintenance mechanism are novel. Neither had been tested in the “real world” prior to the initial protocol deployment. Portions of the Pinto code base are unaudited.\footnote{\href{https://docs.pinto.money/resources/audits}{docs.pinto.money/resources/audits}} The open source nature of Pinto means that anyone can take advantage of any bugs, flaws or deficiencies in Pinto and launch identical or very similar low-volatility money implementations.
+The protocol code base and target maintenance mechanism are novel. Neither had been tested in the “real world” prior to the initial protocol deployment. Portions of the Pinto code base are unaudited.\footnote{\href{https://docs.pinto.money/resources/audits}{docs.pinto.money/resources/audits}} The open source nature of Pinto means that anyone can take advantage of any bugs, flaws or deficiencies in Pinto and launch identical or very similar low-volatility money implementations.
 
 \vspace{-0.15cm}
 
