@@ -213,16 +213,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.1.0}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.2.0}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{April 2, 2025}}
+        \footnotesize{Published:} {\normalsize{April 6, 2025}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.1.0}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.2.0}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{March 12, 2025}}
+        \footnotesize{Deployed:} {\normalsize{March 25, 2025}}
         
         \vspace{0.1cm}
 
@@ -455,7 +455,7 @@ In order for a given \term{Conversion} to be added to the \term{Conversion White
 (1) the from token address, 
 (2) the to token address, 
 (3) a list of conditions under which the \term{Conversion} is permitted and 
-(4) a function to determine the number of $\lambda'$ received for \term{Converting} a given number of $\lambda$ ($f^{\lambda \rightarrow \lambda'}(z^{\lambda})$), such that $f^{\lambda \rightarrow \lambda'}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-\lambda'} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Converted} or 
+(4) a function to determine the number of $\lambda'$ received for \term{Converting} a given number of $\lambda$ ($f^{\lambda \rightarrow \lambda'}(z^{\lambda})$), such that $f^{\lambda \rightarrow \lambda'}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-\lambda'} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Converted} and/or 
 (5) a function to determine the number of \term{Mown Stalk} rewarded or burned for \term{Converting} a given number of $\lambda$ to $\lambda'$ ($f^{\lambda \rightarrow \lambda'}(z^{\lambda} \rightarrow z^{\lambda'})$), such that $f^{\lambda \rightarrow \lambda'}\colon \{j \times 10^{-\lambda} \rightarrow j' \times 10^{-\lambda'} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, where $z^{\lambda}$ is the number of $\lambda$ \term{Converted} and where $z^{\lambda'}$ is the number of $\lambda$ output by the \term{Conversion}. 
 
 %%%%%%%%%%%%%%%%%%%%%%% Stalk System %%%%%%%%%%%%%%%%%%%%%%%
@@ -707,7 +707,7 @@ When the protocol is willing to borrow more Pinto to remove them from the Pinto 
 
 \vspace{-0.2cm}
 
-In the future, when the average price of \Pinto1 is above its value target over a \term{Season}, \term{Pods} \term{Ripen} and become \term{Harvestable} (redeemable) for \Pinto1 at anytime. \term{Pods} \term{Ripen} on a FIFO basis: \term{Pods} \term{Yielded} from Pinto that are \term{Sown} first \term{Ripen} into \term{Harvestable Pods} first. \term{Pod} holders can \term{Harvest} their \term{Harvestable Pods} anytime by calling the \code{harvest} function. There is no penalty for waiting to \term{Harvest} \term{Pods}.
+In the future, when the liquidity and time weighted average price of \Pinto1 is above its value target over a \term{Season}, \term{Pods} \term{Ripen} and become \term{Harvestable} (redeemable) for \Pinto1 at anytime. \term{Pods} \term{Ripen} on a FIFO basis: \term{Pods} \term{Yielded} from Pinto that are \term{Sown} first \term{Ripen} into \term{Harvestable Pods} first. \term{Pod} holders can \term{Harvest} their \term{Harvestable Pods} anytime by calling the \code{harvest} function. There is no penalty for waiting to \term{Harvest} \term{Pods}.
 
 \vspace{-0.2cm}
 

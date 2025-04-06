@@ -42,4 +42,45 @@ Therefore, we define $\mathfrak{C}_{t}$ for a given $\mathfrak{C}_{t-1}$, $\Delt
             \end{cases}
     $$
 
+%%%%%%%%%%%%%%%%%%%%%% Blight Factor %%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\mathfrak{D}_{t}$}
+
+The protocol increments the \term{Blight Factor} ($\mathfrak{D}_{t}$), such that $\mathfrak{D}_{t} \in \mathbb{Z}$, when the liquidity and time weighted average price of \Pinto1 is above its value target over a \term{Season}, and decrements it otherwise. The \term{Blight Factor} is used to calculate the \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens ($g^{\mathfrak{D}^{*}}$), such that $g^{\mathfrak{D}^{*}} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$.
+
+$\mathfrak{D}_{t}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$).
+
+The \term{Blight Factor} during $t$ is based on (1) the maximum \term{Blight Factor} ($\mathfrak{D}^{\text{max}}$), such that $\mathfrak{D}^{\text{max}} \in \mathbb{Z}^{+}$, (2) the \term{Blight Factor} during the previous \term{Season}, and (3) $\Delta B_{\overline{t-1}}$.
+
+We define $\mathfrak{D}_{t}$ for a given $\mathfrak{D}^{\text{max}}$, $\mathfrak{D}_{t-1}$ and $\Delta B_{\overline{t-1}}$ as:
+
+    $$
+        \mathfrak{D}_{t} =
+            \begin{cases}
+                \text{min}(\mathfrak{D}^{\text{max}}, \mathfrak{D}_{t-1} + 1) 
+                    & \text{if } \Delta B_{\overline{t-1}} > 0 \\
+                \text{max}(0, \mathfrak{D}_{t-1} - 1) 
+                    & \text{otherwise } 
+            \end{cases}
+    $$
+
+\newpage
+
+Therefore, we define $g^{\mathfrak{D}^{*}}$ for a given $P_{\overline{t-1}}$, $P^{\text{upper}}$, $\mathfrak{D}_{t}$, $R_{t-1}^{W}$, $R^{W^{*}}$ and $\mathfrak{D}^{\text{max}}$ as:
+
+    $$
+        g^{\mathfrak{D}^{*}} = 
+        \begin{cases}
+            0 
+                & \text{if } P_{\overline{t-1}} > P^{\text{upper}} \mkern6mu || \mkern6mu \mathfrak{D}_{t} == 0 \\
+            
+            \text{max}(
+                0, 
+                \frac{\text{min}(R_{t-1}^{W}, R^{W^{*}})}
+                        {R^{W^{*}}} \times 
+                    (1 - \log_{\mathfrak{D}^{\text{max}} + 1}(\mathfrak{D}_{t} + 1))) 
+                & \text{otherwise} \\
+        \end{cases}
+    $$
+
 \end{document}

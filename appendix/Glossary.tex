@@ -29,6 +29,7 @@ The following variables and terms are used throughout this whitepaper:
 \begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
     \item[] AMM - Automated market maker;
     \item[] \term{Burnt} - Sent to the null address;
+    \item[] \term{Blight Factor} - The value adjusted by a \term{Gauge Implementation} that changes the \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
     \item[] \term{Cancel} - Revoke an offer to buy or sell \term{Pods};
     \item[] \term{Conversion} - Exchange one \term{Deposited} $\lambda$ for another within the \term{Silo};
     \item[] \term{Conversion Whitelist} - The whitelist that permissions \term{Conversions} within the \term{Silo};
@@ -171,6 +172,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $G_{t}$ - A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$;
     \item[] $g_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Grown Stalk} from \term{Seeds} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning Pinto seigniorage for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
     \item[] $g^{\lambda'^{*}}$ - The \term{Mown Stalk} penalty in Generalized \term{Convert};
+    \item[] $g^{\mathfrak{D}^{*}}$ - The \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
     \item[] $H_{t}$ - The \term{Maximum Temperature} during $t$;
     \item[] $H^{b}$ - Absolute change to the \term{Maximum Temperature};
     \item[] $H^{m}$ - Relative change to the \term{Maximum Temperature};
@@ -235,6 +237,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ - The maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block;
     \item[] $\mathfrak{C}_{t}$ - The \term{Cultivation Factor} during $t$;
     \item[] $\Delta \mathfrak{C}_{t}$ - The change in \term{Cultivation Factor} during $t$;
+    \item[] $\mathfrak{D}_{t}$ - The \term{Blight Factor} during $t$;
+    \item[] $\mathfrak{D}^{\text{max}}$ - The maximum \term{Blight Factor};
     \item[] $\mathfrak{K}$ - The lookback period in seconds of $f^{\$^{\lambda'}}(\mathfrak{K})$;
     \item[] $\mathfrak{Q}$ - The number of intervals in the \term{Morning};
     \item[] $\mathfrak{w}$ - A \term{Well};

@@ -96,9 +96,17 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
     Upon a $\lambda \rightarrow \lambda'$ \term{Conversion} during $t$, the number of \term{Stalk} of the output $\lambda'$ \term{Deposit} initially \term{Deposited} during $i$ ($k_{t,i,t}^{\lambda'}$) is calculated to account for (1) the change in PDV of the \term{Deposit} and (2) the \term{Mown Stalk} penalty ($g^{\lambda'^{*}}$), such that $k_{t,i,t}^{\lambda'},\ g^{\lambda'^{*}} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$.
     
-    The \term{Mown Stalk} penalty is a function of (1) the PDV of the output $\lambda'$ \term{Deposit}, (2) the maximum change in current $\Delta b$ (\textit{i.e.}, $|\Delta b_{\Game} - \Delta b_{<\Game}|$) of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of changes across all $\lambda \in \Lambda$, adjusted for the changes in current supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively ($\Delta \mathfrak{B}^\text{max}$), and (3) the maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block, ($\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$), such that $\Delta \mathfrak{B}^\text{max},\ \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+    The \term{Mown Stalk} penalty is a function of 
+    (1) the PDV of the output $\lambda'$ \term{Deposit}, 
+    (2) the maximum change in current $\Delta b$ (\textit{i.e.}, $|\Delta b_{\Game} - \Delta b_{<\Game}|$) of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of changes across all $\lambda \in \Lambda$, adjusted for the changes in current supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively ($\Delta \mathfrak{B}^\text{max}$), 
+    (3) the maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block, ($\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$), such that $\Delta \mathfrak{B}^\text{max},\ \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and 
+    (4) $g^{\mathfrak{D}^{*}}$.
 
-    $\Delta \mathfrak{B}^\text{max}$ is a function of (1) a function to determine the magnitude of the movement away from $\Delta b = 0$ given the $\Delta b$ before and after a transaction ($f^{\Delta b^{*}}$), such that $f^{\Delta b^{*}}\colon \{(j,\ j') \times 10^{-6} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, (2) $\Delta b_{<\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, (3) $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, and (4) the current supply of $\lambda$ before and after the \term{Conversion} $\forall\ \lambda \in \Lambda$.
+    $\Delta \mathfrak{B}^\text{max}$ is a function of 
+    (1) a function to determine the magnitude of the movement away from $\Delta b = 0$ given the $\Delta b$ before and after a transaction ($f^{\Delta b^{*}}$), such that $f^{\Delta b^{*}}\colon \{(j,\ j') \times 10^{-6} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, 
+    (2) $\Delta b_{<\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, 
+    (3) $\Delta b_{\Game}^{\lambda}\ \forall\ \lambda \in \Lambda$, and 
+    (4) the current supply of $\lambda$ before and after the \term{Conversion} $\forall\ \lambda \in \Lambda$.
 
     We define $f^{\Delta b^{*}}$ for a given $\Delta b$ before a transaction ($\Delta b_{<\Game}$) and $\Delta b$ after the transaction ($\Delta b_{\Game}$), such that $\Delta b_{<\Game},\ \Delta b_{\Game} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, as:
 
@@ -239,14 +247,24 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
                 \Bigg)
         \end{align*}
 
-    Therefore, we define the \term{Mown Stalk} penalty for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $\Delta \mathfrak{B}^\text{max}$ and $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ as:
+    Therefore, we define the \term{Mown Stalk} penalty for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $\Delta \mathfrak{B}^\text{max}$, $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ and $g^{\mathfrak{D}^{*}}$ as:
 
         $$
-             g^{\lambda'^{*}} = 1 - 
-                \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
-                     (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
-                     {f^{L^{\lambda'}}(z^{\lambda'})} 
-                \right)
+             g^{\lambda'^{*}} =
+                \begin{cases}
+                    1 - \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
+                         (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
+                         {f^{L^{\lambda'}}(z^{\lambda'})} +
+                            g^{\mathfrak{D}^{*}}
+                    \right)
+                        & \text{if } \lambda == \Pinto \mkern6mu \&\& \mkern6mu \lambda' == \mathfrak{w} \\
+                        
+                    1 - \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
+                         (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
+                         {f^{L^{\lambda'}}(z^{\lambda'})}
+                    \right)
+                        & \text{otherwise }
+                \end{cases}
         $$
 
     Therefore, we define $k_{t,i,t}^{\lambda'}$ for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $k^{\lambda'}$, $f^{L^{\lambda}}(z^{\lambda})$, $g^{\lambda'^{*}}$, and $c_{t}^{\lambda'}$ in every \term{Season} from when it was \term{Deposited} until $t$ as:
@@ -356,7 +374,7 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
     The $i$ associated with a \term{Converted} $\mathfrak{w}$ \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
 
-    \item \textbf{Mown Stalk Reward / Burn Function:} N/A 
+    \item \textbf{Mown Stalk Reward / Burn Function:} $1 - g^{\mathfrak{D}^{*}}$
     
 \end{enumerate}
 
