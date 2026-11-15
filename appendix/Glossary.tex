@@ -26,7 +26,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Terms}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] AMM - Automated market maker;
     \item[] \term{Burnt} - Sent to the null address;
     \item[] \term{Blight Factor} - The value adjusted by a \term{Gauge Implementation} that changes the \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
@@ -35,21 +35,21 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Conversion Whitelist} - The whitelist that permissions \term{Conversions} within the \term{Silo};
     \item[] \term{Crop Ratio} - Determines the ratio between (1) the \term{Seeds} per \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ and (2) the \term{Seeds} per PDV of the $\lambda$ with the highest \term{LP Seed Gauge Points} per PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
     \item[] \term{Crop Scalar} - The value adjusted by the target maintenance mechanism in order to change the \term{Crop Ratio};
-    \item[] \term{Cultivation Factor} - The value adjusted by a \term{Gauge Implementation} that causes the \term{Soil} issued to increase as Pinto is \term{Sown} into all \term{Soil}, and decrease otherwise. 
+    \item[] \term{Cultivation Factor} - The value adjusted by a \term{Gauge Implementation} that causes the \term{Soil} issued to increase as \Pinto\ is \term{Sown} into all \term{Soil}, and decrease otherwise. 
     \item[] DeFi - Decentralized finance;
     \item[] \term{Deposit} - An asset in the \term{Silo};
     \item[] \term{Deposit Whitelist} - The whitelist that permissions \term{Deposits} into the \term{Silo};
     \item[] \term{Depositors} - Holders of \term{Deposited} assets in the \term{Silo};
     \item[] \term{Depot} - Facilitates complex, gas-efficient interactions with other Base-native protocols in a single transaction;
-    \item[] \term{Earned} \Pinto\ - Pinto paid to a \term{Stalkholder} after the last \term{Season} the \term{Stalkholder} called the \code{plant} function;
+    \item[] \term{Earned} \Pinto\ - \Pinto\ paid to a \term{Stalkholder} after the last \term{Season} the \term{Stalkholder} called the \code{plant} function;
     \item[] ETH - Ether;
     \item[] \term{Farm} - Where Pinto target maintenance and use of Pinto take place;
     \item[] \term{Farm Balances} - Assets stored on the \term{Farm} that are not \term{Deposited} in the \term{Silo} or locked in \term{Pod Orders};
     \item[] \term{Field} - The protocol-native credit facility;
     \item[] FIFO - First in, first out;
     \item[] \term{Fill} - Match an outstanding offer to buy or sell \term{Pods};
-    \item[] \term{Flood} - When the protocol mints extra Pinto and sells them directly in liquidity pools on the \term{Flood Whitelist};
-    \item[] \term{Flood Whitelist} - The whitelist of pools that the protocol sells Pinto directly in when it mints extra Pinto during a \term{Flood};
+    \item[] \term{Flood} - When the protocol mints extra \Pinto\ and sells them directly in liquidity pools on the \term{Flood Whitelist};
+    \item[] \term{Flood Whitelist} - The whitelist of pools that the protocol sells \Pinto\ directly in when it mints extra \Pinto\ during a \term{Flood};
     \item[] \term{Fork Migration System} - A protocol-native system that allows users to migrate assets from one or more Pinto deployments to another;
     \item[] \term{Furrow Scalar} - A coefficient for \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
     \item[] \term{Gauge Implementation} - A system for adjusting a variable at the beginning of each \term{Season};
@@ -59,8 +59,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Harvest} - Redeem;
     \item[] \term{Harvestable} - Redeemable;
     \item[] \term{Harvested} - Redeemed;
-    \item[] \term{LP Seed Gauge Points} - Points that determine \term{Grown Stalk} issuance to each non-Pinto $\lambda$ per the \term{Seed Gauge System};
-    \item[] \term{Liquidity Rate} - The protocol liquidity level relative to the Pinto supply;
+    \item[] \term{LP Seed Gauge Points} - Points that determine \term{Grown Stalk} issuance to each non-\Pinto\ $\lambda$ per the \term{Seed Gauge System};
+    \item[] \term{Liquidity Rate} - The protocol liquidity level relative to the \Pinto\ supply;
     \item[] \term{List} - Create an offer to sell \term{Pods};
     \item[] LP tokens - Liquidity pool tokens;
     \item[] \term{Maximum Soil} - The maximum \term{Soil} supply at a given interval during a \term{Season};
@@ -82,12 +82,12 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Pipeline} - A connection between the protocol and another Base-native protocol via the \term{Depot}};
     \item[] \term{Plant} - Turn \term{Seeds} associated with \term{Earned} \Pinto\ into \term{Seeds} by \term{Depositing} the \term{Earned} \Pinto\ in the current \term{Season};
     \item[] \term{Plantable Seeds} - \term{Seeds} that can be \term{Planted};
-    \item[] \term{Plot} - Pinto \term{Sown} from a single call of the \code{sow} function;
+    \item[] \term{Plot} - \Pinto\ \term{Sown} from a single call of the \code{sow} function;
     \item[] \term{Pod Line} - The order of \term{Pods} that will become \term{Harvestable};
     \item[] \term{Pod Listing} - An offer to sell \term{Pods};
     \item[] \term{Pod Market} - A protocol-native marketplace for buying and selling \term{Pods};
     \item[] \term{Pod Order} - An offer to buy \term{Pods};
-    \item[] \term{Pod Rate} - The protocol debt level relative to the Pinto supply;
+    \item[] \term{Pod Rate} - The protocol debt level relative to the \Pinto\ supply;
     \item[] \term{Pods} - The protocol-native debt asset, redeemable for \Pinto1 each once they \term{Ripen};
     \item[] \term{Raining} - $V < P_{\overline{t-1}}$ and $R_{t-1}^{D} < R^{D^{\text{lower}}}$;
     \item[] \term{Ripen} - Become \term{Harvestable};
@@ -96,17 +96,17 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Seed Gauge Points} - Points that determine \term{Grown Stalk} issuance to each $\lambda$ per the \term{Seed Gauge System};
     \item[] \term{Seed Gauge System} - The protocol-native mechanism for adjusting \term{Seeds};
     \item[] \term{Silo} - The protocol-native \term{Deposit} facility;
-    \item[] \term{Soil} - The number of Pinto the protocol is willing to borrow;
+    \item[] \term{Soil} - The number of \Pinto\ the protocol is willing to borrow;
     \item[] \term{Soil Diffusion Period} - A coefficient for \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
     \item[] SoV - Store of value;
-    \item[] \term{Sow} - Lend Pinto to the protocol;
+    \item[] \term{Sow} - Lend \Pinto\ to the protocol;
     \item[] \term{Sower} - A Pinto creditor;
     \item[] \term{Sown} - Lent;
-    \item[] \term{Stalk} - An illiquid token that entitles the holder to a pro rata share of future Pinto mints.
+    \item[] \term{Stalk} - An illiquid token that entitles the holder to a pro rata share of future \Pinto\ mints.
     \item[] \term{Stalkholder} - Holders of the \term{Stalk} token;
     \item[] \term{Stalk System} - The protocol-native mechanism for \term{Stalk};
     \item[] \term{Sun} - The protocol-native timekeeping and code execution mechanism;
-    \item[] \term{Temperature} - The interest rate on Pinto loans;
+    \item[] \term{Temperature} - The interest rate on \Pinto\ loans;
     \item[] \term{Till Scalar} - A coefficient for \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} > 0$ or $\Delta B_{\overline{t-1}} > 0$;
     \item[] \term{Toolshed} - A suite of tools that decrease friction to use Pinto and participate in target maintenance;
     \item[] \term{Tractor} - A protocol-native marketplace that allows third parties to perform pre-authorized actions through the protocol on behalf of a user;
@@ -126,23 +126,23 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Latin Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] $a_{t}$ - The reward for successfully calling the \code{gm} function for $t$;
-    \item[] $B$ - The total Pinto supply;
-    \item[] $B_{t-1}$ - The Pinto supply at the end of the previous \term{Season};
-    \item[] $\Delta B_{\overline{t-1}}$ - The sum of time weighted average shortages or excess of Pinto across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season};
-    \item[] $\Delta B_{\Xi-1}^{\text{EMA}}$ - The sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump};
-    \item[] $\Delta B_{\Game}$ - The sum of differences between the optimal number of Pinto and the number of Pinto in each liquidity pool on the \term{Flood Whitelist} in the current transaction;
+    \item[] $B$ - The total \Pinto\ supply;
+    \item[] $B_{t-1}$ - The \Pinto\ supply at the end of the previous \term{Season};
+    \item[] $\Delta B_{\overline{t-1}}$ - The sum of time weighted average shortages or excess of \Pinto\ across liquidity pools on the \term{Minting Whitelist} over the previous \term{Season};
+    \item[] $\Delta B_{\Xi-1}^{\text{EMA}}$ - The sum of shortages and excesses of \Pinto\ across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump};
+    \item[] $\Delta B_{\Game}$ - The sum of differences between the optimal number of \Pinto\ and the number of \Pinto\ in each liquidity pool on the \term{Flood Whitelist} in the current transaction;
     \item[] $\Delta B^{\text{MAX}^{\text{b}}}$ - The total absolute minting cap;
     \item[] $\Delta B^{\text{MAX}^{\text{m}}}$ - The total relative minting cap;
-    \item[] $\Delta b_{\overline{t-1}}^{\mathfrak{w}}$ - The time weighted average shortage or excess of Pinto in a \term{Well} over the previous \term{Season};
-    \item[] $\Delta b_{\overline{t-1}}^{\lambda}$ - The time weighted average shortage or excess of Pinto in $\lambda$ over the previous \term{Season};
-    \item[] $\Delta b_{\Game}^{\mathfrak{w}}$ - The excess or shortage of Pinto in a \term{Well} at the end of the current transaction;
-    \item[] $\Delta b_{\Game}^{\lambda}$ - The excess or shortage of Pinto in $\lambda$ at the end of the current transaction;
-    \item[] $\Delta b_{<\Game}^{\mathfrak{w}}$ - The excess or shortage of Pinto in a \term{Well} at the beginning of the current transaction;
-    \item[] $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$ - The excess or shortage of Pinto in a \term{Well} at the end of the last block;
-    \item[] $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$ - The excess or shortage of Pinto in a \term{Well} based on the inter-block MEV manipulation resistant instantaneous reserves in the Multi Flow \term{Pump} of the \term{Well};
-    \item[] $\Delta b_{\Xi-1}^{\lambda^{\text{EMA}}}$ - The shortage or excess of Pinto in $\lambda$ calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump};
+    \item[] $\Delta b_{\overline{t-1}}^{\mathfrak{w}}$ - The time weighted average shortage or excess of \Pinto\ in a \term{Well} over the previous \term{Season};
+    \item[] $\Delta b_{\overline{t-1}}^{\lambda}$ - The time weighted average shortage or excess of \Pinto\ in $\lambda$ over the previous \term{Season};
+    \item[] $\Delta b_{\Game}^{\mathfrak{w}}$ - The excess or shortage of \Pinto\ in a \term{Well} at the end of the current transaction;
+    \item[] $\Delta b_{\Game}^{\lambda}$ - The excess or shortage of \Pinto\ in $\lambda$ at the end of the current transaction;
+    \item[] $\Delta b_{<\Game}^{\mathfrak{w}}$ - The excess or shortage of \Pinto\ in a \term{Well} at the beginning of the current transaction;
+    \item[] $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$ - The excess or shortage of \Pinto\ in a \term{Well} at the end of the last block;
+    \item[] $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$ - The excess or shortage of \Pinto\ in a \term{Well} based on the inter-block MEV manipulation resistant instantaneous reserves in the Multi Flow \term{Pump} of the \term{Well};
+    \item[] $\Delta b_{\Xi-1}^{\lambda^{\text{EMA}}}$ - The shortage or excess of \Pinto\ in $\lambda$ calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump};
     \item[] $\Delta b^{\text{MAX}^{\text{b}}}$ - The absolute per \term{Well} minting cap
     \item[] $\Delta b^{\text{MAX}^{\text{m}}}$ - The relative per \term{Well} minting cap;
     \item[] $f^{\Delta b^{*}}$ - The function to determine the magnitude of the movement away from $\Delta b = 0$ given the $\Delta b$ before and after a transaction;
@@ -155,22 +155,23 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $c_{t}^{\lambda}$ - The \term{Seeds} during $t$ for a given \term{Deposit};
     \item[] $\Delta D_{t}$ - The number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season};
     \item[] $D$ - The total number of \term{Unharvestable Pods};
-    \item[] $D^{F}$ - The maximum percent of the Pinto supply worth of \term{Pods} that become \term{Harvestable} during a \term{Flood};
+    \item[] $D^{F}$ - The maximum percent of the \Pinto\ supply worth of \term{Pods} that become \term{Harvestable} during a \term{Flood};
     \item[] $d$ - The number of \term{Pods} that \term{Yield} from a given number of \term{Sown} \Pinto;
     \item[] $E$ - Base block timestamps;
     \item[] $E_{1}$ - The timestamp in the Base block containing the Pinto deployment;
     \item[] $E_{t}^{\text{min}}$ - The minimum timestamp Pinto accepts a \code{gm} function call for a given $t$;
+    \item[] $E_t^{\text{start}}$ - The Base timestamp of the successful \code{gm} transaction that began $t$;
     \item[] $E_{\Xi}$ - The timestamp of the current block;
     \item[] $E_\Psi$ - The timestamp in which the protocol last \term{Unpaused};
     \item[] $E_{t}^{u^{\text{first}}}$ - The Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil};
-    \item[] $\Delta E_{t}^{u}$ - The difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons};
-    \item[] $\Delta E_{t}^{u^{\text{first}}}$ - The time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season};
-    \item[] $\Delta E_{t}^{u^{\text{lower}}}$ - The level below which demand for \term{Soil} is considered decreasing when the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} is used to calculate demand for \term{Soil};
-    \item[] $\Delta E_{t}^{u^{\text{upper}}}$ - The level above or equal to which demand for \term{Soil} is considered increasing when the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} is used to calculate demand for \term{Soil};
-    \item[] $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$ - The level below which if Pinto were \term{Sown} in all \term{Soil} of the previous \term{Season}, demand for \term{Soil} is considered increasing;
+    \item[] $\Delta E_{t}^{u}$ - The difference in time it took for the \Pinto\ to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons};
+    \item[] $\Delta E_{t}^{u^{\text{first}}}$ - The elapsed time until the first \term{Sow} such that \Pinto\ are \term{Sown} in all \term{Soil} in \term{Season} $t$;
+    \item[] $\Delta E_{t}^{u^{\text{lower}}}$ - The level below which changing demand for \term{Soil} is measured by $\frac{\partial u_{t}}{\partial t}$ when the difference in time it took for the \Pinto\ to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} is used to calculate demand for \term{Soil};
+    \item[] $\Delta E_{t}^{u^{\text{upper}}}$ - The level above which demand for \term{Soil} is considered increasing when the difference in time it took for the \Pinto\ to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} is used to calculate demand for \term{Soil};
+    \item[] $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$ - The level below which if \Pinto\ were \term{Sown} in all \term{Soil} of the previous \term{Season}, demand for \term{Soil} is considered increasing;
     \item[] $F$ - The number of consecutive full \term{Seasons} it must \term{Rain} in order to \term{Flood} at the beginning of the next \term{Season};
     \item[] $G_{t}$ - A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$;
-    \item[] $g_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Grown Stalk} from \term{Seeds} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning Pinto seigniorage for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
+    \item[] $g_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Grown Stalk} from \term{Seeds} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning \Pinto\ seigniorage for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
     \item[] $g^{\lambda'^{*}}$ - The \term{Mown Stalk} penalty in Generalized \term{Convert};
     \item[] $g^{\mathfrak{D}^{*}}$ - The \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
     \item[] $H_{t}$ - The \term{Maximum Temperature} during $t$;
@@ -189,8 +190,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $L_{i}^{\lambda}$ - The total PDV of $Z_{i}^{\lambda}$ when \term{Deposited};
     \item[] $f^{L^{\lambda}}(z^{\lambda})$ - The function to calculate the flash-loan-resistant PDV of a given number of \term{Deposited} $\lambda$;
     \item[] $f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$ - The function to calculate the flash-loan-resistant PDV of a given number of \term{Deposited} $\mathfrak{w}$;
-    \item[] $M$ - The total Pinto minted over all \term{Seasons};
-    \item[] $m_{t}$ - The number of Pinto that the protocol mints at the beginning of each \term{Season};
+    \item[] $M$ - The total \Pinto\ minted over all \term{Seasons};
+    \item[] $m_{t}$ - The number of \Pinto\ that the protocol mints at the beginning of each \term{Season};
     \item[] $N$ - The total \term{Burnt} \Pinto\ over all \term{Seasons};
     \item[] $P$ - The price;
     \item[] $P_{\overline{t-1}}$ - The inferred liquidity and time weighted average price of \Pinto1 compared to $V$ over the previous \term{Season};
@@ -201,8 +202,9 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $R^{D}$ - The \term{Pod Rate};
     \item[] $R_{t-1}^{D}$ - The \term{Pod Rate} at the end of the previous \term{Season};
     \item[] $R^{D^{*}}$ - An optimal level of debt;
+    \item[] $R^{D^{\text{extreme upper}}}$ - A level above which debt is considered extremely high;
     \item[] $R^{D^{\text{lower}}}$ - A level below which debt is considered excessively low;
-    \item[] $R^{D^{\text{upper}}}$ - A level above or equal to which debt is considered excessively high;
+    \item[] $R^{D^{\text{upper}}}$ - A level above or equal to which debt is considered excessively high, up to $R^{D^{\text{extreme upper}}}$;
     \item[] $R^{W}$ - The \term{Liquidity Rate};
     \item[] $R_{t-1}^{W}$ - The \term{Liquidity Rate} at the end of the previous \term{Season};
     \item[] $R^{W^{*}}$ - An optimal level of liquidity;
@@ -210,7 +212,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $R^{W^{\text{upper}}}$ - A level above or equal to which liquidity is considered excessively high;
     \item[] $S$ - \term{Soil};
     \item[] $S_{t}^{\text{end}}$ - The \term{Soil} supply at the end of the \term{Season};
-    \item[] $S^{\text{all}}$ - The amount of remaining \term{Soil} below or equal to which Pinto are considered to be \term{Sown} in all \term{Soil} in a \term{Season};
+    \item[] $S^{\text{all}}$ - The amount of remaining \term{Soil} below or equal to which \Pinto\ are considered to be \term{Sown} in all \term{Soil} in a \term{Season};
     \item[] $S_{t_{q}}^{\text{max}}$ - The \term{Maximum Soil} in interval $q$ of $t$;
     \item[] $S_{t_{q}}^{\text{min}}$ - The \term{Minimum Soil} in interval $q$ of $t$;
     \item[] $\overline{S}^{\text{min}}$ - The minimum \term{Soil} issued when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
@@ -218,11 +220,12 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $U$ - The total \term{Sown} \Pinto\ over all \term{Seasons};
     \item[] $u$ - The number of \term{Sown} \Pinto;
     \item[] $u_{t}$ - The number of \term{Sown} \Pinto\ during $t$;
+    \item[] $u^{\text{min}}$ - The minimum number of \term{Sown} \Pinto\ below which demand for \term{Soil} is considered decreasing;
     \item[] $\frac{\partial u_{t}}{\partial t}$ - The rate of change of $u_{t}$ over the previous two \term{Seasons};
     \item[] $\frac{\partial u_{t}}{\partial t}^{\text{lower}}$ - The level below which demand for \term{Soil} is considered decreasing;
     \item[] $\frac{\partial u_{t}}{\partial t}^{\text{upper}}$ - The level above or equal to which demand for \term{Soil} is considered increasing;
     \item[] $V$ - The value target for \Pinto1;
-    \item[] $W$ - The total non-Pinto USD-denominated value of liquidity in the \term{Silo};
+    \item[] $W$ - The total non-\Pinto\ USD-denominated value of liquidity in the \term{Silo};
     \item[] $Z_{i}^{\lambda}$ - The total number of $\lambda$ \term{Deposited} during \term{Season} $i$;
     \item[] $z^{\lambda}$ - A given number of \term{Deposited} $\lambda$;
 \end{itemize}
@@ -231,7 +234,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Mathfrak Style Latin Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
 
     \item[] $\Delta \mathfrak{B}^\text{max}$ - The maximum change in current $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of changes across all $\lambda \in \Lambda$, adjusted for the changes in current supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively;
     \item[] $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ - The maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block;
@@ -242,34 +245,34 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\mathfrak{K}$ - The lookback period in seconds of $f^{\$^{\lambda'}}(\mathfrak{K})$;
     \item[] $\mathfrak{Q}$ - The number of intervals in the \term{Morning};
     \item[] $\mathfrak{w}$ - A \term{Well};
-    \item[] $\mathfrak{w}_{\Game}^{\pinto^{*}}$ - The optimal number of Pinto in $\mathfrak{w}$ at the end of the current transaction;
-    \item[] $\mathfrak{w}_{\Game}^{\pinto}$ - The number of Pinto in $\mathfrak{w}$ at the end of the current transaction;
-    \item[] $\mathfrak{w}_{\Game}^{\nonpinto}$ - The number of non-Pinto in $\mathfrak{w}$ at the end of the current transaction;
-    \item[] $\mathfrak{w}_{<\Game}^{\pinto^{*}}$ - The optimal number of Pinto in $\mathfrak{w}$ at the beginning of the current transaction; 
-    \item[] $\mathfrak{w}_{<\Game}^{\pinto}$ - The number of Pinto in $\mathfrak{w}$ at the beginning of the current transaction; 
-    \item[] $\mathfrak{w}_{<\Game}^{\nonpinto}$ - The number of non-Pinto in $\mathfrak{w}$ at the beginning of the current transaction;
-    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ - The optimal number of Pinto in $\mathfrak{w}$ at the end of the last block;
-    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$ - The number of Pinto in $\mathfrak{w}$ at the end of the last block;
-    \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}$ - The number of non-Pinto in $\mathfrak{w}$ at the end of the last block;
-    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ - The optimal number of Pinto in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
-    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$ - The number of Pinto in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
-    \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$ - The number of non-Pinto in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
-    \item[] $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$ - The optimal time weighted average number of Pinto in $\mathfrak{w}$ over the previous \term{Season};
-    \item[] $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA Pinto reserves in the Multi Flow \term{Pump} of $\mathfrak{w}$ from the beginning of the previous \term{Season} to the current transaction;
-    \item[] $\mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA non-Pinto reserves in the Multi Flow \term{Pump} of $\mathfrak{w}$ from the beginning of the previous \term{Season} to the current transaction;
+    \item[] $\mathfrak{w}_{\Game}^{\pinto^{*}}$ - The optimal number of \Pinto\ in $\mathfrak{w}$ at the end of the current transaction;
+    \item[] $\mathfrak{w}_{\Game}^{\pinto}$ - The number of \Pinto\ in $\mathfrak{w}$ at the end of the current transaction;
+    \item[] $\mathfrak{w}_{\Game}^{\nonpinto}$ - The number of non-\Pinto\ in $\mathfrak{w}$ at the end of the current transaction;
+    \item[] $\mathfrak{w}_{<\Game}^{\pinto^{*}}$ - The optimal number of \Pinto\ in $\mathfrak{w}$ at the beginning of the current transaction; 
+    \item[] $\mathfrak{w}_{<\Game}^{\pinto}$ - The number of \Pinto\ in $\mathfrak{w}$ at the beginning of the current transaction; 
+    \item[] $\mathfrak{w}_{<\Game}^{\nonpinto}$ - The number of non-\Pinto\ in $\mathfrak{w}$ at the beginning of the current transaction;
+    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ - The optimal number of \Pinto\ in $\mathfrak{w}$ at the end of the last block;
+    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$ - The number of \Pinto\ in $\mathfrak{w}$ at the end of the last block;
+    \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}$ - The number of non-\Pinto\ in $\mathfrak{w}$ at the end of the last block;
+    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ - The optimal number of \Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
+    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$ - The number of \Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
+    \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$ - The number of non-\Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
+    \item[] $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$ - The optimal time weighted average number of \Pinto\ in $\mathfrak{w}$ over the previous \term{Season};
+    \item[] $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA \Pinto\ reserves in the Multi Flow \term{Pump} of $\mathfrak{w}$ from the beginning of the previous \term{Season} to the current transaction;
+    \item[] $\mathfrak{w}_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA non-\Pinto\ reserves in the Multi Flow \term{Pump} of $\mathfrak{w}$ from the beginning of the previous \term{Season} to the current transaction;
     \item[] $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ - The maximum remaining \term{Conversions} of $\mathfrak{w}$ permitted before a penalty is accrued;
     \item[] $\mathfrak{w}^{@}$ - The \term{Well} token address;
     \item[] $\mathfrak{w}^{*}$ - The data associated with the \term{Well Function} of $\mathfrak{w}$;
     \item[] $\mathfrak{w}^{\text{min}}$ - The minimum number of $\mathfrak{w}$ received from a \term{Conversion};
-    \item[] $\mathfrak{w}^{\text{min}(\pinto)}$ - The minimum number of Pinto required in a \term{Well} in order to calculate PDV or $\Delta b$;
-    \item[] $\frac{\partial \mathfrak{w}}{\partial \pinto}$ - The inter-block MEV manipulation resistant derivative of the $\mathfrak{w}$ LP token supply with respect to Pinto;
+    \item[] $\mathfrak{w}^{\text{min}(\pinto)}$ - The minimum number of \Pinto\ required in a \term{Well} in order to calculate PDV or $\Delta b$;
+    \item[] $\frac{\partial \mathfrak{w}}{\partial \pinto}$ - The inter-block MEV manipulation resistant derivative of the $\mathfrak{w}$ LP token supply with respect to \Pinto;
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Mathscr Style Latin Alphabet Variables %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Mathscr Style Latin Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] $\mathscr{B}^{\lambda^{*}}$ - The optimal percent of \term{Deposited} PDV of $\lambda$;
     \item[] $\mathscr{B}^{\lambda'^{*}}$ - The optimal percent of \term{Deposited} PDV of $\lambda'$;
     \item[] $\mathscr{B}^{\lambda'}$ - The percent of \term{Deposited} PDV of $\lambda'$;
@@ -303,12 +306,12 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Greek Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] $\eta^{\pinto}$ - \term{Earned} \Pinto;
     \item[] $\eta_{t}^{c}$ - The \term{Plantable Seeds} associated with a \term{Stalkholder's} $\eta^{\pinto}$ that can be \term{Planted} to start earning \term{Grown Stalk} during $t$;
     \item[] $\Lambda$ - The \term{Deposit Whitelist};
     \item[] $\lambda$ - \Pinto\ and other assets on the \term{Deposit Whitelist};
-    \item[] $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA non-Pinto reserves in the Multi Flow \term{Pump} of $\lambda$ from the beginning of the previous \term{Season} to the current transaction;
+    \item[] $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA non-\Pinto\ reserves in the Multi Flow \term{Pump} of $\lambda$ from the beginning of the previous \term{Season} to the current transaction;
     \item[] $\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA number of $\lambda$ LP tokens from the beginning of the previous \term{Season} to the current transaction;
     \item[] $\lambda_{\Xi-1}^{\text{LAST}^{*}}$ - The maximum remaining \term{Conversions} of $\lambda$ permitted before a penalty is accrued;
     \item[] $\lambda^{\rho}$ - The LP token supply change cap per block set in Multi Flow;
@@ -323,7 +326,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Glyph Variant Greek Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] $\varkappa^{\lambda}$ - The last \term{Season} a \term{Stalkholder} \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits}; 
     \item[] $\vartheta$ - PINTO:WETH LP tokens;
     \item[] $\varphi$ - PINTO:cbETH LP tokens;
@@ -335,16 +338,16 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Symbol Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=3pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] \Pinto\ - Pinto;
     \item[] $\PintoContract^{@}$ - The Pinto contract address;
-    \item[] $\Pinto^{@}$ - The Pinto token address;
+    \item[] $\Pinto^{@}$ - The \Pinto\ token address;
     \item[] $\Pinto^{\text{min}}$ - The minimum number of \Pinto\ received from a \term{Conversion};
-    \item[] $f^{\$^{\lambda}}$ - The function to calculate the USD price of the non-Pinto asset in $\lambda$;
-    \item[] $f^{\$^\mathfrak{w}}$ - The function to calculate the USD price of the non-Pinto asset in $\mathfrak{w}$;
-    \item[] $f^{\$^{\lambda'}}(\mathfrak{K})$ - The function to calculate the USD price of the non-Pinto asset in $\lambda'$ given a lookback period $\mathfrak{K}$;
-    \item [] $f^{\$}(z^{\lambda})$ - The function to calculate the time weighted average non-Pinto USD-denominated value in a given number of \term{Deposited} $\lambda$; and
-    \item[] $\sun$ - The minimum Pinto reward for successfully calling the \code{gm} function.
+    \item[] $f^{\$^{\lambda}}$ - The function to calculate the USD price of the non-\Pinto\ asset in $\lambda$;
+    \item[] $f^{\$^\mathfrak{w}}$ - The function to calculate the USD price of the non-\Pinto\ asset in $\mathfrak{w}$;
+    \item[] $f^{\$^{\lambda'}}(\mathfrak{K})$ - The function to calculate the USD price of the non-\Pinto\ asset in $\lambda'$ given a lookback period $\mathfrak{K}$;
+    \item [] $f^{\$}(z^{\lambda})$ - The function to calculate the time weighted average non-\Pinto\ USD-denominated value in a given number of \term{Deposited} $\lambda$; and
+    \item[] $\sun$ - The minimum \Pinto\ reward for successfully calling the \code{gm} function.
 \end{itemize}
 
 

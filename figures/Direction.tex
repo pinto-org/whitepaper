@@ -1,17 +1,23 @@
+\begingroup
+% Keep gray cell panels clear of thin horizontal rules at page scale.
+\let\debtcategoryhhline\hhline
+\renewcommand{\hhline}[1]{\debtcategoryhhline{#1}\noalign{\vskip0.4pt}}
+\newcolumntype{D}{ >{\centering\arraybackslash} m{2.05cm} }
 \scalebox{.95}{%
-\begin{tabular}{ c Q|Q|Q|Q|Q| } 
+\begin{tabular}{ c Q|D|D|D|D|D| } 
 
 \multicolumn{1}{c}{} &
 \multicolumn{1}{c}{} & 
-\multicolumn{4}{c}{\bm{$R_{t-1}^{D}$}} \\
-\hhline{~~----}\rowm
+\multicolumn{5}{c}{\bm{$R_{t-1}^{D}$}} \\
+\hhline{~~-----}\rowm
 
 &\multicolumn{1}{Q|}{\textbf{\underline{Direction}}} &
 \textbf{Excessively\break Low Debt} &
 \textbf{Reasonably\break Low Debt} & 
 \textbf{Reasonably\break High Debt} & 
-\textbf{Excessively\break High Debt}\\
-\hhline{~-----}\rows
+\textbf{Excessively\break High Debt} &
+\textbf{Extremely\break High Debt}\\
+\hhline{~------}\rows
 
 \parbox[t]{3mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{\bm{$P_{\overline{t-1}}$}}}} % Rotates row
 
@@ -19,14 +25,17 @@
 \cellcolor{lightgray!30}Away From & 
 \cellcolor{lightgray!30}Away From & 
 \cellcolor{lightgray!30}Toward & 
+\cellcolor{lightgray!30}Toward &
 \cellcolor{lightgray!30}Toward\\
-\hhline{~-----}\rows
+\hhline{~------}\rows
 
 &\multicolumn{1}{|Q|}{\bm{$P_{\overline{t-1}} \leq V$}} & 
 \cellcolor{lightgray!30}Toward & 
 \cellcolor{lightgray!30}Toward & 
 \cellcolor{lightgray!30}Away From & 
+\cellcolor{lightgray!30}Away From &
 \cellcolor{lightgray!30}Away From\\
-\cline{2-6}
+\cline{2-7}
 
 \end{tabular}}
+\endgroup

@@ -42,6 +42,19 @@
 \titlespacing*{\subsubsection}
   {0pt}{0.6\baselineskip}{0.6\baselineskip} % Modify subsubsection spacing
 
+% Keep complete explanatory units together with ordinary paragraph spacing.
+\makeatletter
+\newenvironment{keepunit}{%
+  \par\penalty0\begingroup
+  \edef\keepunitparskip{\the\parskip}%
+  \noindent\begin{minipage}[t]{\linewidth}%
+  \setlength{\parskip}{\keepunitparskip}%
+  \@minipagefalse
+}{%
+  \end{minipage}\par\endgroup
+}
+\makeatother
+
 % String formats
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\term}[1]{\textsl{#1}}
@@ -213,16 +226,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.2.0}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.2.1}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{April 6, 2025}}
+        \footnotesize{Published:} {\normalsize{November 14, 2026}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases}{\normalsize{1.2.0}}\footnote{\href{https://github.com/pinto-org/protocol/releases}{github.com/pinto-org/protocol/releases}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases/tag/v1.2.1}{\normalsize{1.2.1}}\footnote{\href{https://github.com/pinto-org/protocol/releases/tag/v1.2.1}{github.com/pinto-org/protocol/releases/tag/v1.2.1}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{March 25, 2025}}
+        \footnotesize{Deployed:} {\normalsize{April 17, 2025}}
         
         \vspace{0.1cm}
 
@@ -433,17 +446,17 @@ Every $\lambda$ \term{Deposit} except \term{Earned} \Pinto\ are subject to a \te
 
 \term{Germination} ends upon the completion of a full \term{Season} after \term{Deposit}.
 
-\newpage
 
 %%%%%%%%%%%%%%% Silo Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.12]{figures/Silo.png}
     \vspace*{-5mm}
     \caption{Silo}
     \label{Silo}
 \end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%% Conversion Whitelist %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -498,6 +511,7 @@ When a \term{Stalkholder} \term{Deposits} $\lambda$ during $i$, they update thei
 
 The number of \term{Stalk} for a given $\lambda$ \term{Deposit} are determined by its PDV, $k^{\lambda}$,  \term{Season} of \term{Deposit}, the last \term{Season} the \term{Stalkholder} \term{Mowed} $\lambda$ \term{Deposits} ($\varkappa^{\lambda}$), such that $\varkappa^{\lambda} \in \mathbb{Z}^{+}$,  and the number of \term{Seeds} per PDV of $\lambda$ \term{Deposited} during $t$ ($c_{t}^{\lambda}$), such that $c_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$,  in every \term{Season} from when it was \term{Deposited} until $\varkappa^{\lambda}$.
 
+\begin{keepunit}
 The number of \term{Stalk} during $t$ for a given $\lambda$ \term{Deposit} \term{Deposited} during $i$ and last \term{Mowed} during $\varkappa^{\lambda}$ ({$k_{t,i,\varkappa^{\lambda}}^{\lambda}$}), such that $k_{t,i,\varkappa^{\lambda}}^{\lambda} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is:
 
     $$
@@ -509,6 +523,9 @@ The number of \term{Stalk} during $t$ for a given $\lambda$ \term{Deposit} \term
                         {10000}\right) 
             \right)
     $$
+\end{keepunit}
+
+\begin{keepunit}
 
 A \term{Stalkholder's} total \term{Stalk} during $t$ ($K_{t}$), such that $K_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is:
 
@@ -518,6 +535,11 @@ A \term{Stalkholder's} total \term{Stalk} during $t$ ($K_{t}$), such that $K_{t}
                 \sum_{i=1}^{\varkappa^{\lambda}}
                     k_{t,i,\varkappa^{\lambda}}^{\lambda}
     $$
+\end{keepunit}
+
+
+
+\begin{keepunit}
 
 The total \term{Stalk} in the \term{Silo} during $t$ ($\mathbf{K}_{t}$), such that $\mathbf{K}_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$, is the sum of every \term{Stalkholder's} total \term{Stalk} during $t$:
 
@@ -525,9 +547,13 @@ The total \term{Stalk} in the \term{Silo} during $t$ ($\mathbf{K}_{t}$), such th
         \mathbf{K}_{t} = 
             \sum{K_{t}}
     $$
+\end{keepunit}
 
-\newpage
 
+
+
+
+\begin{keepunit}
 The total \term{Mown Stalk} in the \term{Silo} during $t$ ($\widehat{\mathbf{K}_{t}}$), such that $\widehat{\mathbf{K}_{t}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is the sum of every \term{Stalkholder's} total \term{Stalk} during $t$, less the \term{Stalk} rewarded upon \term{Deposit} across all \term{Deposits}:
 
 
@@ -538,7 +564,9 @@ The total \term{Mown Stalk} in the \term{Silo} during $t$ ($\widehat{\mathbf{K}_
                 \sum_{i=1}^{t}
                     L_{i}^{\lambda} \times k^{\lambda}
     $$
+\end{keepunit}
 
+\begin{keepunit}
 The number of \term{Grown Stalk} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning Pinto seigniorage for a given \term{Deposit} \term{Deposited} during $i$ and last \term{Mowed} during $\varkappa^{\lambda}$ ($g_{t,i,\varkappa^{\lambda}}^{\lambda}$), such that $g_{t,i,\varkappa^{\lambda}}^{\lambda} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
 
     $$
@@ -549,7 +577,9 @@ The number of \term{Grown Stalk} from $\lambda$ \term{Deposits} that can be \ter
                             {10000}
             \right)
     $$
+\end{keepunit}
 
+\begin{keepunit}
 A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$ ($G_{t}$), such that $G_{t} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
 
     $$
@@ -558,6 +588,7 @@ A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $
                 \sum_{\varkappa^{\lambda} + 1}^{t} 
                     g_{t,i,\varkappa^{\lambda}}^{\lambda}
     $$
+\end{keepunit}
 
 When a \term{Stalkholder} \term{Converts} multiple $\lambda$ \term{Deposits}, their \term{Mown Stalk} per PDV amounts are averaged together, weighted by their PDVs, and rounded up.
 
@@ -571,6 +602,7 @@ A \term{Stalkholder's} total \term{Seeds} is the sum of the \term{Seeds} for eac
 
 The number of \term{Seeds} per PDV during $t$ for a given $\lambda$ are determined by (1) the total \term{Seeds} that \term{Season} ($\mathbf{C}_{t}$), (2) the \term{Seed Gauge Points} of $\lambda$ ($\mathscr{S}_{t}^{\lambda}$), (3) $\mathbf{L}_{t}^{\lambda}$, and (4) the total \term{Seed Gauge Points} ($\mathscr{S}_{t}$), such that $\mathbf{C}_{t}, \mathscr{S}_{t}^{\lambda},\ \mathscr{S}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
 
+\begin{keepunit}
 We define $\mathbf{C}_{t}$ for a given initial ($\overline{\mathbf{C}}^{\circ}$) and minimum average \term{Seeds} per PDV ($\overline{\mathbf{C}}^{\text{min}}$), such that $\overline{\mathbf{C}}^{\circ},\ \overline{\mathbf{C}}^{\text{min}} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}$, total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\lambda}$), such that $\mathbf{L}_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, $\forall\ \lambda \in \Lambda$, $\widehat{\mathbf{K}_{t}}$ and $\mathscr{T}$ as: 
 
     $$ 
@@ -598,13 +630,15 @@ We define $\mathbf{C}_{t}$ for a given initial ($\overline{\mathbf{C}}^{\circ}$)
                 & \text{else}
         \end{cases}
     $$
+\end{keepunit}
 
 The \term{Seed Gauge Points} of $\lambda$ during $t$ are a function of $\mathscr{C}_{t}$, the \term{LP Seed Gauge Points} per PDV of $\lambda$ during $t$ ($\mathscr{V}_{t}^{\lambda}$), such that $\mathscr{V}_{t}^{\lambda} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}\ \forall\ \lambda$, and $\mathbf{L}_{t}^{\lambda}$.
 
-\newpage
+
 
 The \term{Crop Ratio} is a function of the \term{Crop Scalar} ($\mathscr{X}_{t}$), such that $\mathscr{X}_{t} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, the minimum \term{Crop Ratio} ($\mathscr{C}^{\text{min}}$), the maximum \term{Crop Ratio} ($\mathscr{C}^{\text{max}}$), the \term{Rain} \term{Crop Ratio} ($\mathscr{C}^{\text{rain}}$), such that $\mathscr{C}^{\text{min}},\ \mathscr{C}^{\text{max}},\ \mathscr{C}^{\text{rain}} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, the liquidity and time weighted average price of \Pinto1 over the previous \term{Season} ($P_{\overline{t-1}}$) compared to the protocol value target ($V$), such that $P_{\overline{t-1}},\ V \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the \term{Pod Rate} at the end of the previous \term{Season} ($R_{t-1}^{D}$), and the level below which debt is considered excessively low ($R^{D^{\text{lower}}}$), such that $R_{t-1}^{D},\ R^{D^{\text{lower}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
 
+\begin{keepunit}
 We define $\mathscr{C}_{t}$ for a given $\mathscr{C}^{\text{rain}}$, $V$, $P_{\overline{t-1}}$, $R_{t-1}^{D}$, $R^{D^{\text{lower}}}$, $\mathscr{C}^{\text{min}}$, $\mathscr{X}_{t}$ and $\mathscr{C}^{\text{max}}$ as:
 
     $$ 
@@ -617,7 +651,9 @@ We define $\mathscr{C}_{t}$ for a given $\mathscr{C}^{\text{rain}}$, $V$, $P_{\o
                 & \text{else}
         \end{cases} 
     $$
+\end{keepunit}
 
+\begin{keepunit}
 We define $\mathscr{V}_{t}^{\lambda}$ for a given \term{LP Seed Gauge Points} of $\lambda$ during $t$ ($\mathscr{L}_{t}^{\lambda}$), such that $\mathscr{L}_{t}^{\lambda} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, and $\mathbf{L}_{t}^{\lambda}$ as:
 
     $$
@@ -630,7 +666,9 @@ We define $\mathscr{V}_{t}^{\lambda}$ for a given \term{LP Seed Gauge Points} of
                 & \text{else}
         \end{cases} 
     $$
+\end{keepunit}
 
+\begin{keepunit}
 We define the \term{Seed Gauge Points} of $\lambda$ during $t$ as:
 
     $$ 
@@ -643,22 +681,28 @@ We define the \term{Seed Gauge Points} of $\lambda$ during $t$ as:
                 & \text{else}
         \end{cases} 
     $$
+\end{keepunit}
 
+\begin{keepunit}
 Therefore, we define $c_{t}^{\lambda}$ given $\mathbf{C}_{t}$, $\mathscr{S}_{t}^{\lambda}$, $\mathbf{L}_{t}^{\lambda}$ and $\mathscr{S}_{t}$ as: 
 
     $$
         c_{t}^{\lambda} = \frac{\mathbf{C}_{t} \times \mathscr{S}_{t}^{\lambda}}
                                 {\mathbf{L}_{t}^{\lambda} \times \mathscr{S}_{t}}
     $$
+\end{keepunit}
 
 The number of \term{Seeds} for a given $\lambda$ \term{Deposit} are determined by its PDV when \term{Deposited} and $c_{t}^{\lambda}$.
 
+\begin{keepunit}
 Therefore, the number of \term{Seeds} during $t$ for a given $\lambda$ \term{Deposit} \term{Deposited} during $i$ ($C_{t,i}^{\lambda}$), such that $C_{t,i}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, is:
 
     $$
         C_{t,i}^{\lambda} = c_{t}^{\lambda} \times L_{i}^{\lambda}
     $$
+\end{keepunit}
     
+\begin{keepunit}
 A \term{Stalkholder's} total \term{Seeds} during $t$ ($C_{t}$), such that $C_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
 
     $$
@@ -667,14 +711,20 @@ A \term{Stalkholder's} total \term{Seeds} during $t$ ($C_{t}$), such that $C_{t}
                 \sum_{i=1}^{t} 
                     C_{t,i}^{\lambda}
     $$
+\end{keepunit}
     
+\begin{keepunit}
+
 The number of \term{Plantable Seeds} associated with a \term{Stalkholder's} $\eta^{\pinto}$ that can be \term{Planted} during $t$ to start earning \term{Grown Stalk} ($\eta_{t}^{c}$), such that $\eta_{t}^{c} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
 
     $$
         \eta_{t}^{c} = c_{t}^{\pinto} \times \eta^{\pinto}
     $$
+\end{keepunit}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Field   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section{Field}
 \vspace{-0.4cm}
@@ -699,6 +749,7 @@ When the protocol is willing to borrow more Pinto to remove them from the Pinto 
 
 %%%%%%%%%%%%%%%%%%%%%%% Pods %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{keepunit}
 \vspace{-0.35cm}
 \subsection{Pods}
 \vspace{-0.35cm}
@@ -717,13 +768,16 @@ In the future, when the liquidity and time weighted average price of \Pinto1 is 
 
 %%%%%%%%%%%%%%% Field Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.085]{figures/Field.png}
     \vspace*{-5mm}
     \caption{Field}
     \label{Field}
 \end{figure}
+\end{keepunit}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -732,6 +786,7 @@ In the future, when the liquidity and time weighted average price of \Pinto1 is 
 
 We define the \term{Temperature} ($h$), such that $h \in \mathbb{Z}^{+}$, as the percentage of additional Pinto ultimately \term{Harvested} from 1 \term{Sown} \Pinto.
 
+\begin{keepunit}
 The number of \term{Pods} ($d$) that \term{Yield} from a given number of \term{Sown} \Pinto\ ($u$), such that $d,\ u \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, \term{Sown} with a given $h$ is:
 
     $$
@@ -739,6 +794,7 @@ The number of \term{Pods} ($d$) that \term{Yield} from a given number of \term{S
                                 {100}
                     \right)
     $$
+\end{keepunit}
 
 The protocol changes the \term{Maximum Temperature} it is willing to offer each Season ($H_{t}$), such that $H_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, at the beginning of each \term{Season} according to the target maintenance mechanism. During the \term{Morning} of each \term{Season}, a Dutch auction determines the \term{Temperature}.
 
@@ -765,6 +821,7 @@ In practice, maintaining ideal equilibrium is impossible. Deviations from ideal 
 %%%%%%%%%%%%%%%%%%%%%%% Price Level %%%%%%%%%%%%%%%%%%%%%%%
 
 \vspace*{2mm}
+
 \subsection{Price Level}
 \vspace*{2mm}
 
@@ -776,11 +833,12 @@ If $0 < \Delta B_{\overline{t-1}}$, the protocol calculates $P_{\overline{t-1}}$
 
 $\Delta B_{\overline{t-1}} = 0$ for each \term{Season} that contains a \term{Pause} and \term{Unpause} (see Appendix).
 
+\begin{keepunit}
 The protocol requires two $P$ levels to be set: (1) $P^{*}$, the optimal price (\textit{i.e.}, $P^{*} = V$), and (2) $P^{\text{upper}}$, above which the price is considered excessively high, such that $P^{*},\ P^{\text{upper}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} \leq P^{\text{upper}}$ and $P_{\overline{t-1}} \neq P^{*}$ (\textit{i.e.}, not optimal), $P_{\overline{t-1}}$ is considered reasonable.
 
 %%%%%%%%% Price Level Figure %%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \include{./figures/Price-Level}
     \vspace*{-7mm}
@@ -788,34 +846,42 @@ The protocol requires two $P$ levels to be set: (1) $P^{*}$, the optimal price (
     \caption{Price Level}
     \label{Price Level}
 \end{figure}
+\end{keepunit}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Debt Level %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Debt Level}
+
+\subsection{Debt Level}\label{sec:debt-level}
 
 The \term{Pod Rate} ($R^{D}$), such that $R^{D} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, represents the protocol debt level relative to the Pinto supply.
 
 The protocol does not consider \term{Burnt} \Pinto, \term{Sown} \Pinto\  nor \term{Unharvestable Pods}, but does consider \term{Harvestable Pods}, as part of the total Pinto supply.
 
+\begin{keepunit}
 We define the total Pinto supply ($B$) for a given total Pinto minted over all \term{Seasons} ($M$), such that $B,\ M \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, total \term{Sown} \Pinto\ over all \term{Seasons} ($U$), and total \term{Burnt} \Pinto\ over all \term{Seasons} ($N$), such that $U,\ N \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
 
     $$
         B = M - (U + N)
     $$
+\end{keepunit}
 
+\begin{keepunit}
 We define $R^{D}$ for a given the total number of \term{Unharvestable Pods} ($D$), such that $D \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and $B$ as:
 
     $$
         R^{D} = \frac{D}{B}
     $$
+\end{keepunit}
 
-\newpage
 
-The protocol requires three $R^{D}$ levels to be set: (1) $R^{D^{\text{lower}}}$, (2) $R^{D^{*}}$, an optimal level of debt, and (3) $R^{D^{\text{upper}}}$, above or equal to which debt is considered excessively high, such that $R^{D^{*}},\ R^{D^{\text{upper}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $R^{D^{\text{lower}}} \leq R^{D} < R^{D^{\text{upper}}}$ and $R^{D} \neq R^{D^{*}}$ (\textit{i.e.}, not optimal), $R^{D}$ is considered reasonable.
+
+\begin{keepunit}
+The protocol requires four $R^{D}$ levels to be set: (1) $R^{D^{\text{lower}}}$, (2) $R^{D^{*}}$, an optimal level of debt, (3) $R^{D^{\text{upper}}}$, above or equal to which debt is considered excessively high, and (4) $R^{D^{\text{extreme upper}}}$, above which debt is instead considered extremely high, such that $R^{D^{*}},\ R^{D^{\text{upper}}},\ R^{D^{\text{extreme upper}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $R^{D^{\text{lower}}} \leq R^{D} < R^{D^{\text{upper}}}$ and $R^{D} \neq R^{D^{*}}$ (\textit{i.e.}, not optimal), $R^{D}$ is considered reasonable.
 
 %%%%%%%%%%%%%%% Debt Level Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \include{./figures/Debt-Level}
     \vspace*{-7mm}
@@ -823,8 +889,11 @@ The protocol requires three $R^{D}$ levels to be set: (1) $R^{D^{\text{lower}}}$
     \caption{Debt Level}
     \label{Debt Level}
 \end{figure}
+\end{keepunit}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Liquidity Level %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Liquidity Level}
 
@@ -832,7 +901,8 @@ The \term{Liquidity Rate} ($R^{W}$), such that $R^{W} \in \{j \times 10^{-6} \mi
 
 The total non-Pinto USD-denominated value of liquidity in the \term{Silo} ($W$), such that $W \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is a function of $f^{\mathscr{W}^{\lambda}}$, the function to calculate the time weighted average non-Pinto USD-denominated value in a given number of \term{Deposited} $\lambda$ ($f^{\$}(z^{\lambda})$), such that $f^{\$}\colon \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, and $\mathbf{L}_{t}^{\lambda}$.
 
-We define $f^{\$}(z^{\lambda})$ for a given inter-block MEV manipulation resistant TWA non-Pinto reserves in the Multi Flow \term{Pump}\fref{Any italicized terms not defined herein are defined by Pinto Exchange.} of $\lambda$ from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\nonpinto} \mid j \in \mathbb{Z}^{+} \}$, $f^{\$^{\lambda}}$, and the inter-block MEV manipulation resistant TWA number of $\lambda$ LP tokens from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \}$ as:
+\begin{keepunit}
+We define $f^{\$}(z^{\lambda})$ for a given inter-block MEV manipulation resistant TWA non-Pinto reserves in the Multi Flow \term{Pump}\footnotemark of $\lambda$ from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\nonpinto} \mid j \in \mathbb{Z}^{+} \}$, $f^{\$^{\lambda}}$, and the inter-block MEV manipulation resistant TWA number of $\lambda$ LP tokens from the beginning of the previous \term{Season} to the current transaction ($\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}$), such that $\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}} \in \{j \times 10^{-\lambda} \mid j \in \mathbb{Z}^{+} \}$ as:
 
     $$
         f^{\$}(z^{\lambda}) = \frac{z^{\lambda} \times 
@@ -840,7 +910,10 @@ We define $f^{\$}(z^{\lambda})$ for a given inter-block MEV manipulation resista
                                     f^{\$^{\lambda}}(3600)}
                                 {\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}}
     $$
+\end{keepunit}
+\footnotetext{\href{http://Any italicized terms not defined herein are defined by Pinto Exchange.}{Any italicized terms not defined herein are defined by Pinto Exchange.}}
 
+\begin{keepunit}
 Therefore, we define $W$ for a given $f^{\mathscr{W}^{\lambda}}$, $f^{\$}(z^{\lambda})$ and $\mathbf{L}_{t}^{\lambda}$ as:
 
     $$
@@ -848,43 +921,53 @@ Therefore, we define $W$ for a given $f^{\mathscr{W}^{\lambda}}$, $f^{\$}(z^{\la
                     f^{\mathscr{W}^{\lambda}} \times 
                         f^{\$}(\mathbf{L}_{t}^{\lambda})
     $$
+\end{keepunit}
 
+\begin{keepunit}
 Therefore, we define $R^{W}$ for a given $W$ and $B$ as:
 
     $$
         R^{W} = \frac{W}{B}
     $$
+\end{keepunit}
 
-\newpage 
+ 
 
+\begin{keepunit}
 The protocol requires three $R^{W}$ levels to be set: (1) $R^{W^{\text{lower}}}$, below which liquidity is considered excessively low, (2) $R^{W^{*}}$, an optimal level of liquidity, and (3) $R^{W^{\text{upper}}}$, above or equal to which liquidity is considered excessively high, such that $R^{W^{\text{lower}}},\ R^{W^{*}},\ R^{W^{\text{upper}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $R^{W^{\text{lower}}} \leq R^{W} < R^{W^{\text{upper}}}$ and $R^{W} \neq R^{W^{*}}$ (\textit{i.e.}, not optimal), $R^{W}$ is considered reasonable.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \include{./figures/Liquidity-Level}
     \vspace*{-7mm}
-    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
+    \setlength{\belowcaptionskip}{0pt}
     \caption{Liquidity Level}
     \label{Liquidity Level}
 \end{figure}
+\end{keepunit}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Position %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{keepunit}
 \subsection{Position}
 
 The position of the protocol with respect to ideal equilibrium can be represented on a graph with axes $R^{D}$, $R^{W}$ and $P$, and ideal equilibrium at the origin ($R^{D^{*}}$, $R^{W^{*}}$, $P^{*}$). The current state of the protocol is determined in part by the position of the protocol with respect to ideal equilibrium. 
 
 %%%%%%%%%%%%%%% Position Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.14]{./figures/Position} % change scale to change size
+    \resizebox{0.95\textwidth}{!}{\input{./figures/Position}}
     \caption{Position}
     \label{Position}
 \end{figure}
+\end{keepunit}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Direction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{keepunit}
 \subsection{Direction}
 \vspace{0.1cm}
 
@@ -918,7 +1001,7 @@ When $R_{t-1}^{D} \leq R^{D^{*}}$ (\textit{i.e.}, there was less than optimal or
 
 %%%%%%%%%%%%%%% Direction Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \advance\leftskip-1cm
     \includetable{Direction}
@@ -926,12 +1009,14 @@ When $R_{t-1}^{D} \leq R^{D^{*}}$ (\textit{i.e.}, there was less than optimal or
     \caption{Direction}
     \label{Direction}
 \end{figure}
+\end{keepunit}
 
 \vspace{0.1cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Acceleration %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \vspace{0.1cm}
+\begin{keepunit}
 \subsection{Acceleration}
 \vspace{0.1cm}
 
@@ -956,7 +1041,7 @@ When demand for \term{Soil} is decreasing:
 
 When demand for \term{Soil} is steady, the protocol is steady.
 
-\newpage 
+ 
 
 When demand for \term{Soil} is increasing:
 
@@ -967,7 +1052,7 @@ When demand for \term{Soil} is increasing:
 
 %%%%%%%%%%%%%%% Acceleration Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \advance\leftskip-1.12cm
     \includetable{Acceleration}
@@ -976,73 +1061,103 @@ When demand for \term{Soil} is increasing:
     \caption{Acceleration}
     \label{Acceleration}
 \end{figure}
+\end{keepunit}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Demand for Soil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\vspace*{-3.5mm}
-\subsection{Demand for Soil}
-\vspace*{-3mm}
+\subsection{Demand for Soil}\label{sec:demand-for-soil}
 
 In order to properly classify its acceleration, the protocol must accurately measure changing demand for \term{Soil}.
 
-The number of \term{Sown} \Pinto\ each \term{Season} ($u_{t}$), such that $u_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, indicates demand for \term{Soil} over the course of that \term{Season}. The rate of change of $u_{t}$ from \term{Season} to \term{Season} ($\frac{\partial u_{t}}{\partial t}$), such that $\frac{\partial u_{t}}{\partial t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, indicates changing demand for \term{Soil}.
+The number of \term{Sown} \Pinto\ each \term{Season} ($u_{t}$), such that $u_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, indicates demand for \term{Soil} over the course of that \term{Season}. The rate of change of $u_{t}$ from \term{Season} to \term{Season} ($\frac{\partial u_{t}}{\partial t}$), such that $\frac{\partial u_{t}}{\partial t} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, indicates changing demand for \term{Soil}.
 
-We define $\frac{\partial u_{t}}{\partial t}$ over the previous two \term{Seasons}, $u_{t-1}$ and $u_{t-2}$, respectively, as:
+The protocol requires a minimum number of \term{Sown} \Pinto\ ($u^{\text{min}}$), such that $u^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, below which demand for \term{Soil} is considered decreasing. When $u_{t-1} \geq u^{\text{min}}$, the protocol measures changing demand for \term{Soil} as follows.
+
+When $u_{t-1} \geq u^{\text{min}}$ and $u_{t-2}=0$, demand for \term{Soil} is considered increasing.
+
+\begin{keepunit}
+We define $\frac{\partial u_{t}}{\partial t}$ over the previous two \term{Seasons}, $u_{t-1}$ and $u_{t-2}$, respectively, for $u_{t-2}>0$, as:
 
     $$
         \frac{\partial u_{t}}{\partial t} = \frac{u_{t-1}}{u_{t-2}}
     $$
+\end{keepunit}
 
+\par\penalty0
+\begingroup
+\edef\soildemandderivativeparskip{\the\parskip}
+\noindent\begin{minipage}[t]{\linewidth}
+\setlength{\parskip}{\soildemandderivativeparskip}
+\makeatletter\@minipagefalse\makeatother
 The protocol requires two $\frac{\partial u_{t}}{\partial t}$ levels to be set: (1) $\frac{\partial u_{t}}{\partial t}^{\text{lower}}$, below which demand for \term{Soil} is considered decreasing, and (2) $\frac{\partial u_{t}}{\partial t}^{\text{upper}}$, above or equal to which demand for \term{Soil} is considered increasing, such that $\frac{\partial u_{t}}{\partial t}^{\text{lower}},\ \frac{\partial u_{t}}{\partial t}^{\text{upper}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$. When $\frac{\partial u_{t}}{\partial t}^{\text{lower}} \leq \frac{\partial u_{t}}{\partial t} < \frac{\partial u_{t}}{\partial t}^{\text{upper}}$, demand for \term{Soil} is considered steady.
 
 %%%%%%%%%%%%%%% Soil Demand Changes From Derivative Figure %%%%%%%%%%%%%%%
 
-\vspace*{-3.5mm}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \include{./figures/Soil-Demand-Changes-From-Derivative}
-    \vspace*{-10.5mm}
+    \vspace*{-7mm}
     \caption{Soil Demand Changes From $\frac{\partial u_{t}}{\partial t}$}
     \label{Soil Demand Changes From Derivative}
 \end{figure}
+\end{minipage}\par
+\endgroup
 
-However, when Pinto are \term{Sown} in all \term{Soil} in a \term{Season} (defined as $S_{t}^{\text{end}} \leq S^{\text{all}}$), $\frac{\partial u_{t}}{\partial t}$ can inaccurately measure changing demand for \term{Soil}. The first time Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, after one or more \term{Seasons} where Pinto were not \term{Sown} in all \term{Soil}, demand for \term{Soil} is considered increasing. When Pinto are \term{Sown} in all \term{Soil} in consecutive \term{Seasons} (\textit{i.e.}, $t-1$ and $t-2$), the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} ($\Delta E_{t}^{u}$), such that $\Delta E_{t}^{u} \in \mathbb{Z}$, can provide a more accurate measurement. 
+However, when Pinto are \term{Sown} in all \term{Soil} in a \term{Season} (defined as $S_{t}^{\text{end}} \leq S^{\text{all}}$), $\frac{\partial u_{t}}{\partial t}$ can inaccurately measure changing demand for \term{Soil}. The first time Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, after one or more \term{Seasons} where Pinto were not \term{Sown} in all \term{Soil}, demand for \term{Soil} is considered increasing. When Pinto are \term{Sown} in all \term{Soil} in consecutive \term{Seasons} (\textit{i.e.}, $t-1$ and $t-2$), the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} ($\Delta E_{t}^{u}$), such that $\Delta E_{t}^{u} \in \mathbb{Z}$, can provide a more accurate measurement.
 
-In order to measure $\Delta E_{t}^{u}$, the protocol logs the time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season} ($\Delta E_{t}^{u^{\text{first}}}$), such that $\Delta E_{t}^{u^{\text{first}}} \in \mathbb{N}$, as the difference between the Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil} ($E_{t}^{u^{\text{first}}}$) and $E_{\Xi}$. 
+In order to measure $\Delta E_{t}^{u}$, the protocol logs the time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season} ($\Delta E_{t}^{u^{\text{first}}}$), such that $\Delta E_{t}^{u^{\text{first}}} \in \mathbb{N}$, as the difference between the Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil} ($E_{t}^{u^{\text{first}}}$) and the Base timestamp of the successful \code{gm} transaction that began $t$ ($E_{t}^{\text{start}}$), such that $E_{t}^{\text{start}} \in \mathbb{Z}^{+}$.
 
-We define $\Delta E_{t}^{u^{\text{first}}}$ for a given $E_{t}^{u^{\text{first}}}$ and $E_{\Xi}$ as:
+\begin{keepunit}
+We define $\Delta E_{t}^{u^{\text{first}}}$ for a given $E_{t}^{u^{\text{first}}}$ and $E_{t}^{\text{start}}$ as:
 
     $$
-        \Delta E_{t}^{u^{\text{first}}} = 
-            E_{t}^{u^{\text{first}}} - E_{\Xi}
+        \Delta E_{t}^{u^{\text{first}}} =
+            E_{t}^{u^{\text{first}}} - E_{t}^{\text{start}}
     $$
+\end{keepunit}
 
 If Pinto were \term{Sown} in all \term{Soil} in the first 20 minutes of the previous \term{Season} (\textit{i.e.}, $\Delta E_{t-1}^{u^{\text{first}}} < \Delta E_{t-1}^{u^{\text{first}^{\text{max}}}}$), demand for \term{Soil} is considered increasing. If Pinto were \term{Sown} in all \term{Soil} in both $t-1$ and $t-2$, but $\Delta E_{t-1}^{u^{\text{first}^{\text{max}}}} \leq \Delta E_{t-1}^{u^{\text{first}}}$, at the beginning of $t$ the protocol compares $\Delta E_{t-1}^{u^{\text{first}}}$ with $\Delta E_{t-2}^{u^{\text{first}}}$ to calculate $\Delta E_{t}^{u}$.
 
+\begin{keepunit}
 We define $\Delta E_{t}^{u}$ for a given $\Delta E_{t-1}^{u^{\text{first}}}$ and $\Delta E_{t-2}^{u^{\text{first}}}$ as:
 
     $$
-        \Delta E_{t}^{u} = 
+        \Delta E_{t}^{u} =
             \Delta E_{t-2}^{u^{\text{first}}} - \Delta E_{t-1}^{u^{\text{first}}}
     $$
+\end{keepunit}
 
-If the above condition is met, changing demand for \term{Soil} is measured by $\Delta E_{t}^{u}$. the protocol requires two $\Delta E_{t}^{u}$ levels to be set: (1) $\Delta E_{t}^{u^{\text{lower}}}$, below which demand for \term{Soil} is considered decreasing, and (2) $\Delta E_{t}^{u^{\text{upper}}}$, above or equal to which demand for \term{Soil} is considered increasing, such that $\Delta E_{t}^{u^{\text{lower}}},\ \Delta E_{t}^{u^{\text{upper}}} \in \mathbb{Z}$. When $\Delta E_{t}^{u^{\text{lower}}} \leq \Delta E_{t}^{u} < \Delta E_{t}^{u^{\text{upper}}}$, demand for \term{Soil} is considered steady.
+\par\penalty0
+\begingroup
+\edef\soildemandtimeparskip{\the\parskip}
+\noindent\begin{minipage}[t]{\linewidth}
+\setlength{\parskip}{\soildemandtimeparskip}
+\makeatletter\@minipagefalse\makeatother
+If the above condition is met, changing demand for \term{Soil} is measured by both $\Delta E_{t}^{u}$ and $\frac{\partial u_{t}}{\partial t}$. The protocol requires two $\Delta E_{t}^{u}$ levels to be set: (1) $\Delta E_{t}^{u^{\text{lower}}}$, below which demand for \term{Soil} is measured by $\frac{\partial u_{t}}{\partial t}$, and (2) $\Delta E_{t}^{u^{\text{upper}}}$, above which demand for \term{Soil} is considered increasing, such that $\Delta E_{t}^{u^{\text{lower}}},\ \Delta E_{t}^{u^{\text{upper}}} \in \mathbb{Z}$. When $\Delta E_{t}^{u^{\text{lower}}} \leq \Delta E_{t}^{u} \leq \Delta E_{t}^{u^{\text{upper}}}$, demand for \term{Soil} is considered steady unless $\frac{\partial u_{t}}{\partial t}^{\text{upper}} \leq \frac{\partial u_{t}}{\partial t}$, in which case demand for \term{Soil} is considered increasing.
 
 Thus, the protocol measures changing demand for \term{Soil}.
 
 %%%%%%%%%%%%%%% Soil Demand Changes From Time Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \include{./figures/Soil-Demand-Changes-From-Time}
-    \vspace*{-10.5mm} % reduce space before caption
-    \setlength{\belowcaptionskip}{-8pt} % reduce space after caption
-    \caption{Soil Demand Changes From $\Delta E_{t}^{u}$}
+    \includetable{Soil-Demand-Changes-From-Time}
+    \vspace*{2mm}
+    \caption{Soil Demand Changes From $\Delta E_{t}^{u}$ and $\frac{\partial u_{t}}{\partial t}$}
     \label{Soil Demand Changes From Time}
 \end{figure}
+\end{minipage}\par
+\endgroup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Current State %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Keep the heading, explanation, list and figure in one page-sized unit.
+\par\penalty0
+\begingroup
+\edef\currentstateparskip{\the\parskip}
+\noindent\begin{minipage}[t]{\linewidth}
+\setlength{\parskip}{\currentstateparskip}
+\makeatletter\@minipagefalse\makeatother
 \subsection{Current State}
 
 We define the current state of the protocol with respect to ideal equilibrium as the combination of its direction and acceleration with respect to ideal equilibrium. With two potential directions and three potential accelerations, the protocol has six potential current states:
@@ -1060,7 +1175,7 @@ We define the current state of the protocol with respect to ideal equilibrium as
 
 %%%%%%%%%%%%%%% Current State Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \advance\leftskip-1cm
     \includetable{Current-State}
@@ -1069,20 +1184,24 @@ We define the current state of the protocol with respect to ideal equilibrium as
     \caption{Current State}
     \label{Current State}
 \end{figure}
+\end{minipage}\par
+\endgroup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Optimal State %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+\begin{minipage}{\textwidth}
+\setlength{\parskip}{1em}
+\makeatletter\@minipagefalse\makeatother
 
 \subsection{Optimal State}
 
 An optimal state of the protocol is an optimal current state and determined by $R_{t-1}^{D}$.
 
-We define an optimal state of the protocol as accelerating toward ideal equilibrium, or either steady or decelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is excessively high or low, the optimal state is accelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is reasonably high or low, the optimal state is either steady or decelerating toward ideal equilibrium.
+We define an optimal state of the protocol as accelerating toward ideal equilibrium, or either steady or decelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is excessively high or low, or extremely high, the optimal state is accelerating toward ideal equilibrium. When $R_{t-1}^{D}$ is reasonably high or low, the optimal state is either steady or decelerating toward ideal equilibrium.
 
 %%%%%%%%%%%%%%% Optimal State Figure %%%%%%%%%%%%%%%
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \advance\leftskip-1cm
     \includetable{Optimal-State}
@@ -1092,11 +1211,16 @@ We define an optimal state of the protocol as accelerating toward ideal equilibr
     \label{Optimal State}
 \end{figure}
 
+\end{minipage}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pinto Supply %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{samepage}
 \subsection{Pinto Supply}
 
 At the beginning of each \term{Season}, if $V < P_{\overline{t-1}}$, the protocol increases the Pinto supply based on $\Delta B_{\overline{t-1}}$ in addition to the reward for successfully calling the \code{gm} function. Up to 48.5\% of the additional Pinto supply increase is used to pay off \term{Pods}, up to 3\% of the additional Pinto supply increase is distributed to the Pinto development budget\fref{basescan.org/address/0xb0cdb715D8122bd976a30996866Ebe5e51bb18b0} or to repay Beanstalk debt\fref{pinto.money/repay-beanstalk-debt}, and the remainder is distributed to \term{Stalkholders}. If the Pinto supply is less than 1 billion, 3\% is distributed to the Pinto development budget. If the Pinto supply is greater than 1 billion, up to 3\% is distributed to repay Beanstalk debt.
+
+\end{samepage}
 
 At the beginning of each \term{Season}, the protocol mints $m_{t}$ Pinto, such that $m_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
 
@@ -1109,10 +1233,9 @@ We define $m_{t}$ for a given $\Delta B_{\overline{t-1}}$ and $a_{t}$ as:
 
 The distribution of the additional mint is dependent on $\Delta B_{\overline{t-1}}$, $D$ and $B$. If $0 < \frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000} < D$ (\textit{i.e.}, there are at least $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ \term{Unharvestable Pods}), $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ \term{Pods} \term{Ripen} and become \term{Harvestable}, up to $\frac{\Delta B_{\overline{t-1}}\ \times\ 30}{1000}$ newly minted Pinto are distributed to the Pinto development budget or to repay Beanstalk debt, and the remaining newly minted Pinto are distributed to \term{Stalkholders}. If $0 < D < \frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$ (\textit{i.e.}, there are less \term{Unharvestable Pods} than $\frac{\Delta B_{\overline{t-1}}\ \times\ 485}{1000}$), $D$ \term{Pods} \term{Ripen} and become \term{Harvestable}, up to $\frac{\Delta B_{\overline{t-1}}\ \times\ 30}{1000}$ newly minted Pinto are distributed to the Pinto development budget or to repay Beanstalk debt, and the remaining newly minted Pinto are distributed to \term{Stalkholders}.
 
-\newpage
-
 In a \term{Flood} (defined below), the number of \term{Pods} that \term{Ripen} and become \term{Harvestable} at the beginning of each \term{Season} ($\Delta D_{t}$), such that $\Delta D_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is based on the maximum percent of the Pinto supply worth of \term{Pods} that become \term{Harvestable} during a \term{Flood} ($D^{F}$), such that $D^{F} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
 
+\begin{minipage}{\textwidth}
 Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$, $D^{F}$ and $D$ as:
 
     $$
@@ -1133,6 +1256,8 @@ Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$
                     & \text{else }   
             \end{cases}
     $$
+
+\end{minipage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Soil Supply %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1204,26 +1329,30 @@ The protocol attempts to regularly cross the price of \Pinto1 over its value tar
 %%%%%%%%%%%%%%%%%%% Maximum Temperature %%%%%%%%%%%%%%%%%%%
 
 \vspace*{1.4mm}
-\subsubsection{Maximum Temperature}
+\subsubsection{Maximum Temperature}\label{sec:maximum-temperature}
 \vspace*{1.4mm}
 
-The \term{Maximum Temperature} change at the beginning of $t$ is determined by $R_{t-1}^{D}$, $R_{t-1}^{W}$, $P_{\overline{t-1}}$ and changing demand for \term{Soil}.
+The \term{Maximum Temperature} change at the beginning of $t$ is determined by $R_{t-1}^{D}$, $R_{t-1}^{W}$, $P_{\overline{t-1}}$, $\Delta B_{\overline{t-1}}$ and changing demand for \term{Soil}.
 
 \vspace*{1.4mm}
 
-The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$), such that $H^{m} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and absolute manner ($H^{b}$), such that $H^{b} \in \mathbb{Z}$, at the beginning of $t$ as:
+\begin{samepage}
+The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$), such that $H^{m} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and absolute manner ($H^{b}$), such that $H^{b} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, at the beginning of $t$ as:
 
 \vspace*{1.4mm}
 
     $$
-        H_{t} = \text{max}(
-                    H^{m} \times H_{t-1} + H^{b}, 
-                    1)
+        H_t =
+        \begin{cases}
+            1 & \text{if } H^{b}<0 \mkern6mu \&\& \mkern6mu H^{m} \times H_{t-1}\leq-H^{b};\\
+            H^{m} \times H_{t-1}+H^{b} & \text{else.}
+        \end{cases}
     $$
+\end{samepage}
 
 \vspace*{1.4mm}
 
-$H^{m}$ and $H^{b}$ are shown in Figures 13, 14, 15 and 16 as ($H^{m}$, $H^{b}$).
+$H^{m}$ and $H^{b}$ are shown in Figures \ref{Max Temp Changes Excessively Low Liquidity}, \ref{Max Temp Changes Reasonably Low Liquidity}, \ref{Max Temp Changes Reasonably High Liquidity} and \ref{Max Temp Changes Excessively High Liquidity} as ($H^{m}$, $H^{b}$).
 
 \vspace*{1.4mm}
 
@@ -1303,6 +1432,7 @@ The protocol attempts to regularly cross the price of \Pinto1 over its value tar
 
 \vspace{-0.025cm}
 
+\begin{keepunit}
 The protocol changes the \term{Crop Scalar} in both a relative ($\mathscr{X}^{m}$), such that $\mathscr{X}^{m} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, and absolute manner ($\mathscr{X}^{b}$), such that $\mathscr{X}^{b} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, at the beginning of $t$ as:
 
 \vspace{-0.025cm}
@@ -1317,7 +1447,8 @@ $$
 
 \vspace{-0.025cm}
 
-$\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures 17, 18, 19 and 20 as ($\mathscr{X}^{m}$, $\mathscr{X}^{b}$).
+$\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures \ref{Crop Scalar Changes Excessively Low Liquidity}, \ref{Crop Scalar Changes Reasonably Low Liquidity}, \ref{Crop Scalar Changes Reasonably High Liquidity} and \ref{Crop Scalar Changes Excessively High Liquidity} as ($\mathscr{X}^{m}$, $\mathscr{X}^{b}$).
+\end{keepunit}
 
 %%%%%%%%%%%%%%%%%%% Crop Scalar Change Figures %%%%%%%%%%%%%%%%%%%
 

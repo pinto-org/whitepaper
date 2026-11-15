@@ -1,29 +1,44 @@
-\documentclass{standalone}
-\usepackage{tikz,pgf}
+\begingroup
+% Keep gray cell panels clear of thin horizontal rules at page scale.
+\let\demandhhline\hhline
+\renewcommand{\hhline}[1]{\demandhhline{#1}\noalign{\vskip0.4pt}}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{T}{ >{\centering\arraybackslash} m{4.8cm} }
+\newcolumntype{U}{ >{\columncolor{white}[3.6pt][3.6pt]\centering\arraybackslash} m{2.5cm} }
+\newcolumntype{J}{ >{\columncolor{white}[3.6pt][3.6pt]\centering\arraybackslash} m{4.25cm} }
 
-\begin{document}
+\scalebox{0.95}{%
+\begin{tabular}{ c T|U|J|U| }
 
-\begin{tikzpicture}[scale=7]
+\multicolumn{2}{c}{} &
+\multicolumn{3}{c}{\bm{$\frac{\partial u_t}{\partial t}$}}\\
+\hhline{~~---}\rowh
 
-\node [draw=none] at (1,0.04) {Increasing};
-\node [draw=none] at (1,-0.04) {Demand};
+&\multicolumn{1}{T|}{\textbf{\underline{Demand for Soil}}} &
+\bm{$\frac{\partial u_t}{\partial t}<\frac{\partial u_t}{\partial t}^{\text{lower}}$} &
+\mbox{\bm{$\frac{\partial u_t}{\partial t}^{\text{lower}}\leq\frac{\partial u_t}{\partial t}<\frac{\partial u_t}{\partial t}^{\text{upper}}$}} &
+\bm{$\frac{\partial u_t}{\partial t}\geq\frac{\partial u_t}{\partial t}^{\text{upper}}$}\\
+\hhline{~----}\rowm
 
-\node [draw=none] at (0.5,0.04) {Steady};
-\node [draw=none] at (0.5,-0.04) {Demand};
+\parbox[t]{3.5mm}{\multirow{6.5}{*}{\rotatebox[origin=c]{90}{\bm{$\Delta E_t^u$}}}}
 
-\node [draw=none] at (0,0.04) {Decreasing};
-\node [draw=none] at (0,-0.04) {Demand};
+&\multicolumn{1}{|T|}{\bm{$\Delta E_t^u>\Delta E_t^{u^{\text{upper}}}$}} &
+\cellcolor{lightgray!30}Increasing &
+\cellcolor{lightgray!30}Increasing &
+\cellcolor{lightgray!30}Increasing\\
+\hhline{~----}\rowm
 
-\node [draw=none] at (0.25,0.1) {$\Delta E_{t}^{u^{\text{lower}}}$};
-\node [draw=none] at (0.75,0.1) {$\Delta E_{t}^{u^{\text{upper}}}$};
+&\multicolumn{1}{|T|}{\mbox{\bm{$\Delta E_t^{u^{\text{lower}}}\leq\Delta E_t^u\leq\Delta E_t^{u^{\text{upper}}}$}}} &
+\cellcolor{lightgray!30}Steady &
+\cellcolor{lightgray!30}Steady &
+\cellcolor{lightgray!30}Increasing\\
+\hhline{~----}\rowm
 
-\foreach \Point in {0.25, 0.75}{
-    \node[label={[label distance=1mm]:\rotatebox{0}{}}] at (\Point,0) {\textbullet};
-}
-\draw[thick,<->,color=black] (-0.25,0) -- (1.25,0); % Draw line
-\node [draw=none] at (-0.35,0) {\bm{$\Delta E_{t}^{u}$}}; % Chart label
-\node [draw=none] at (1.35,0)  {\color{white} $\Delta E_{t}^{u}$}; % Added to center chart
+&\multicolumn{1}{|T|}{\bm{$\Delta E_t^u<\Delta E_t^{u^{\text{lower}}}$}} &
+\cellcolor{lightgray!30}Decreasing &
+\cellcolor{lightgray!30}Steady &
+\cellcolor{lightgray!30}Increasing\\
+\cline{2-5}
 
-\end{tikzpicture}
-
-\end{document}
+\end{tabular}}
+\endgroup

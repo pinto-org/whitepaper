@@ -1,5 +1,5 @@
 \documentclass{standalone}
-\usepackage{tikz,pgf}
+\usepackage{tikz,pgf,amssymb,bm}
 
 \begin{document}
 
@@ -21,8 +21,8 @@
     \node[label={[label distance=1mm]:\rotatebox{0}{}}] at (\Point,0) {\textbullet};
 }
 \draw[thick,<->,color=black] (-0.25,0) -- (1.25,0); % Draw line
-\node [draw=none] at (-0.35,0) {\bm{$\frac{\partial u_t}{\partial t}$}}; % Chart label
-\node [draw=none] at (1.35,0)  {\color{white} $\frac{\partial u_t}{\partial t}$}; % Added to center chart
+\node [draw=none] at (-0.35,0) {\bm{$\frac{\partial u_{t}}{\partial t}$}}; % Chart label
+\node [draw=none] at (1.35,0)  {\color{white} $\frac{\partial u_{t}}{\partial t}$}; % Added to center chart
 
 \end{tikzpicture}
 
