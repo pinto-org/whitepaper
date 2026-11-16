@@ -35,7 +35,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Conversion Whitelist} - The whitelist that permissions \term{Conversions} within the \term{Silo};
     \item[] \term{Crop Ratio} - Determines the ratio between (1) the \term{Seeds} per \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ and (2) the \term{Seeds} per PDV of the $\lambda$ with the highest \term{LP Seed Gauge Points} per PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
     \item[] \term{Crop Scalar} - The value adjusted by the target maintenance mechanism in order to change the \term{Crop Ratio};
-    \item[] \term{Cultivation Factor} - The value adjusted by a \term{Gauge Implementation} that causes the \term{Soil} issued to increase as \Pinto\ is \term{Sown} into all \term{Soil}, and decrease otherwise. 
+    \item[] \term{Cultivation Factor} - The value that causes the \term{Soil} issued to increase, remain unchanged or decrease based on \term{Soil} sales, changing demand for \term{Soil} and the \term{Cultivation Temperature};
+    \item[] \term{Cultivation Temperature} - The \term{Maximum Temperature} in the last \term{Season} in which \Pinto\ were \term{Sown} in all or most \term{Soil} and demand for \term{Soil} was steady or increasing;
     \item[] DeFi - Decentralized finance;
     \item[] \term{Deposit} - An asset in the \term{Silo};
     \item[] \term{Deposit Whitelist} - The whitelist that permissions \term{Deposits} into the \term{Silo};
@@ -163,7 +164,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $E_t^{\text{start}}$ - The Base timestamp of the successful \code{gm} transaction that began $t$;
     \item[] $E_{\Xi}$ - The timestamp of the current block;
     \item[] $E_\Psi$ - The timestamp in which the protocol last \term{Unpaused};
-    \item[] $E_{t}^{u^{\text{first}}}$ - The Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil};
+    \item[] $E_{t}^{u^{\text{first}}}$ - The Base timestamp of the first \term{Sow} in $t$ such that \Pinto\ are considered \term{Sown} in all \term{Soil};
     \item[] $\Delta E_{t}^{u}$ - The difference in time it took for the \Pinto\ to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons};
     \item[] $\Delta E_{t}^{u^{\text{first}}}$ - The elapsed time until the first \term{Sow} such that \Pinto\ are \term{Sown} in all \term{Soil} in \term{Season} $t$;
     \item[] $\Delta E_{t}^{u^{\text{lower}}}$ - The level below which changing demand for \term{Soil} is measured by $\frac{\partial u_{t}}{\partial t}$ when the difference in time it took for the \Pinto\ to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} is used to calculate demand for \term{Soil};
@@ -173,8 +174,10 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $G_{t}$ - A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$;
     \item[] $g_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Grown Stalk} from \term{Seeds} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning \Pinto\ seigniorage for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
     \item[] $g^{\lambda'^{*}}$ - The \term{Mown Stalk} penalty in Generalized \term{Convert};
+    \item[] $g_t^{\mathfrak{D}}$ - The \term{Mown Stalk} penalty ratio calculated for \term{Season} $t$;
     \item[] $g^{\mathfrak{D}^{*}}$ - The \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
     \item[] $H_{t}$ - The \term{Maximum Temperature} during $t$;
+    \item[] $H_t^{\mathfrak{C}}$ - The \term{Cultivation Temperature} during \term{Season} $t$;
     \item[] $H^{b}$ - Absolute change to the \term{Maximum Temperature};
     \item[] $H^{m}$ - Relative change to the \term{Maximum Temperature};
     \item[] $h$ - The \term{Temperature};
@@ -184,6 +187,9 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $K_{t}$ - A \term{Stalkholder's} total \term{Stalk} during $t$;
     \item[] $k^{\lambda}$ - The number of \term{Stalk} per PDV of $\lambda$ \term{Deposited};
     \item[] $k_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Stalk} during $t$ for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
+    \item[] $\widehat{k}_t^{\pinto}$ - The \term{Mown Stalk} immediately before applying the penalty for a \Pinto\ to $\mathfrak{w}$ \term{Conversion} in \term{Season} $t$;
+    \item[] $\widehat{k}_t^{\mathfrak{w}}$ - The \term{Mown Stalk} retained by the output $\mathfrak{w}$ \term{Deposit} after the penalty for a \Pinto\ to $\mathfrak{w}$ \term{Conversion} in \term{Season} $t$ is applied;
+    \item[] $\widehat{k}_t^{\lambda^{\text{min}}}$ - The minimum \term{Mown Stalk} required for a given output $\lambda$ \term{Deposit} to not be \term{Germinating} in \term{Season} $t$;
     \item[] $\mathbf{L}_{t}^{\pinto}$ - The total \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
     \item[] $\mathbf{L}_{t}^{\lambda}$ - The total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
     \item[] $\mathbf{L}_{t}^{\lambda^{\text{max}}}$ - The total PDV of the $\lambda$ with the highest \term{LP Seed Gauge Points} per PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
@@ -195,6 +201,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $N$ - The total \term{Burnt} \Pinto\ over all \term{Seasons};
     \item[] $P$ - The price;
     \item[] $P_{\overline{t-1}}$ - The inferred liquidity and time weighted average price of \Pinto1 compared to $V$ over the previous \term{Season};
+    \item[] $P_{\overline{t-1}}^{\mathfrak{C}}$ - The time weighted average price of \Pinto1 over the previous \term{Season}, capped at $1$, in the \term{Well} whose non-\Pinto\ USD-denominated liquidity, weighted by $f^{\mathscr{W}^{\lambda}}$, is greatest;
+    \item[] $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$ - The inter-block MEV manipulation resistant instantaneous price of \Pinto1 in the output \term{Well};
     \item[] $P^{*}$ - The optimal price;
     \item[] $P^{\text{upper}}$ - A level above which price is considered excessively high;
     \item[] $Q$ - The length of each interval of the \term{Morning} in seconds; 
@@ -212,7 +220,10 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $R^{W^{\text{upper}}}$ - A level above or equal to which liquidity is considered excessively high;
     \item[] $S$ - \term{Soil};
     \item[] $S_{t}^{\text{end}}$ - The \term{Soil} supply at the end of the \term{Season};
-    \item[] $S^{\text{all}}$ - The amount of remaining \term{Soil} below or equal to which \Pinto\ are considered to be \term{Sown} in all \term{Soil} in a \term{Season};
+    \item[] $S_t^{\text{all}}$ - The threshold for remaining \term{Soil} used to determine whether \Pinto\ are considered \term{Sown} in all \term{Soil} in \term{Season} $t$, measured at the \term{Maximum Temperature};
+    \item[] $S^{\text{all}^{\text{max}}}$ - The maximum value of $S_t^{\text{all}}$;
+    \item[] $S_t^{\text{most}}$ - The maximum amount of \term{Soil} remaining for \Pinto\ to be considered \term{Sown} in most \term{Soil} in \term{Season} $t$, measured at the \term{Maximum Temperature};
+    \item[] $S_t^{\text{start}}$ - The initial \term{Soil} issued in \term{Season} $t$, measured at the \term{Maximum Temperature};
     \item[] $S_{t_{q}}^{\text{max}}$ - The \term{Maximum Soil} in interval $q$ of $t$;
     \item[] $S_{t_{q}}^{\text{min}}$ - The \term{Minimum Soil} in interval $q$ of $t$;
     \item[] $\overline{S}^{\text{min}}$ - The minimum \term{Soil} issued when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
@@ -306,7 +317,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Greek Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=0.5pt,leftmargin=16pt]
     \item[] $\eta^{\pinto}$ - \term{Earned} \Pinto;
     \item[] $\eta_{t}^{c}$ - The \term{Plantable Seeds} associated with a \term{Stalkholder's} $\eta^{\pinto}$ that can be \term{Planted} to start earning \term{Grown Stalk} during $t$;
     \item[] $\Lambda$ - The \term{Deposit Whitelist};
@@ -326,7 +337,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Glyph Variant Greek Alphabet Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=0.5pt,leftmargin=16pt]
     \item[] $\varkappa^{\lambda}$ - The last \term{Season} a \term{Stalkholder} \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits}; 
     \item[] $\vartheta$ - PINTO:WETH LP tokens;
     \item[] $\varphi$ - PINTO:cbETH LP tokens;
@@ -338,7 +349,7 @@ The following variables and terms are used throughout this whitepaper:
 
 \subsubsection{Symbol Variables}
 
-\begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
+\begin{itemize}[topsep=0pt, itemsep=0.5pt,leftmargin=16pt]
     \item[] \Pinto\ - Pinto;
     \item[] $\PintoContract^{@}$ - The Pinto contract address;
     \item[] $\Pinto^{@}$ - The \Pinto\ token address;

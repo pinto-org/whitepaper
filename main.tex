@@ -226,16 +226,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.2.1}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.2.2}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{November 14, 2026}}
+        \footnotesize{Published:} {\normalsize{November 15, 2026}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases/tag/v1.2.1}{\normalsize{1.2.1}}\footnote{\href{https://github.com/pinto-org/protocol/releases/tag/v1.2.1}{github.com/pinto-org/protocol/releases/tag/v1.2.1}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases/tag/v1.2.3}{\normalsize{1.2.3}}\footnote{\href{https://github.com/pinto-org/protocol/releases/tag/v1.2.3}{github.com/pinto-org/protocol/releases/tag/v1.2.3}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{April 17, 2025}}
+        \footnotesize{Deployed:} {\normalsize{June 19, 2025}}
         
         \vspace{0.1cm}
 
@@ -804,7 +804,7 @@ The protocol changes the \term{Maximum Temperature} it is willing to offer each 
 
 Pinto faces the fundamental limitation that it cannot fix the price of \Pinto1 at its value target, but instead must encourage widespread participation in target maintenance through protocol-native financial incentives. Stability is a function of how frequently and regularly the price of \Pinto1 crosses, and the magnitudes of price deviations from, its value target. The protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run decreases and increases in demand for Pinto.
 
-The protocol has five primary target maintenance tools available: (1) increase the Pinto supply, (2) change the \term{Soil} supply, (3) change the \term{Maximum Temperature}, (4) change the \term{Crop Ratio}, and (5) \term{Flood} (defined below). At the beginning of every \term{Season}, the protocol evaluates its position (\textit{i.e.}, price, debt level and liquidity level) and current state (\textit{i.e.}, direction and acceleration) with respect to ideal equilibrium, and dynamically adjusts the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio} to move closer to ideal equilibrium.
+The protocol has six primary target maintenance tools available: (1) increase the Pinto supply, (2) change the \term{Soil} supply, (3) change the \term{Maximum Temperature}, (4) change the \term{Crop Ratio}, (5) change the \term{Mown Stalk} penalty, and (6) \term{Flood} (defined below). At the beginning of every \term{Season}, the protocol evaluates its position (\textit{i.e.}, price, debt level and liquidity level) and current state (\textit{i.e.}, direction and acceleration) with respect to ideal equilibrium, and dynamically adjusts the Pinto supply, \term{Soil} supply, \term{Maximum Temperature}, \term{Crop Ratio} and \term{Mown Stalk} penalty to move closer to ideal equilibrium.
 
 %%%%%%%%%%%%%%%%%%%%%%% Ideal Equilibrium %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -812,9 +812,9 @@ The protocol has five primary target maintenance tools available: (1) increase t
 
 Pinto derive their value from the credit of the protocol and liquidity they trade against. The protocol only fails if it can no longer attract creditors and there is no liquidity trading against Pinto. A healthy level of debt and liquidity attracts creditors and liquidity. Therefore, in addition to the Pinto price, the target maintenance mechanism considers the protocol debt and liquidity levels (defined below). 
 
-The protocol is in ideal equilibrium when the Pinto price and protocol debt and liquidity levels are at their optimal levels, and the demand for \term{Soil} is steady (defined below). The protocol affects the supply of and demand for Pinto to return to ideal equilibrium in response to the Pinto price, the protocol debt and liquidity levels, and changing demand for \term{Soil}, by adjusting the Pinto supply, \term{Soil} supply, \term{Maximum Temperature} and \term{Crop Ratio}. 
+The protocol is in ideal equilibrium when the Pinto price and protocol debt and liquidity levels are at their optimal levels, and the demand for \term{Soil} is steady (defined below). The protocol affects the supply of and demand for Pinto to return to ideal equilibrium in response to the Pinto price, the protocol debt and liquidity levels, and changing demand for \term{Soil}, by adjusting the Pinto supply, \term{Soil} supply, \term{Maximum Temperature}, \term{Crop Ratio} and \term{Mown Stalk} penalty. 
 
-Pinto supply increases and \term{Soil} supply changes primarily affect the Pinto supply. \term{Maximum Temperature} and \term{Crop Ratio} changes primarily affect demand for Pinto. In order to make the proper adjustments, the protocol closely monitors the states of both the Pinto and \term{Soil} markets.
+Pinto supply increases and \term{Soil} supply changes primarily affect the Pinto supply. \term{Maximum Temperature}, \term{Crop Ratio} and \term{Mown Stalk} penalty changes primarily affect demand for Pinto. In order to make the proper adjustments, the protocol closely monitors the states of both the Pinto and \term{Soil} markets.
 
 In practice, maintaining ideal equilibrium is impossible. Deviations from ideal equilibrium along each axis are normal and expected. As the protocol grows, the durations and magnitudes of deviations should decrease. 
 
@@ -911,7 +911,7 @@ We define $f^{\$}(z^{\lambda})$ for a given inter-block MEV manipulation resista
                                 {\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}}
     $$
 \end{keepunit}
-\footnotetext{\href{http://Any italicized terms not defined herein are defined by Pinto Exchange.}{Any italicized terms not defined herein are defined by Pinto Exchange.}}
+\footnotetext{Any italicized terms not defined herein are defined by \href{https://pinto.exchange}{Pinto Exchange}.}
 
 \begin{keepunit}
 Therefore, we define $W$ for a given $f^{\mathscr{W}^{\lambda}}$, $f^{\$}(z^{\lambda})$ and $\mathbf{L}_{t}^{\lambda}$ as:
@@ -1103,9 +1103,23 @@ The protocol requires two $\frac{\partial u_{t}}{\partial t}$ levels to be set: 
 \end{minipage}\par
 \endgroup
 
-However, when Pinto are \term{Sown} in all \term{Soil} in a \term{Season} (defined as $S_{t}^{\text{end}} \leq S^{\text{all}}$), $\frac{\partial u_{t}}{\partial t}$ can inaccurately measure changing demand for \term{Soil}. The first time Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, after one or more \term{Seasons} where Pinto were not \term{Sown} in all \term{Soil}, demand for \term{Soil} is considered increasing. When Pinto are \term{Sown} in all \term{Soil} in consecutive \term{Seasons} (\textit{i.e.}, $t-1$ and $t-2$), the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} ($\Delta E_{t}^{u}$), such that $\Delta E_{t}^{u} \in \mathbb{Z}$, can provide a more accurate measurement.
+However, when Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, $\frac{\partial u_{t}}{\partial t}$ can inaccurately measure changing demand for \term{Soil}.
 
-In order to measure $\Delta E_{t}^{u}$, the protocol logs the time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season} ($\Delta E_{t}^{u^{\text{first}}}$), such that $\Delta E_{t}^{u^{\text{first}}} \in \mathbb{N}$, as the difference between the Base timestamp of the first \term{Sow} in $t$ such that there is at most one \term{Soil} ($E_{t}^{u^{\text{first}}}$) and the Base timestamp of the successful \code{gm} transaction that began $t$ ($E_{t}^{\text{start}}$), such that $E_{t}^{\text{start}} \in \mathbb{Z}^{+}$.
+The protocol determines whether Pinto are \term{Sown} in all \term{Soil} using the initial \term{Soil} issued in $t$, measured at the \term{Maximum Temperature} ($S_t^{\text{start}}$), and a maximum threshold for remaining \term{Soil} ($S^{\text{all}^{\text{max}}}$), such that $S_t^{\text{start}},\ S^{\text{all}^{\text{max}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+\begin{keepunit}
+We define the threshold for all \term{Soil} ($S_t^{\text{all}}$), such that $S_t^{\text{all}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
+
+    $$
+        S_t^{\text{all}} = \min\left(\frac{S_t^{\text{start}}}{10},\ S^{\text{all}^{\text{max}}}\right)
+    $$
+\end{keepunit}
+
+When a \term{Sow} leaves less than $S_t^{\text{all}}$ \term{Soil} remaining, measured at the \term{Maximum Temperature}, Pinto are considered \term{Sown} in all \term{Soil}. Pinto are also considered \term{Sown} in all \term{Soil} when a \term{Sow} leaves exactly $S_t^{\text{all}}$ \term{Soil} remaining if most \term{Soil} was already considered sold (defined below) in that \term{Season} before that \term{Sow}.
+
+The first time Pinto are \term{Sown} in all \term{Soil} in a \term{Season}, after one or more \term{Seasons} where Pinto were not \term{Sown} in all \term{Soil}, demand for \term{Soil} is considered increasing. When Pinto are \term{Sown} in all \term{Soil} in consecutive \term{Seasons} (\textit{i.e.}, $t-1$ and $t-2$), the difference in time it took for the Pinto to be \term{Sown} in all \term{Soil} over the previous two \term{Seasons} ($\Delta E_{t}^{u}$), such that $\Delta E_{t}^{u} \in \mathbb{Z}$, can provide a more accurate measurement.
+
+In order to measure $\Delta E_{t}^{u}$, the protocol logs the time of the first \term{Sow} such that Pinto are \term{Sown} in all \term{Soil} in each \term{Season} ($\Delta E_{t}^{u^{\text{first}}}$), such that $\Delta E_{t}^{u^{\text{first}}} \in \mathbb{N}$, as the difference between the Base timestamp of the first \term{Sow} in $t$ such that Pinto are considered \term{Sown} in all \term{Soil} ($E_{t}^{u^{\text{first}}}$) and the Base timestamp of the successful \code{gm} transaction that began $t$ ($E_{t}^{\text{start}}$), such that $E_{t}^{\text{start}} \in \mathbb{Z}^{+}$.
 
 \begin{keepunit}
 We define $\Delta E_{t}^{u^{\text{first}}}$ for a given $E_{t}^{u^{\text{first}}}$ and $E_{t}^{\text{start}}$ as:
@@ -1263,7 +1277,7 @@ Therefore, we define $\Delta D_{t}$ for a given $\Delta B_{\overline{t-1}}$, $B$
 
 \subsection{Soil Supply}
 
-Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (3) the \term{Till Scalar} ($\mathscr{P}$), such that $\mathscr{P} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on (4) the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, (5) $\Delta B_{\overline{t-1}}$, (6) the \term{Furrow Scalar} ($\mathscr{F}$), such that $\mathscr{F} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, (7) $W$, (8) the \term{Soil Diffusion Period} ($\mathscr{R}$), such that $\mathscr{R} \in \mathbb{Z}^{+}$, (9) the \term{Cultivation Factor} during $t$ ($\mathfrak{C}_{t}$), such that $\mathfrak{C}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (10) the minimum \term{Soil} issued ($\overline{S}^{\text{min}}$), such that $\overline{S}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+Pinto is willing to issue debt every \term{Season}. When $V \leq P_{\overline{t-1}}$, the \term{Soil} supply is based on (1) the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season}, (2) the \term{Temperature} in each interval of the \term{Morning} of $t$ ($h_{t_{q}}$), such that $h_{t_{q}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, and (3) the \term{Till Scalar} ($\mathscr{P}$), such that $\mathscr{P} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$. When $P_{\overline{t-1}} < V$, the \term{Soil} supply is also based on (4) the sum of shortages and excesses of Pinto across liquidity pools on the \term{Minting Whitelist} calculated using the inter-block MEV manipulation resistant instantaneous reserves in Multi Flow \term{Pump} ($\Delta B_{\Xi-1}^{\text{EMA}}$), such that $\Delta B_{\Xi-1}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z} \}$, (5) $\Delta B_{\overline{t-1}}$, (6) the \term{Furrow Scalar} ($\mathscr{F}$), such that $\mathscr{F} \in \{j \times 10^{-18} \mid j \in \mathbb{Z} \}$, (7) $W$, (8) the \term{Soil Diffusion Period} ($\mathscr{R}$), such that $\mathscr{R} \in \mathbb{Z}^{+}$, (9) the \term{Cultivation Factor} during $t$ ($\mathfrak{C}_{t}$), such that $\mathfrak{C}_{t} \in \{j \times 10^{-8} \mid j \in \mathbb{Z}^{+} \}$, and (10) the minimum \term{Soil} issued ($\overline{S}^{\text{min}}$), such that $\overline{S}^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
 
 We define the \term{Till Scalar} for a given $R^{D^{\text{upper}}}$, $R_{t-1}^{D}$, $R^{D^{*}}$ and $R^{D^{\text{lower}}}$ as:
 
@@ -1344,8 +1358,8 @@ The protocol changes the \term{Maximum Temperature} in both a relative ($H^{m}$)
     $$
         H_t =
         \begin{cases}
-            1 & \text{if } H^{b}<0 \mkern6mu \&\& \mkern6mu H^{m} \times H_{t-1}\leq-H^{b};\\
-            H^{m} \times H_{t-1}+H^{b} & \text{else.}
+            1 & \text{if } H^{b}<0 \mkern6mu \&\& \mkern6mu H^{m} \times H_{t-1}\leq-H^{b}\\
+            H^{m} \times H_{t-1}+H^{b} & \text{else}
         \end{cases}
     $$
 \end{samepage}
@@ -1490,6 +1504,50 @@ $\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures \ref{Crop Scalar Ch
     \label{Crop Scalar Changes Excessively High Liquidity}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Mown Stalk Penalty %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Mown Stalk Penalty}\label{sec:mown-stalk-penalty}
+
+Unless the inter-block MEV manipulation resistant instantaneous price of \Pinto1 in the output \term{Well} ($P_{\Xi-1}^{\lambda'^{\text{EMA}}}$), such that $P_{\Xi-1}^{\lambda'^{\text{EMA}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is above $P^{\text{upper}}$, the protocol applies a \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens ($g^{\mathfrak{D}^{*}}$), such that $g^{\mathfrak{D}^{*}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$.
+
+\begin{keepunit}
+If the \term{Mown Stalk} before the penalty is at least the minimum \term{Mown Stalk} required for the output $\lambda$ \term{Deposit} to not be \term{Germinating} in \term{Season} $t$ ($\widehat{k}_t^{\lambda^{\text{min}}}$), such that $\widehat{k}_t^{\lambda^{\text{min}}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, the output $\lambda$ \term{Deposit} retains at least this minimum. Otherwise, no penalty is applied.
+\end{keepunit}
+
+\begin{keepunit}
+The \term{Mown Stalk} penalty is a function of (1) $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$, (2) $P^{\text{upper}}$, and (3) the \term{Mown Stalk} penalty ratio during $t$ ($g_t^{\mathfrak{D}}$), such that $g_t^{\mathfrak{D}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$.
+\end{keepunit}
+
+$g_t^{\mathfrak{D}}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$).
+
+The \term{Mown Stalk} penalty ratio during $t$ is based on (1) $g_{t-1}^{\mathfrak{D}}$, (2) $R_{t-1}^{W}$, (3) $R^{W^{\text{lower}}}$, (4) the maximum \term{Blight Factor} ($\mathfrak{D}^{\text{max}}$), such that $\mathfrak{D}^{\text{max}} \in \mathbb{Z}^{+}$, and (5) the \term{Blight Factor} during $t$ ($\mathfrak{D}_{t}$), such that $\mathfrak{D}_{t} \in \mathbb{Z}$.
+
+\begin{keepunit}
+We define $g_t^{\mathfrak{D}}$ for a given $g_{t-1}^{\mathfrak{D}}$, $R_{t-1}^{W}$, $R^{W^{\text{lower}}}$, $\mathfrak{D}^{\text{max}}$ and $\mathfrak{D}_{t}$ as:
+
+    $$
+        g_t^{\mathfrak{D}} =
+        \begin{cases}
+            g_{t-1}^{\mathfrak{D}} & \text{if }R_{t-1}^{W}=0\\[2mm]
+            \max\left(0,\ \frac{\min(R_{t-1}^{W},R^{W^{\text{lower}}})}{R^{W^{\text{lower}}}}
+                \times\left(1-\log_{\mathfrak{D}^{\text{max}}+1}(\mathfrak{D}_{t}+1)\right)\right)
+                & \text{else}
+        \end{cases}
+    $$
+\end{keepunit}
+
+\begin{keepunit}
+Therefore, we define $g^{\mathfrak{D}^{*}}$ for a given $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$, $P^{\text{upper}}$ and $g_t^{\mathfrak{D}}$ as:
+
+    $$
+        g^{\mathfrak{D}^{*}} =
+        \begin{cases}
+            0 & \text{if }P_{\Xi-1}^{\lambda'^{\text{EMA}}}>P^{\text{upper}}\\
+            g_t^{\mathfrak{D}} & \text{else}
+        \end{cases}
+    $$
+\end{keepunit}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Flood %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \vspace{-0.15cm}
@@ -1512,6 +1570,7 @@ The number of Pinto that are minted and sold to return the price of \Pinto1 to i
 
 \vspace{-0.05cm}
 
+\begin{keepunit}
 In a \term{Flood}, $m_{t}$ for a given $D$, $B$, $D^{F}$, $a_{t}$, $\Delta B_{\overline{t-1}}$ and $\Delta B_{\Game}$ is:
 
 \vspace{-0.05cm}
@@ -1527,6 +1586,7 @@ In a \term{Flood}, $m_{t}$ for a given $D$, $B$, $D^{F}$, $a_{t}$, $\Delta B_{\o
 \vspace{-0.05cm}
 
 Thus, the protocol attempts to regularly cross the price of \Pinto1 over its value target during both long run increases and decreases in demand for Pinto.
+\end{keepunit}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Toolshed   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

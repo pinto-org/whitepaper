@@ -49,7 +49,7 @@ The following is a complete version history of this whitepaper. Unless otherwise
         \item Updated the coefficients on the number of \term{Pods} that \term{Ripen} and became \term{Harvestable} at the beginning of the \term{Season} in \hyperlink{subsection.7.12}{Section 7.12}, as amended by \href{https://pinto.money/pi-3}{PI-3}.
         \item Updated the \term{Maximum Temperature} changes in \hyperlink{subsubsection.7.13.1}{Section 7.13.1}, as amended by \href{https://pinto.money/pi-3}{PI-3}.
         \item Updated \hyperlink{subsubsection.7.13.2}{Section 7.13.2} to reflect the new minimum \term{Temperature} during the \term{Morning}, as amended by \href{https://pinto.money/pi-3}{PI-3}.
-        \item Updated the fifth paragraph and formula in \hyperlink{subsection.7.15}{Section 7.15} for accuracy.
+        \item Updated the fifth paragraph and formula in \href{https://github.com/pinto-org/whitepaper/blob/master/version-history/pinto1_0_4.pdf}{Section 7.15} for accuracy.
         \item Updated $Q$ and $R^{D^{\text{lower}}}$ in the \hyperlink{subsection.12.1}{Current Parameters}, as amended by \href{https://pinto.money/pi-3}{PI-3}.
         \item Added $D^{F}$ and $f^{\mathscr{P}}(R_{t-1}^{D})$ to the \hyperlink{subsection.12.14}{Glossary}.
         \item Removed $D_{\gamma}$ and $D_{\gamma}^{F}$ from the \hyperlink{subsection.12.14}{Glossary}.
@@ -116,5 +116,27 @@ The following is a complete version history of this whitepaper. Unless otherwise
         \item Corrected the definition of $\Delta E_t^{u^{\text{first}}}$ and standardized references to the Pinto token in the \hyperlink{subsection.12.15}{Glossary}.
     \end{itemize}
     \end{samepage}
+    \item 1.2.2 (November 15, 2026)
+
+    \begin{itemize}
+        \item Updated \hyperlink{subsection.7.8}{Section 7.8} to reflect the threshold for Pinto being \term{Sown} in all \term{Soil}, as amended by \href{https://pinto.money/pi-10}{PI-10}.\footnote{\href{https://pinto.money/pi-10}{pinto.money/pi-10}}
+        \item Corrected the decimal precision for $\mathfrak{C}_t$ in \hyperlink{subsection.7.12}{Section 7.12}.
+        \item Added \hyperref[sec:mown-stalk-penalty]{Section 7.15} to describe the \term{Mown Stalk} penalty as part of target maintenance, moving its definition from \hyperlink{subsubsection.12.3.2}{Section 12.3.2}.
+        \item Updated the \term{Mown Stalk} penalty in \hyperref[sec:mown-stalk-penalty]{Section 7.15} to use $R^{W^{\text{lower}}}$, as amended by \href{https://pinto.money/pi-10}{PI-10}.
+        \item Corrected the zero-\term{Blight Factor} and zero-liquidity behavior of the \term{Mown Stalk} penalty ratio in \hyperref[sec:mown-stalk-penalty]{Section 7.15}.
+        \item Corrected the price used for the \term{Mown Stalk} penalty exemption in \hyperref[sec:mown-stalk-penalty]{Section 7.15}.
+        \item Corrected the penalty-ratio precision in \hyperref[sec:mown-stalk-penalty]{Section 7.15}.
+        \item Specified the minimum retained \term{Mown Stalk} in \hyperref[sec:mown-stalk-penalty]{Section 7.15}.
+        \item Replaced $S^{\text{all}}$ with $S^{\text{all}^{\text{max}}}$ in the \hyperlink{subsection.12.1}{Current Parameters}, as amended by \href{https://pinto.money/pi-10}{PI-10}.
+        \item Moved $\mathfrak{D}^{\text{max}}$ to Target Maintenance in the \hyperlink{subsection.12.1}{Current Parameters}.
+        \item Updated \hyperlink{subsubsection.12.3.1}{Section 12.3.1} to reflect the threshold for Pinto being \term{Sown} in most \term{Soil}, the \term{Cultivation Temperature} and conditions for the \term{Cultivation Factor} to remain unchanged, as amended by \href{https://pinto.money/pi-10}{PI-10}.
+        \item Corrected the price used by the \term{Cultivation Factor} in \hyperlink{subsubsection.12.3.1}{Section 12.3.1}.
+        \item Corrected the decimal precision for $\Delta\mathfrak{C}_t$ in \hyperlink{subsubsection.12.3.1}{Section 12.3.1}.
+        \item Corrected the coefficient in the \term{Cultivation Factor} decrease formula in \hyperlink{subsubsection.12.3.1}{Section 12.3.1}.
+        \item Added Figure \ref{Soil Sold} to illustrate when Pinto are \term{Sown} in all or most \term{Soil}.
+        \item Corrected the \term{Mown Stalk} Reward / Burn Function in \hyperlink{subsubsection.12.10.4}{Section 12.10.4} to calculate the retained \term{Mown Stalk}, including the minimum required to prevent \term{Germination}.
+        \item Updated \term{Cultivation Factor} and $E_t^{u^{\text{first}}}$, and replaced $S^{\text{all}}$ with $S_t^{\text{all}}$, in the \hyperlink{subsection.12.15}{Glossary}.
+        \item Added \term{Cultivation Temperature}, $g_t^{\mathfrak{D}}$, $H_t^{\mathfrak{C}}$, $\widehat{k}_t^{\pinto}$, $\widehat{k}_t^{\mathfrak{w}}$, $\widehat{k}_t^{\lambda^{\text{min}}}$, $P_{\overline{t-1}}^{\mathfrak{C}}$, $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$, $S^{\text{all}^{\text{max}}}$, $S_t^{\text{most}}$ and $S_t^{\text{start}}$ to the \hyperlink{subsection.12.15}{Glossary}.
+    \end{itemize}
 \end{itemize}
 \end{document}

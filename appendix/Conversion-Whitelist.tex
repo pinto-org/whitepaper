@@ -304,6 +304,11 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
 %%%%%%%%%%%%%%%%%%%%%%% Pinto to Well LP %%%%%%%%%%%%%%%%%%%%%%%
 
+\begingroup
+\setlist[enumerate]{topsep=0pt,itemsep=0pt,parsep=1pt}
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+
 \subsubsection{\Pinto\ $\rightarrow$ $\mathfrak{w}$}
 
 \begin{enumerate}
@@ -374,7 +379,17 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
     The $i$ associated with a \term{Converted} $\mathfrak{w}$ \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
 
-    \item \textbf{Mown Stalk Reward / Burn Function:} $1 - g^{\mathfrak{D}^{*}}$
+    \item \begin{keepunit}
+    \textbf{Mown Stalk Reward / Burn Function:} For a given number of \term{Mown Stalk} before applying the penalty ($\widehat{k}_t^{\pinto}$), the number retained by the output $\mathfrak{w}$ \term{Deposit} in \term{Season} $t$ ($\widehat{k}_t^{\mathfrak{w}}$), such that $\widehat{k}_t^{\pinto},\ \widehat{k}_t^{\mathfrak{w}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
+
+        $$
+            \widehat{k}_t^{\mathfrak{w}} =
+                \max\left(
+                    \min\left(\widehat{k}_t^{\mathfrak{w}^{\text{min}}},\ \widehat{k}_t^{\pinto}\right),\
+                    \left(1-g^{\mathfrak{D}^{*}}\right)\widehat{k}_t^{\pinto}
+                \right)
+        $$
+    \end{keepunit}
     
 \end{enumerate}
 
@@ -457,4 +472,5 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
     
 \end{enumerate}
 
+\endgroup
 \end{document}
