@@ -12,11 +12,11 @@
 
 \subsection{Gauge Implementations}
 
-The following \term{Gauge Implementations} are used throughout this whitepaper.
+The following \term{Gauge Implementation} is used throughout this whitepaper.
 
 %%%%%%%%%%%%%%%%%%%%%% Cultivation Factor %%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{$\mathfrak{C}_{t}$}\label{sec:cultivation-factor}
+\subsubsection{Cultivation Factor Gauge}\label{sec:cultivation-factor}
 
 The protocol increases the \term{Cultivation Factor} when Pinto is \term{Sown} in all \term{Soil} in the previous \term{Season}. Conversely, if Pinto is not \term{Sown} in all \term{Soil} in the previous \term{Season}, the protocol decreases the \term{Cultivation Factor} or leaves it unchanged.
 
@@ -80,30 +80,6 @@ Therefore, we define $\mathfrak{C}_{t}$ as:
             \max\left(0.01,\ \mathfrak{C}_{t-1}-\frac{0.0001}{\Delta\mathfrak{C}_{t}\times P_{\overline{t-1}}^{\mathfrak{C}}}\right)
                 & \text{else}
         \end{cases}
-    $$
-\end{keepunit}
-
-%%%%%%%%%%%%%%%%%%%%%% Blight Factor %%%%%%%%%%%%%%%%%%%%%%
-
-\subsubsection{$\mathfrak{D}_{t}$}
-
-The protocol increments the \term{Blight Factor} when the liquidity and time weighted average price of \Pinto1 is above its value target over a \term{Season}, and decrements it otherwise.
-
-$\mathfrak{D}_{t}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$).
-
-The \term{Blight Factor} during $t$ is based on (1) $\mathfrak{D}^{\text{max}}$, (2) the \term{Blight Factor} during the previous \term{Season}, and (3) $\Delta B_{\overline{t-1}}$.
-
-\begin{keepunit}
-We define $\mathfrak{D}_{t}$ for a given $\mathfrak{D}^{\text{max}}$, $\mathfrak{D}_{t-1}$ and $\Delta B_{\overline{t-1}}$ as:
-
-    $$
-        \mathfrak{D}_{t} =
-            \begin{cases}
-                \text{min}(\mathfrak{D}^{\text{max}}, \mathfrak{D}_{t-1} + 1) 
-                    & \text{if } \Delta B_{\overline{t-1}} > 0 \\
-                \text{max}(0, \mathfrak{D}_{t-1} - 1) 
-                    & \text{otherwise } 
-            \end{cases}
     $$
 \end{keepunit}
 

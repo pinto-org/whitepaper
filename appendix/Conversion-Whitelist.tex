@@ -84,9 +84,9 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 \subsubsection{Generalized Convert (\textit{i.e.}, $\lambda \rightarrow \lambda'$)}
 
 \begin{enumerate}
-    \item \textbf{From Token Address:} The from token address can be any token address on the \term{Deposit Whitelist}.
+    \item \textbf{From Token Address:} The from token address can be the \Pinto\ token address or the address of a currently or previously \term{Whitelisted} \term{Well}.
     
-    \item \textbf{To Token Address:} The to token address can be any token address on the \term{Deposit Whitelist}.
+    \item \textbf{To Token Address:} The to token address can be the \Pinto\ token address or the address of a currently \term{Whitelisted} \term{Well}.
     
     \item \textbf{Conditions:} \term{Deposited} $\lambda$ can be \term{Converted} to a $\lambda'$ \term{Deposit} at anytime by the $\lambda$ \term{Deposit} holder.
     
@@ -94,13 +94,14 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
     \item \textbf{Mown Stalk Reward / Burn Function:} 
 
-    Upon a $\lambda \rightarrow \lambda'$ \term{Conversion} during $t$, the number of \term{Stalk} of the output $\lambda'$ \term{Deposit} initially \term{Deposited} during $i$ ($k_{t,i,t}^{\lambda'}$) is calculated to account for (1) the change in PDV of the \term{Deposit} and (2) the \term{Mown Stalk} penalty ($g^{\lambda'^{*}}$), such that $k_{t,i,t}^{\lambda'},\ g^{\lambda'^{*}} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$.
+    Upon a $\lambda \rightarrow \lambda'$ \term{Conversion} during $t$, the number of \term{Stalk} of the output $\lambda'$ \term{Deposit} initially \term{Deposited} during $i$ ($k_{t,i,t}^{\lambda'}$) is calculated to account for (1) the change in PDV of the \term{Deposit} and (2) the fraction of \term{Mown Stalk} retained ($g^{\lambda'^{*}}$), such that $k_{t,i,t}^{\lambda'} \in \{j \times 10^{-16} \mid j \in \mathbb{Z}^{+} \}$ and $g^{\lambda'^{*}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$.
     
     The \term{Mown Stalk} penalty is a function of 
     (1) the PDV of the output $\lambda'$ \term{Deposit}, 
     (2) the maximum change in current $\Delta b$ (\textit{i.e.}, $|\Delta b_{\Game} - \Delta b_{<\Game}|$) of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of changes across all $\lambda \in \Lambda$, adjusted for the changes in current supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively ($\Delta \mathfrak{B}^\text{max}$), 
-    (3) the maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block, ($\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$), such that $\Delta \mathfrak{B}^\text{max},\ \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, and 
-    (4) $g^{\mathfrak{D}^{*}}$.
+    (3) the maximum cumulative change in $\Delta b$ of (a) $\lambda$, (b) $\lambda'$ and (c) the sum of cumulative changes across all $\lambda \in \Lambda$, adjusted for the changes in supplies of $\lambda$, $\lambda'$ and all $\lambda \in \Lambda$, respectively, based on and relative to the inter-block MEV manipulation resistant last values in the Multi-Flow \term{Pump} for each $\lambda$ at the end of the previous block, ($\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$), such that $\Delta \mathfrak{B}^\text{max},\ \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$.
+
+    For an input \term{Well} no longer on the \term{Deposit Whitelist}, the protocol treats its post-\term{Conversion} $\Delta b$ as zero for these calculations. Its contribution to movement away from the value target is zero, and the magnitude of its pre-\term{Conversion} $\Delta b$ counts toward its per-\term{Well} \term{Convert} capacity, regardless of the amount \term{Converted}.
 
     $\Delta \mathfrak{B}^\text{max}$ is a function of 
     (1) a function to determine the magnitude of the movement away from $\Delta b = 0$ given the $\Delta b$ before and after a transaction ($f^{\Delta b^{*}}$), such that $f^{\Delta b^{*}}\colon \{(j,\ j') \times 10^{-6} \mid j,\ j' \in \mathbb{Z}^{+} \} \rightarrow \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, 
@@ -247,25 +248,16 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
                 \Bigg)
         \end{align*}
 
-    Therefore, we define the \term{Mown Stalk} penalty for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $\Delta \mathfrak{B}^\text{max}$, $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ and $g^{\mathfrak{D}^{*}}$ as:
+    \begin{keepunit}
+    We define the fraction of \term{Mown Stalk} retained for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $\Delta \mathfrak{B}^\text{max}$ and $\Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}$ as:
 
         $$
              g^{\lambda'^{*}} =
-                \begin{cases}
-                    1 - \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
-                         (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
-                         {f^{L^{\lambda'}}(z^{\lambda'})} +
-                            g^{\mathfrak{D}^{*}}
-                    \right)
-                        & \text{if } \lambda == \Pinto \mkern6mu \&\& \mkern6mu \lambda' == \mathfrak{w} \\
-                        
-                    1 - \left( \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) - 
-                         (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
-                         {f^{L^{\lambda'}}(z^{\lambda'})}
-                    \right)
-                        & \text{otherwise }
-                \end{cases}
+                 \frac{\text{max}(f^{L^{\lambda'}}(z^{\lambda'}) -
+                      (\Delta \mathfrak{B}^\text{max} + \Delta \mathfrak{B}^{\text{max}^{\text{LAST}}}),\ 0)}
+                      {f^{L^{\lambda'}}(z^{\lambda'})}
         $$
+    \end{keepunit}
 
     Therefore, we define $k_{t,i,t}^{\lambda'}$ for a given $f^{L^{\lambda'}}(z^{\lambda'})$, $k^{\lambda'}$, $f^{L^{\lambda}}(z^{\lambda})$, $g^{\lambda'^{*}}$, and $c_{t}^{\lambda'}$ in every \term{Season} from when it was \term{Deposited} until $t$ as:
 
@@ -298,6 +290,8 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
         $$
         \end{adjustwidth}
 
+    For a \Pinto\ to \term{Well} LP \term{Conversion}, the \term{Mown Stalk} resulting from this calculation is then subject to the penalty in the following subsection, using the output PDV and the number of \Pinto\ \term{Converted}.
+
     The $i$ associated with a \term{Converted} \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
     
 \end{enumerate}
@@ -317,7 +311,7 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
     
     \item \textbf{To Token Address:} $\mathfrak{w}^{@}$ 
     
-    \item \textbf{Conditions:} \term{Deposited} \Pinto\ can be \term{Converted} to \term{Deposited} $\mathfrak{w}$ if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} > 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
+    \item \textbf{Conditions:} \term{Deposited} \Pinto\ can be \term{Converted} to \term{Deposited} $\mathfrak{w}$ on the \term{Deposit Whitelist} if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} > 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
     
     \item \textbf{Convert Function:} The number of $\mathfrak{w}$ received for \term{Converting} \term{Deposited} Pinto within the \term{Silo} for a given Pinto contract address ($\PintoContract^{@}$, such that $\PintoContract^{@} \in \{j \in \mathbb{N} \mid j < 16^{40} \}$, $\PintoContract^{@} = \\ \text{0xD1A0D188E861ed9d15773a2F3574a2e94134bA8f}$) and minimum $\mathfrak{w}$ received ($\mathfrak{w}^{\text{min}}$), such that $\mathfrak{w}^{\text{min}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$, is the result of calling the \term{Well Implementation} \code{sync} function on $\mathfrak{w}$ immediately after sending $z^{\pinto}$ to $\mathfrak{w}$, as:
     
@@ -379,16 +373,49 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
 
     The $i$ associated with a \term{Converted} $\mathfrak{w}$ \term{Deposit} is automatically updated to preserve the correct amount of \term{Mown Stalk} and rounded down.
 
-    \item \begin{keepunit}
-    \textbf{Mown Stalk Reward / Burn Function:} For a given number of \term{Mown Stalk} before applying the penalty ($\widehat{k}_t^{\pinto}$), the number retained by the output $\mathfrak{w}$ \term{Deposit} in \term{Season} $t$ ($\widehat{k}_t^{\mathfrak{w}}$), such that $\widehat{k}_t^{\pinto},\ \widehat{k}_t^{\mathfrak{w}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
+    \item \textbf{Mown Stalk Reward / Burn Function:} The penalty applies to the portion of \term{Converted} PDV below $P^{\mathfrak{D}}$. The protocol calculates this portion by adding the \term{Converted} \Pinto\ to the inter-block MEV manipulation resistant instantaneous reserves in the output \term{Well}'s Multi Flow \term{Pump}.
+
+    The number of \Pinto\ in the output \term{Well} at $P^{\mathfrak{D}}$, keeping its inter-block MEV manipulation resistant instantaneous non-\Pinto\ reserves unchanged ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{\mathfrak{D}}}$), such that $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{\mathfrak{D}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is calculated by the \term{Well Function} \code{calcReserveAtRatioLiquidity} function using the current USD price of the non-\Pinto\ asset.
+
+    \begin{keepunit}
+    We define the number of \term{Converted} \Pinto\ below $P^{\mathfrak{D}}$ ($z^{\pinto^{\mathfrak{D}}}$), such that $z^{\pinto^{\mathfrak{D}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, for a given $z^{\pinto}$, $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$ and $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{\mathfrak{D}}}$ as:
+
+        $$
+            z^{\pinto^{\mathfrak{D}}} = \min\left(z^{\pinto},\ \max\left(0,\
+                \mathfrak{w}_{\pinto,\Game}^{\text{EMA}}+z^{\pinto}
+                -\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{\mathfrak{D}}}\right)\right)
+        $$
+    \end{keepunit}
+
+    \begin{keepunit}
+    For a given stored PDV of the output \term{Deposit} ($L^{\mathfrak{w}}$), such that $L^{\mathfrak{w}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the portion subject to the penalty ($L^{\mathfrak{w}^{\mathfrak{D}}}$), such that $L^{\mathfrak{w}^{\mathfrak{D}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is:
+
+        $$
+            L^{\mathfrak{w}^{\mathfrak{D}}} =
+                L^{\mathfrak{w}}\times\frac{z^{\pinto^{\mathfrak{D}}}}{z^{\pinto}}
+        $$
+    \end{keepunit}
+
+    \begin{keepunit}
+    For a given number of \term{Mown Stalk} before applying the penalty ($\widehat{k}_t^{\pinto}$), the portion subject to the penalty ($\widehat{k}_t^{\mathfrak{w}^{\mathfrak{D}}}$), such that $\widehat{k}_t^{\pinto},\ \widehat{k}_t^{\mathfrak{w}^{\mathfrak{D}}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
+
+        $$
+            \widehat{k}_t^{\mathfrak{w}^{\mathfrak{D}}} =
+                \widehat{k}_t^{\pinto}\times\frac{L^{\mathfrak{w}^{\mathfrak{D}}}}{L^{\mathfrak{w}}}
+        $$
+    \end{keepunit}
+
+    \begin{keepunit}
+    Therefore, the number of \term{Mown Stalk} retained by the output $\mathfrak{w}$ \term{Deposit} in \term{Season} $t$ ($\widehat{k}_t^{\mathfrak{w}}$), such that $\widehat{k}_t^{\mathfrak{w}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, is:
 
         $$
             \widehat{k}_t^{\mathfrak{w}} =
                 \max\left(
                     \min\left(\widehat{k}_t^{\mathfrak{w}^{\text{min}}},\ \widehat{k}_t^{\pinto}\right),\
-                    \left(1-g^{\mathfrak{D}^{*}}\right)\widehat{k}_t^{\pinto}
+                    \widehat{k}_t^{\pinto}-g_t^{\mathfrak{D}}\widehat{k}_t^{\mathfrak{w}^{\mathfrak{D}}}
                 \right)
         $$
+
     \end{keepunit}
     
 \end{enumerate}
@@ -403,8 +430,10 @@ The following \term{Conversions} within the \term{Silo} are \term{Whitelisted}.
     
     \item \textbf{To Token Address:} $\Pinto^{@}$
     
-    \item \textbf{Conditions:} \term{Deposited} $\mathfrak{w}$ can be \term{Converted} to \term{Deposited} \Pinto\ if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} < 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
+    \item \textbf{Conditions:} \term{Deposited} $\mathfrak{w}$ that is currently or previously \term{Whitelisted} can be \term{Converted} to \term{Deposited} \Pinto\ if (1) $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} < 0$ and (2) the change of $\Delta b$ in $\mathfrak{w}$ does not exceed $\mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$ (\textit{i.e.}, $|\Delta b_{<\Game} - \Delta b_{\Game}| \leq \mathfrak{w}_{\Xi-1}^{\text{LAST}^{*}}$).
     
+    For a \term{Well} no longer on the \term{Deposit Whitelist}, condition (2) instead requires the magnitude of its pre-\term{Conversion} $\Delta b$ to incur no per-\term{Well} capacity penalty.
+
     \item \textbf{Convert Function:} The number of \Pinto\ received for \term{Converting} \term{Deposited} $\mathfrak{w}$ within the \term{Silo} for a given $\Pinto^{@}$, minimum number of \Pinto\ received ($\Pinto^{\text{min}}$), such that $\Pinto^{\text{min}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, $\PintoContract^{@}$ and \code{block.timestamp} is the result of calling the \term{Well Implementation} \code{removeLiquidityOneToken} function on $\mathfrak{w}$ as:
 
     $$

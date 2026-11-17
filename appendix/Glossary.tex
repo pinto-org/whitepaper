@@ -29,7 +29,7 @@ The following variables and terms are used throughout this whitepaper:
 \begin{itemize}[topsep=0pt, itemsep=2pt,leftmargin=16pt]
     \item[] AMM - Automated market maker;
     \item[] \term{Burnt} - Sent to the null address;
-    \item[] \term{Blight Factor} - The value adjusted by a \term{Gauge Implementation} that changes the \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
+    \item[] \term{Blight Factor} - The counter used to determine the dynamic \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
     \item[] \term{Cancel} - Revoke an offer to buy or sell \term{Pods};
     \item[] \term{Conversion} - Exchange one \term{Deposited} $\lambda$ for another within the \term{Silo};
     \item[] \term{Conversion Whitelist} - The whitelist that permissions \term{Conversions} within the \term{Silo};
@@ -53,7 +53,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] \term{Flood Whitelist} - The whitelist of pools that the protocol sells \Pinto\ directly in when it mints extra \Pinto\ during a \term{Flood};
     \item[] \term{Fork Migration System} - A protocol-native system that allows users to migrate assets from one or more Pinto deployments to another;
     \item[] \term{Furrow Scalar} - A coefficient for \term{Soil} issuance when $\Delta B_{\Xi-1}^{\text{EMA}} < 0$ and $\Delta B_{\overline{t-1}} < 0$;
-    \item[] \term{Gauge Implementation} - A system for adjusting a variable at the beginning of each \term{Season};
+    \item[] \term{Gauge Implementation} - A system for adjusting one or more variables at the beginning of each \term{Season};
     \item[] \term{Germination} - The period during which \term{Deposits} (1) cannot be \term{Converted}, (2) are not eligible for \Pinto\ mints and (3) are not included in \term{Seed Gauge System} PDV calculations;
     \item[] \term{Grow} - {\term{Stalk} being created by \term{Seeds};
     \item[] \term{Grown Stalk} - \term{Stalk} that has been created by \term{Seeds} and not yet \term{Mown};
@@ -173,9 +173,8 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $F$ - The number of consecutive full \term{Seasons} it must \term{Rain} in order to \term{Flood} at the beginning of the next \term{Season};
     \item[] $G_{t}$ - A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $t$;
     \item[] $g_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Grown Stalk} from \term{Seeds} from $\lambda$ \term{Deposits} that can be \term{Mown} during $t$ to start earning \Pinto\ seigniorage for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
-    \item[] $g^{\lambda'^{*}}$ - The \term{Mown Stalk} penalty in Generalized \term{Convert};
-    \item[] $g_t^{\mathfrak{D}}$ - The \term{Mown Stalk} penalty ratio calculated for \term{Season} $t$;
-    \item[] $g^{\mathfrak{D}^{*}}$ - The \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens;
+    \item[] $g^{\lambda'^{*}}$ - The fraction of \term{Mown Stalk} retained in Generalized \term{Convert};
+    \item[] $g_t^{\mathfrak{D}}$ - The dynamic \term{Mown Stalk} penalty during $t$;
     \item[] $H_{t}$ - The \term{Maximum Temperature} during $t$;
     \item[] $H_t^{\mathfrak{C}}$ - The \term{Cultivation Temperature} during \term{Season} $t$;
     \item[] $H^{b}$ - Absolute change to the \term{Maximum Temperature};
@@ -189,6 +188,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $k_{t,i,\varkappa^{\lambda}}^{\lambda}$ - The \term{Stalk} during $t$ for a given \term{Deposit} of a \term{Stalkholder} that last \term{Mowed} their \term{Grown Stalk} from $\lambda$ \term{Deposits} in $\varkappa^{\lambda}$;
     \item[] $\widehat{k}_t^{\pinto}$ - The \term{Mown Stalk} immediately before applying the penalty for a \Pinto\ to $\mathfrak{w}$ \term{Conversion} in \term{Season} $t$;
     \item[] $\widehat{k}_t^{\mathfrak{w}}$ - The \term{Mown Stalk} retained by the output $\mathfrak{w}$ \term{Deposit} after the penalty for a \Pinto\ to $\mathfrak{w}$ \term{Conversion} in \term{Season} $t$ is applied;
+    \item[] $\widehat{k}_t^{\mathfrak{w}^{\mathfrak{D}}}$ - The portion of \term{Mown Stalk} subject to the penalty for a \Pinto\ to $\mathfrak{w}$ \term{Conversion} in \term{Season} $t$;
     \item[] $\widehat{k}_t^{\lambda^{\text{min}}}$ - The minimum \term{Mown Stalk} required for a given output $\lambda$ \term{Deposit} to not be \term{Germinating} in \term{Season} $t$;
     \item[] $\mathbf{L}_{t}^{\pinto}$ - The total \Pinto\ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
     \item[] $\mathbf{L}_{t}^{\lambda}$ - The total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$;
@@ -196,13 +196,18 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $L_{i}^{\lambda}$ - The total PDV of $Z_{i}^{\lambda}$ when \term{Deposited};
     \item[] $f^{L^{\lambda}}(z^{\lambda})$ - The function to calculate the flash-loan-resistant PDV of a given number of \term{Deposited} $\lambda$;
     \item[] $f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$ - The function to calculate the flash-loan-resistant PDV of a given number of \term{Deposited} $\mathfrak{w}$;
+    \item[] $L^{\mathfrak{w}}$ - The stored PDV of the output \term{Well} LP \term{Deposit} in a \Pinto\ to \term{Well} LP \term{Conversion};
+    \item[] $L^{\mathfrak{w}^{\mathfrak{D}}}$ - The portion of $L^{\mathfrak{w}}$ subject to the \term{Mown Stalk} penalty;
     \item[] $M$ - The total \Pinto\ minted over all \term{Seasons};
+    \item[] $M_t^{\mathfrak{D}}$ - The \Pinto\ tracked toward the minting threshold in \term{Season} $t$;
+    \item[] $M_t^{\mathfrak{D}^{*}}$ - The minting threshold for the \term{Mown Stalk} penalty in \term{Season} $t$;
+    \item[] $M_t^{\mathfrak{D}^{\text{run}}}$ - The amount accumulated to calculate the minting threshold in \term{Season} $t$;
     \item[] $m_{t}$ - The number of \Pinto\ that the protocol mints at the beginning of each \term{Season};
     \item[] $N$ - The total \term{Burnt} \Pinto\ over all \term{Seasons};
     \item[] $P$ - The price;
     \item[] $P_{\overline{t-1}}$ - The inferred liquidity and time weighted average price of \Pinto1 compared to $V$ over the previous \term{Season};
     \item[] $P_{\overline{t-1}}^{\mathfrak{C}}$ - The time weighted average price of \Pinto1 over the previous \term{Season}, capped at $1$, in the \term{Well} whose non-\Pinto\ USD-denominated liquidity, weighted by $f^{\mathscr{W}^{\lambda}}$, is greatest;
-    \item[] $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$ - The inter-block MEV manipulation resistant instantaneous price of \Pinto1 in the output \term{Well};
+    \item[] $P^{\mathfrak{D}}$ - The price below which \term{Converted} PDV is subject to the \term{Mown Stalk} penalty;
     \item[] $P^{*}$ - The optimal price;
     \item[] $P^{\text{upper}}$ - A level above which price is considered excessively high;
     \item[] $Q$ - The length of each interval of the \term{Morning} in seconds; 
@@ -239,6 +244,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $W$ - The total non-\Pinto\ USD-denominated value of liquidity in the \term{Silo};
     \item[] $Z_{i}^{\lambda}$ - The total number of $\lambda$ \term{Deposited} during \term{Season} $i$;
     \item[] $z^{\lambda}$ - A given number of \term{Deposited} $\lambda$;
+    \item[] $z^{\pinto^{\mathfrak{D}}}$ - The number of \term{Converted} \Pinto\ below $P^{\mathfrak{D}}$, calculated using the output \term{Well}'s inter-block MEV manipulation resistant instantaneous reserves;
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Mathfrak Style Latin Alphabet Variables %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,6 +271,7 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ - The optimal number of \Pinto\ in $\mathfrak{w}$ at the end of the last block;
     \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}$ - The number of \Pinto\ in $\mathfrak{w}$ at the end of the last block;
     \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}$ - The number of non-\Pinto\ in $\mathfrak{w}$ at the end of the last block;
+    \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{\mathfrak{D}}}$ - The number of \Pinto\ in the output \term{Well} at $P^{\mathfrak{D}}$, keeping its inter-block MEV manipulation resistant instantaneous non-\Pinto\ reserves unchanged;
     \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ - The optimal number of \Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
     \item[] $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$ - The number of \Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
     \item[] $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$ - The number of non-\Pinto\ in a \term{Well} based on the instantaneous reserves in the Multi Flow \term{Pump};
@@ -321,13 +328,15 @@ The following variables and terms are used throughout this whitepaper:
     \item[] $\eta^{\pinto}$ - \term{Earned} \Pinto;
     \item[] $\eta_{t}^{c}$ - The \term{Plantable Seeds} associated with a \term{Stalkholder's} $\eta^{\pinto}$ that can be \term{Planted} to start earning \term{Grown Stalk} during $t$;
     \item[] $\Lambda$ - The \term{Deposit Whitelist};
-    \item[] $\lambda$ - \Pinto\ and other assets on the \term{Deposit Whitelist};
+    \item[] $\Lambda^{\text{all}}$ - The set of currently or previously \term{Whitelisted} assets;
+    \item[] $\lambda$ - \Pinto\ and other currently or previously \term{Whitelisted} assets;
     \item[] $\lambda_{\nonpinto,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA non-\Pinto\ reserves in the Multi Flow \term{Pump} of $\lambda$ from the beginning of the previous \term{Season} to the current transaction;
     \item[] $\lambda_{\lambda,{t-1}_0,\Game}^{\text{SMA}}$ - The inter-block MEV manipulation resistant TWA number of $\lambda$ LP tokens from the beginning of the previous \term{Season} to the current transaction;
     \item[] $\lambda_{\Xi-1}^{\text{LAST}^{*}}$ - The maximum remaining \term{Conversions} of $\lambda$ permitted before a penalty is accrued;
     \item[] $\lambda^{\rho}$ - The LP token supply change cap per block set in Multi Flow;
     \item[] $f^{\lambda \rightarrow \lambda'}(z^{\lambda})$ - The function to determine the number of $\lambda'$ received for \term{Converting} a given number of $\lambda$;
     \item[] $f^{\lambda \rightarrow \lambda'}(z^{\lambda} \rightarrow z^{\lambda'})$ - The function to determine the number of \term{Mown Stalk} burned for \term{Converting} a given number of $\lambda$ to $\lambda'$;
+    \item[] $\mu^{\mathfrak{D}}$ - The supply scalar used to increase the minting threshold for the \term{Mown Stalk} penalty;
     \item[] $\sigma$ - A control variable used to calculate the \term{Temperature} during the \term{Morning};
     \item[] $\rho$ - The exchange rate cap per block set in Multi Flow; and
     \item[] $\phi$ - PINTO:USDC LP tokens.

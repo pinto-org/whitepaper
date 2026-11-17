@@ -1,0 +1,93 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{enumitem} % Format list spacing 
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Former Deposit Whitelist %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Former Deposit Whitelist}\label{sec:former-deposit-whitelist}
+
+The following ERC-20 Standard tokens were previously \term{Whitelisted} for \term{Deposit} in the \term{Silo}.
+
+%%%%%%%%%%%%%%%%%% PINTO:WETH %%%%%%%%%%%%%%%%%%
+
+\vspace{0.2cm}
+\subsubsection{$\vartheta$ (PINTO:WETH)}
+\vspace{0.2cm}
+
+\begin{enumerate}
+
+    \item \textbf{Token Address:} The $\vartheta$ token address ($\vartheta^{@}$), such that $\vartheta^{@} \in \{j \in \mathbb{N} \mid j < 16^{40} \}$, $\vartheta^{@} = \\ \text{0x3e11001CfbB6dE5737327c59E10afAB47B82B5d3}$).
+    
+    \item \textbf{PDV Function:} The PDV of $\vartheta$ was calculated using $f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$.
+                
+    \item \textbf{Stalk per PDV:} $\vartheta$ \term{Deposits} received 1 \term{Stalk} per PDV upon \term{Deposit} (\textit{i.e.}, $k^{\vartheta} = 10^{16}$).
+    
+    \item \textbf{Initial Seeds per PDV:} $\vartheta$ \term{Deposits} received 3 \term{Seeds} per PDV upon deployment  (\textit{i.e.}, ${c_{\circ}^{\vartheta}} = 3 \times 10^6$).
+
+    \item \textbf{Initial LP Seed Gauge Points:} The initial \term{LP Seed Gauge Points} of $\vartheta$ was 250 (\textit{i.e.}, $\mathscr{L}_{\circ}^{\vartheta} = 2.5 \times 10^{20}$).
+    
+    \item \textbf{LP Seed Gauge Point Function:} The number of \term{LP Seed Gauge Points} of $\vartheta$ during $t$ was calculated using $f^{\mathscr{L}^{\lambda'}}$.
+
+    \item \textbf{Non-Pinto USD Price Function:} The USD price of the non-Pinto asset in $\vartheta$ was calculated using $f^{\$^{\lambda'}}(\mathfrak{K})$.
+
+    \item \textbf{Liquidity Weight Function:} The \term{Liquidity Weight} of $\vartheta$ was calculated using $f^{\mathscr{W}^{\lambda'}}$.
+    
+    \item \textbf{Optimal Percent of Deposited LP PDV:} The optimal percent of \term{Deposited} LP PDV of $\vartheta$ was 12.5\% (\textit{i.e.}, $\mathscr{B}^{\vartheta^{*}}$ = $1.25 \times 10^{7}$).
+
+    \item \textbf{Additional Information:}
+        \begin{itemize}
+            \item Non-Pinto USD Price Oracle: Chainlink ETH/USD data feed\fref{basescan.org/address/0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70}
+            \item \term{Well Function}: Constant Product 2
+            \item \term{Well Implementation}: Upgradable \term{Well} (owned by the \term{PCM})
+            \item \term{Pump}: Multi Flow
+                \begin{itemize}
+                    \item $\rho$ = $2.5 \times 10^{65}$ (\textit{i.e.}, 25\%)
+                    \item $\lambda^{\rho}$ = $2.5 \times 10^{65}$ (\textit{i.e.}, 25\%)
+                \end{itemize}
+        \end{itemize}
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%% PINTO:WSOL %%%%%%%%%%%%%%%%%%
+
+\subsubsection{$\varpi$ (PINTO:WSOL)}
+
+\begin{enumerate}
+
+    \item \textbf{Token Address:} The $\varpi$ token address ($\varpi^{@}$), such that $\varpi^{@} \in \{j \in \mathbb{N} \mid j < 16^{40} \}$, $\varpi^{@} = \\ \text{0x3e11444c7650234c748D743D8d374fcE2eE5E6C9}$).
+    
+    \item \textbf{PDV Function:} The PDV of $\varpi$ was calculated using $f^{L^{\mathfrak{w}}}(z^{\mathfrak{w}})$.
+                
+    \item \textbf{Stalk per PDV:} $\varpi$ \term{Deposits} received 1 \term{Stalk} per PDV upon \term{Deposit} (\textit{i.e.}, $k^{\varpi} = 10^{16}$).
+    
+    \item \textbf{Initial Seeds per PDV:} $\varpi$ \term{Deposits} received 3 \term{Seeds} per PDV upon deployment (\textit{i.e.}, ${c_{\circ}^{\varpi}} = 3 \times 10^6$).
+
+    \item \textbf{Initial LP Seed Gauge Points:} The initial \term{LP Seed Gauge Points} of $\varpi$ was 500 (\textit{i.e.}, $\mathscr{L}_{\circ}^{\varpi} = 5 \times 10^{20}$).
+    
+    \item \textbf{LP Seed Gauge Point Function:} The number of \term{LP Seed Gauge Points} of $\varpi$ during $t$ was calculated using $f^{\mathscr{L}^{\lambda'}}$.
+
+    \item \textbf{Non-Pinto USD Price Function:} The USD price of the non-Pinto asset in $\varpi$ was calculated using $f^{\$^{\lambda'}}$.
+
+    \item \textbf{Liquidity Weight Function:} The \term{Liquidity Weight} of $\varpi$ was calculated using $f^{\mathscr{W}^{\lambda'}}$.
+    
+    \item \textbf{Optimal Percent of Deposited LP PDV:} The optimal percent of \term{Deposited} LP PDV of $\varpi$ was 25\% (\textit{i.e.}, $\mathscr{B}^{\varpi^{*}}$ = $2.5 \times 10^{7}$).
+
+    \item \textbf{Additional Information:}
+        \begin{itemize}
+            \item Non-Pinto USD Price Oracle: Chainlink SOL/USD data feed\fref{basescan.org/address/0x975043adBb80fc32276CbF9Bbcfd4A601a12462D}
+            \item \term{Well Function}: Constant Product 2
+            \item \term{Well Implementation}: Upgradable \term{Well} (owned by the \term{PCM})
+            \item \term{Pump}: Multi Flow
+                \begin{itemize}
+                    \item $\rho$ = $2.5 \times 10^{65}$ (\textit{i.e.}, 25\%)
+                    \item $\lambda^{\rho}$ = $2.5 \times 10^{65}$ (\textit{i.e.}, 25\%)
+                \end{itemize}
+        \end{itemize}
+    
+\end{enumerate}
+
+\end{document}

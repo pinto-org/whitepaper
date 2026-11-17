@@ -160,6 +160,27 @@
 \newcommand{\pinto}{\includesvg[scale=0.025]{./logos/white-pinto.svg}} % Pinto used in superscripts and subscripts
 \newcommand{\nonpinto}{\includesvg[scale=0.022]{./logos/non-pinto.svg}} % Non-Pinto used in superscripts and subscripts
 
+% Diagnostic: cache the five original SVG glyph renderings once.
+\newsavebox{\cachePintoCover}
+\let\originalPintoCover\PintoCover
+\AtBeginDocument{\sbox{\cachePintoCover}{\originalPintoCover}}
+\renewcommand{\PintoCover}{\usebox{\cachePintoCover}}
+\newsavebox{\cachePintoContract}
+\let\originalPintoContract\PintoContract
+\AtBeginDocument{\sbox{\cachePintoContract}{\originalPintoContract}}
+\renewcommand{\PintoContract}{\usebox{\cachePintoContract}}
+\newsavebox{\cachePinto}
+\let\originalPinto\Pinto
+\AtBeginDocument{\sbox{\cachePinto}{\originalPinto}}
+\renewcommand{\Pinto}{\usebox{\cachePinto}}
+\newsavebox{\cachepinto}
+\let\originalpinto\pinto
+\AtBeginDocument{\sbox{\cachepinto}{\originalpinto}}
+\renewcommand{\pinto}{\usebox{\cachepinto}}
+\newsavebox{\cachenonpinto}
+\let\originalnonpinto\nonpinto
+\AtBeginDocument{\sbox{\cachenonpinto}{\originalnonpinto}}
+\renewcommand{\nonpinto}{\usebox{\cachenonpinto}}
 % List Key
 \SetEnumitemKey{midsep}{topsep=0pt, itemsep=3pt} % Itemize key
 
@@ -226,16 +247,16 @@
 
         \normalsize{\href{https://pinto.money/}{pinto.money}}
 
-        \footnotesize{Whitepaper Version:} {\normalsize{1.2.2}}
+        \footnotesize{Whitepaper Version:} {\normalsize{1.2.3}}
 
         \vspace{-0.25cm}
-        \footnotesize{Published:} {\normalsize{November 15, 2026}}
+        \footnotesize{Published:} {\normalsize{November 17, 2026}}
 
         \vspace{-0.25cm}
-        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases/tag/v1.2.3}{\normalsize{1.2.3}}\footnote{\href{https://github.com/pinto-org/protocol/releases/tag/v1.2.3}{github.com/pinto-org/protocol/releases/tag/v1.2.3}}
+        \footnotesize{Code Version:} \href{https://github.com/pinto-org/protocol/releases/tag/v1.2.4}{\normalsize{1.2.4}}\footnote{\href{https://github.com/pinto-org/protocol/releases/tag/v1.2.4}{github.com/pinto-org/protocol/releases/tag/v1.2.4}}
 
         \vspace{-0.25cm}
-        \footnotesize{Deployed:} {\normalsize{June 19, 2025}}
+        \footnotesize{Deployed:} {\normalsize{July 31, 2025}}
         
         \vspace{0.1cm}
 
@@ -409,6 +430,8 @@ The number of \term{Stalk} and \term{Seeds} rewarded to a \term{Deposit} are inc
 
 Any ERC-20 Standard token can be added to and removed from $\Lambda$ via the \term{Pinto Contract Multisig} (\term{PCM}) (see Appendix). \Pinto\ is always on the \term{Deposit Whitelist}.
 
+Removing an asset from $\Lambda$ prevents new \term{Deposits} and \term{Conversions} into that asset. Existing \term{Deposits} can still be \term{Withdrawn}, \term{Transferred} and \term{Converted} out under permitted conditions, and retain their \term{Stalk} and claims to prior \term{Flood} proceeds. We denote the set of currently or previously \term{Whitelisted} assets as $\Lambda^{\text{all}}$.
+
 \vspace*{1.2mm}
 
 In order for a given $\lambda$ to be added to $\Lambda$, the protocol requires 
@@ -451,7 +474,7 @@ Every $\lambda$ \term{Deposit} except \term{Earned} \Pinto\ are subject to a \te
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.12]{figures/Silo.png}
+    \includegraphics[scale=.12]{figures/Silo.pdf}
     \vspace*{-5mm}
     \caption{Silo}
     \label{Silo}
@@ -531,7 +554,7 @@ A \term{Stalkholder's} total \term{Stalk} during $t$ ($K_{t}$), such that $K_{t}
 
     $$
         K_{t} = 
-            \sum_{\lambda \in \Lambda}
+            \sum_{\lambda \in \Lambda^{\text{all}}}
                 \sum_{i=1}^{\varkappa^{\lambda}}
                     k_{t,i,\varkappa^{\lambda}}^{\lambda}
     $$
@@ -560,7 +583,7 @@ The total \term{Mown Stalk} in the \term{Silo} during $t$ ($\widehat{\mathbf{K}_
     $$
         \widehat{\mathbf{K}_{t}} = 
             \mathbf{K}_{t} - \sum
-            \sum_{\lambda \in \Lambda}
+            \sum_{\lambda \in \Lambda^{\text{all}}}
                 \sum_{i=1}^{t}
                     L_{i}^{\lambda} \times k^{\lambda}
     $$
@@ -584,7 +607,7 @@ A \term{Stalkholder's} total \term{Grown Stalk} that can be \term{Mown} during $
 
     $$
         G_{t} = 
-            \sum_{\lambda \in \Lambda}
+            \sum_{\lambda \in \Lambda^{\text{all}}}
                 \sum_{\varkappa^{\lambda} + 1}^{t} 
                     g_{t,i,\varkappa^{\lambda}}^{\lambda}
     $$
@@ -600,32 +623,32 @@ When a \term{Stalkholder} \term{Converts} multiple $\lambda$ \term{Deposits}, th
 
 A \term{Stalkholder's} total \term{Seeds} is the sum of the \term{Seeds} for each of their \term{Deposits}.
 
-The number of \term{Seeds} per PDV during $t$ for a given $\lambda$ are determined by (1) the total \term{Seeds} that \term{Season} ($\mathbf{C}_{t}$), (2) the \term{Seed Gauge Points} of $\lambda$ ($\mathscr{S}_{t}^{\lambda}$), (3) $\mathbf{L}_{t}^{\lambda}$, and (4) the total \term{Seed Gauge Points} ($\mathscr{S}_{t}$), such that $\mathbf{C}_{t}, \mathscr{S}_{t}^{\lambda},\ \mathscr{S}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
+For $\lambda \in \Lambda^{\text{all}}$ and $\lambda \notin \Lambda$, $c_{t}^{\lambda}=10^{-6}$. For $\lambda \in \Lambda$, the number of \term{Seeds} per PDV during $t$ are determined by (1) the total \term{Seeds} that \term{Season} ($\mathbf{C}_{t}$), (2) the \term{Seed Gauge Points} of $\lambda$ ($\mathscr{S}_{t}^{\lambda}$), (3) $\mathbf{L}_{t}^{\lambda}$, and (4) the total \term{Seed Gauge Points} ($\mathscr{S}_{t}$), such that $\mathbf{C}_{t}, \mathscr{S}_{t}^{\lambda},\ \mathscr{S}_{t} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$.
 
 \begin{keepunit}
-We define $\mathbf{C}_{t}$ for a given initial ($\overline{\mathbf{C}}^{\circ}$) and minimum average \term{Seeds} per PDV ($\overline{\mathbf{C}}^{\text{min}}$), such that $\overline{\mathbf{C}}^{\circ},\ \overline{\mathbf{C}}^{\text{min}} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}$, total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\lambda}$), such that $\mathbf{L}_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, $\forall\ \lambda \in \Lambda$, $\widehat{\mathbf{K}_{t}}$ and $\mathscr{T}$ as: 
+We define $\mathbf{C}_{t}$ for a given initial ($\overline{\mathbf{C}}^{\circ}$) and minimum average \term{Seeds} per PDV ($\overline{\mathbf{C}}^{\text{min}}$), such that $\overline{\mathbf{C}}^{\circ},\ \overline{\mathbf{C}}^{\text{min}} \in \{j \times 10^{-12} \mid j \in \mathbb{Z}^{+} \}$, total PDV of $\lambda$ \term{Deposited} in the \term{Silo} that are not \term{Germinating} at the beginning of $t$ ($\mathbf{L}_{t}^{\lambda}$), such that $\mathbf{L}_{t}^{\lambda} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, $\forall\ \lambda \in \Lambda^{\text{all}}$, $\widehat{\mathbf{K}_{t}}$ and $\mathscr{T}$ as: 
 
     $$ 
         \mathbf{C}_{t} = 
         \begin{cases}
             \frac{\overline{\mathbf{C}}^{\circ}}
-                {\sum\limits_{\lambda \in \Lambda}
+                {\sum\limits_{\lambda \in \Lambda^{\text{all}}}
                                             \mathbf{L}_{i}^{\lambda}}
                 & \text{if } t < \mathscr{T}\ |\
                 \frac{10000 \times \widehat{\mathbf{K}_{t}}}
                         {\mathscr{T} \times 
-                            \sum\limits_{\lambda \in \Lambda}{\mathbf{L}_{t}^{\lambda}}}
+                            \sum\limits_{\lambda \in \Lambda^{\text{all}}}{\mathbf{L}_{t}^{\lambda}}}
                 < \frac{\overline{\mathbf{C}}^{\circ}}
-                    {\sum\limits_{\lambda \in \Lambda} 
+                    {\sum\limits_{\lambda \in \Lambda^{\text{all}}} 
                                                 \mathbf{L}_{i}^{\lambda}}\ \forall\ \mathscr{T} < t \\
                 
             \text{max}
             \left(\frac{\overline{\mathbf{C}}^{\text{min}}}
-                    {\sum\limits_{\lambda \in \Lambda}
+                    {\sum\limits_{\lambda \in \Lambda^{\text{all}}}
                                                 \mathbf{L}_{i}^{\lambda}},\ 
             \frac{10000 \times \widehat{\mathbf{K}_{t}}}
                     {\mathscr{T} \times 
-                        \sum\limits_{\lambda \in \Lambda}{\mathbf{L}_{t}^{\lambda}}}
+                        \sum\limits_{\lambda \in \Lambda^{\text{all}}}{\mathbf{L}_{t}^{\lambda}}}
             \right)
                 & \text{else}
         \end{cases}
@@ -684,12 +707,14 @@ We define the \term{Seed Gauge Points} of $\lambda$ during $t$ as:
 \end{keepunit}
 
 \begin{keepunit}
-Therefore, we define $c_{t}^{\lambda}$ given $\mathbf{C}_{t}$, $\mathscr{S}_{t}^{\lambda}$, $\mathbf{L}_{t}^{\lambda}$ and $\mathscr{S}_{t}$ as: 
+Therefore, for $\lambda \in \Lambda$, we define $c_{t}^{\lambda}$ given $\mathbf{C}_{t}$, $\mathscr{S}_{t}^{\lambda}$, $\mathbf{L}_{t}^{\lambda}$ and $\mathscr{S}_{t}$ as: 
 
     $$
-        c_{t}^{\lambda} = \frac{\mathbf{C}_{t} \times \mathscr{S}_{t}^{\lambda}}
-                                {\mathbf{L}_{t}^{\lambda} \times \mathscr{S}_{t}}
+        c_{t}^{\lambda} =
+            \frac{\mathbf{C}_{t} \times \mathscr{S}_{t}^{\lambda}}
+                 {\mathbf{L}_{t}^{\lambda} \times \mathscr{S}_{t}}
     $$
+
 \end{keepunit}
 
 The number of \term{Seeds} for a given $\lambda$ \term{Deposit} are determined by its PDV when \term{Deposited} and $c_{t}^{\lambda}$.
@@ -707,7 +732,7 @@ A \term{Stalkholder's} total \term{Seeds} during $t$ ($C_{t}$), such that $C_{t}
 
     $$
         C_{t} = 
-            \sum_{\lambda \in \Lambda} 
+            \sum_{\lambda \in \Lambda^{\text{all}}} 
                 \sum_{i=1}^{t} 
                     C_{t,i}^{\lambda}
     $$
@@ -733,7 +758,7 @@ The Pinto target maintenance mechanism requires the ability to borrow Pinto. The
 
 \vspace{-0.2cm}
 
-Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 10 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the target maintenance mechanism.
+Anytime there is \term{Soil} in the \term{Field}, any owner of Pinto that are not in the \term{Silo} can \term{Sow} (lend) Pinto to the protocol in exchange for \term{Pods} and become a \term{Sower}. The \term{Temperature} is the interest rate on Pinto loans. The \term{Morning} is the first 10 minutes of each \term{Season}. The protocol changes the \term{Soil} and \term{Temperature} every $Q$, such that $Q \in \mathbb{Z}^{+}$, seconds during the \term{Morning} according to the target maintenance mechanism.\looseness=-1
 
 %%%%%%%%%%%%%%%%%%%%%%% Soil %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -770,7 +795,7 @@ In the future, when the liquidity and time weighted average price of \Pinto1 is 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.085]{figures/Field.png}
+    \includegraphics[scale=.085]{figures/Field.pdf}
     \vspace*{-5mm}
     \caption{Field}
     \label{Field}
@@ -1508,53 +1533,118 @@ $\mathscr{X}^{m}$ and $\mathscr{X}^{b}$ are shown in Figures \ref{Crop Scalar Ch
 
 \subsection{Mown Stalk Penalty}\label{sec:mown-stalk-penalty}
 
-Unless the inter-block MEV manipulation resistant instantaneous price of \Pinto1 in the output \term{Well} ($P_{\Xi-1}^{\lambda'^{\text{EMA}}}$), such that $P_{\Xi-1}^{\lambda'^{\text{EMA}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, is above $P^{\text{upper}}$, the protocol applies a \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens ($g^{\mathfrak{D}^{*}}$), such that $g^{\mathfrak{D}^{*}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$.
+The protocol applies a 100\% \term{Mown Stalk} penalty to the portion of \term{Converted} PDV that moves the price of \Pinto1 in currently \term{Whitelisted} \term{Wells} farther from its value target, whether above or below it. 
 
 \begin{keepunit}
-If the \term{Mown Stalk} before the penalty is at least the minimum \term{Mown Stalk} required for the output $\lambda$ \term{Deposit} to not be \term{Germinating} in \term{Season} $t$ ($\widehat{k}_t^{\lambda^{\text{min}}}$), such that $\widehat{k}_t^{\lambda^{\text{min}}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, the output $\lambda$ \term{Deposit} retains at least this minimum. Otherwise, no penalty is applied.
+Additionally, unless the inter-block MEV manipulation resistant instantaneous price of \Pinto1 in the output \term{Well}, after accounting for the \term{Converted} \Pinto, is above the penalty price ($P^{\mathfrak{D}}$), such that $P^{\mathfrak{D}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the protocol applies a dynamic \term{Mown Stalk} penalty for \term{Converting} \term{Deposited} \Pinto\ to \term{Deposited} LP tokens during $t$ ($g_t^{\mathfrak{D}}$), such that $g_t^{\mathfrak{D}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$. This dynamic penalty applies only to the portion of \term{Converted} PDV below $P^{\mathfrak{D}}$.
 \end{keepunit}
 
+
+
+If $0<\Delta B_{\overline{t-1}}$, the dynamic \term{Mown Stalk} penalty is $100\%$ until a threshold number of \Pinto\ have been minted. The minting threshold during $t$ ($M_t^{\mathfrak{D}^{*}}$) and the number of \Pinto\ minted toward it during $t$ ($M_t^{\mathfrak{D}}$), such that $M_t^{\mathfrak{D}^{*}},\ M_t^{\mathfrak{D}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, are updated at the beginning of each \term{Season}.
+
+$M_t^{\mathfrak{D}^{*}}$ is a function of $M_{t-1}^{\mathfrak{D}^{*}}$, a running total of a new potential threshold ($M_t^{\mathfrak{D}^{\text{run}}}$), such that $M_t^{\mathfrak{D}^{\text{run}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, $\Delta B_{\overline{t-1}}$ and $M_{t-1}^{\mathfrak{D}}$.
+
+$M_t^{\mathfrak{D}^{\text{run}}}$ accumulates a fraction of the Pinto supply at the beginning of every \term{Season} with $\Delta B_{\overline{t-1}}<0$ without a \term{Season} with $0<\Delta B_{\overline{t-1}}$, and resets to $0$ when $0<\Delta B_{\overline{t-1}}$.
+
+$M_t^{\mathfrak{D}^{\text{run}}}$ is a function of $M_{t-1}^{\mathfrak{D}^{\text{run}}}$, a supply scalar ($\mu^{\mathfrak{D}}$), such that $\mu^{\mathfrak{D}} \in \{j \times 10^{-18} \mid j \in \mathbb{Z}^{+} \}$, $B_{t-1}$ and $\Delta B_{\overline{t-1}}$.
+
 \begin{keepunit}
-The \term{Mown Stalk} penalty is a function of (1) $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$, (2) $P^{\text{upper}}$, and (3) the \term{Mown Stalk} penalty ratio during $t$ ($g_t^{\mathfrak{D}}$), such that $g_t^{\mathfrak{D}} \in \{j \times 10^{-18} \mid j \in \mathbb{N} \}$.
+We define $M_t^{\mathfrak{D}^{\text{run}}}$ for a given $M_{t-1}^{\mathfrak{D}^{\text{run}}}$, $\mu^{\mathfrak{D}}$, $B_{t-1}$ and $\Delta B_{\overline{t-1}}$ as:
+
+    $$
+        M_t^{\mathfrak{D}^{\text{run}}} =
+        \begin{cases}
+            M_{t-1}^{\mathfrak{D}^{\text{run}}}+\mu^{\mathfrak{D}}\times B_{t-1} & \text{if }\Delta B_{\overline{t-1}}<0\\
+            0 & \text{else if }0<\Delta B_{\overline{t-1}}\\
+            M_{t-1}^{\mathfrak{D}^{\text{run}}} & \text{else}
+        \end{cases}
+    $$
 \end{keepunit}
 
-$g_t^{\mathfrak{D}}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$).
-
-The \term{Mown Stalk} penalty ratio during $t$ is based on (1) $g_{t-1}^{\mathfrak{D}}$, (2) $R_{t-1}^{W}$, (3) $R^{W^{\text{lower}}}$, (4) the maximum \term{Blight Factor} ($\mathfrak{D}^{\text{max}}$), such that $\mathfrak{D}^{\text{max}} \in \mathbb{Z}^{+}$, and (5) the \term{Blight Factor} during $t$ ($\mathfrak{D}_{t}$), such that $\mathfrak{D}_{t} \in \mathbb{Z}$.
+While a minting threshold is outstanding, the protocol calculates $M_t^{\mathfrak{D}}$ by adding $\Delta B_{\overline{t-1}}$ to $M_{t-1}^{\mathfrak{D}}$ in each \term{Season} with $0<\Delta B_{\overline{t-1}}$. Reaching the threshold clears it and the tracked mints, while retaining the preceding dynamic \term{Mown Stalk} penalty for that \term{Season}. 
 
 \begin{keepunit}
-We define $g_t^{\mathfrak{D}}$ for a given $g_{t-1}^{\mathfrak{D}}$, $R_{t-1}^{W}$, $R^{W^{\text{lower}}}$, $\mathfrak{D}^{\text{max}}$ and $\mathfrak{D}_{t}$ as:
+We define $M_t^{\mathfrak{D}}$ for a given $M_{t-1}^{\mathfrak{D}}$, $\Delta B_{\overline{t-1}}$ and $M_{t-1}^{\mathfrak{D}^{*}}$ as:
+
+    $$
+        M_t^{\mathfrak{D}} =
+        \begin{cases}
+            M_{t-1}^{\mathfrak{D}}+\Delta B_{\overline{t-1}} & \begin{gathered}\text{if }0<\Delta B_{\overline{t-1}}\ \&\&\\M_{t-1}^{\mathfrak{D}}+\Delta B_{\overline{t-1}}<M_{t-1}^{\mathfrak{D}^{*}}\end{gathered}\\[2mm]
+            0 & \text{else if }0<\Delta B_{\overline{t-1}}\\
+            M_{t-1}^{\mathfrak{D}} & \text{else}
+        \end{cases}
+    $$
+\end{keepunit}
+
+If \(\Delta B_{\overline{t-1}}<0\) and the running total exceeds the preceding minting threshold, the protocol replaces the threshold with the running total. If \(0<\Delta B_{\overline{t-1}}\) and the number of Pinto minted toward the threshold reaches or exceeds it, the protocol clears the threshold. Otherwise, the threshold remains unchanged.
+
+\begin{keepunit}
+We define $M_t^{\mathfrak{D}^{*}}$ for a given $M_{t-1}^{\mathfrak{D}^{*}}$, $M_t^{\mathfrak{D}^{\text{run}}}$, $\Delta B_{\overline{t-1}}$ and $M_{t-1}^{\mathfrak{D}}$ as:
+
+    $$
+        M_t^{\mathfrak{D}^{*}} =
+        \begin{cases}
+            \max\left(M_{t-1}^{\mathfrak{D}^{*}},M_t^{\mathfrak{D}^{\text{run}}}\right) & \text{if }\Delta B_{\overline{t-1}}<0\\[2mm]
+            0 & \begin{gathered}\text{else if }0<\Delta B_{\overline{t-1}}\ \&\&\\M_{t-1}^{\mathfrak{D}^{*}}\leq M_{t-1}^{\mathfrak{D}}+\Delta B_{\overline{t-1}}\end{gathered}\\[2mm]
+            M_{t-1}^{\mathfrak{D}^{*}} & \text{else}
+        \end{cases}
+    $$
+\end{keepunit}
+
+At the time of PI-11 deployment, $M_t^{\mathfrak{D}^{*}}$ was initialized to $15,007,159.669041$, and $M_t^{\mathfrak{D}}$ and $M_t^{\mathfrak{D}^{\text{run}}}$ to $0$.
+
+When no minting threshold was outstanding at the beginning of $t$, or $\Delta B_{\overline{t-1}}\leq0$, the dynamic \term{Mown Stalk} penalty depends on the preceding penalty, the liquidity level and the \term{Blight Factor} during $t$ ($\mathfrak{D}_{t}$), such that $\mathfrak{D}_{t} \in \mathbb{Z}$, a counter bounded by $0$ and the maximum \term{Blight Factor} ($\mathfrak{D}^{\text{max}}$), such that $\mathfrak{D}^{\text{max}} \in \mathbb{Z}^{+}$.
+
+The \term{Blight Factor} increases by $1$ when $0<\Delta B_{\overline{t-1}}$ and no minting threshold was outstanding at the beginning of $t$. It remains unchanged when $0<\Delta B_{\overline{t-1}}$ and a threshold was outstanding, including the \term{Season} in which the threshold is met, and decreases by $1$ otherwise.
+
+The \term{Blight Factor} during $t$ is based on (1) the \term{Blight Factor} during the previous \term{Season}, (2) $\Delta B_{\overline{t-1}}$, (3) $M_{t-1}^{\mathfrak{D}^{*}}$, and (4) $\mathfrak{D}^{\text{max}}$.
+
+\begin{keepunit}
+We define $\mathfrak{D}_{t}$ for a given $\mathfrak{D}_{t-1}$, $\Delta B_{\overline{t-1}}$, $M_{t-1}^{\mathfrak{D}^{*}}$ and $\mathfrak{D}^{\text{max}}$ as:
+
+    $$
+        \mathfrak{D}_{t} =
+            \begin{cases}
+                \mathfrak{D}_{t-1} & \text{if }0<\Delta B_{\overline{t-1}}\ \&\&\ 0<M_{t-1}^{\mathfrak{D}^{*}}\\
+                \text{min}(\mathfrak{D}^{\text{max}}, \mathfrak{D}_{t-1} + 1)
+                    & \text{else if } 0 < \Delta B_{\overline{t-1}} \\
+                \text{max}(0, \mathfrak{D}_{t-1} - 1) 
+                    & \text{otherwise } 
+            \end{cases}
+    $$
+\end{keepunit}
+
+$\mathfrak{D}_{t}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$), and reset to $0$ at the time of PI-11\fref{pinto.money/pi-11} deployment.
+
+\begin{keepunit}
+Therefore, we define $g_t^{\mathfrak{D}}$ for a given $\Delta B_{\overline{t-1}}$, $M_{t-1}^{\mathfrak{D}^{*}}$, $M_{t-1}^{\mathfrak{D}}$, $g_{t-1}^{\mathfrak{D}}$, $R_{t-1}^{W}$, $R^{W^{\text{lower}}}$, $\mathfrak{D}^{\text{max}}$ and $\mathfrak{D}_{t}$ as:
 
     $$
         g_t^{\mathfrak{D}} =
         \begin{cases}
-            g_{t-1}^{\mathfrak{D}} & \text{if }R_{t-1}^{W}=0\\[2mm]
-            \max\left(0,\ \frac{\min(R_{t-1}^{W},R^{W^{\text{lower}}})}{R^{W^{\text{lower}}}}
-                \times\left(1-\log_{\mathfrak{D}^{\text{max}}+1}(\mathfrak{D}_{t}+1)\right)\right)
-                & \text{else}
+            1 & \multicolumn{1}{r}{\text{if }0<\Delta B_{\overline{t-1}}\ \&\&\ M_{t-1}^{\mathfrak{D}}+\Delta B_{\overline{t-1}}<M_{t-1}^{\mathfrak{D}^{*}}}\\[2mm]
+            g_{t-1}^{\mathfrak{D}} & \multicolumn{1}{r}{\text{else if }(0<\Delta B_{\overline{t-1}}\ \&\&\ 0<M_{t-1}^{\mathfrak{D}^{*}})\mkern6mu ||\mkern6mu R_{t-1}^{W}=0}\\[2mm]
+            \multicolumn{2}{l}{\displaystyle\max\left(0,\ \frac{\min(R_{t-1}^{W},R^{W^{\text{lower}}})}{R^{W^{\text{lower}}}}
+                \times\left(1-\log_{\mathfrak{D}^{\text{max}}+1}(\mathfrak{D}_{t}+1)\right)\right)\quad\text{else}}
         \end{cases}
     $$
+
+If the \term{Mown Stalk} before this dynamic penalty is at least the minimum \term{Mown Stalk} required for the output $\lambda$ \term{Deposit} to not be \term{Germinating} in \term{Season} $t$ ($\widehat{k}_t^{\lambda^{\text{min}}}$), such that $\widehat{k}_t^{\lambda^{\text{min}}} \in \{j \times 10^{-16} \mid j \in \mathbb{N} \}$, the output $\lambda$ \term{Deposit} retains at least this minimum. Otherwise, this additional penalty is not applied.
 \end{keepunit}
 
-\begin{keepunit}
-Therefore, we define $g^{\mathfrak{D}^{*}}$ for a given $P_{\Xi-1}^{\lambda'^{\text{EMA}}}$, $P^{\text{upper}}$ and $g_t^{\mathfrak{D}}$ as:
+$g_t^{\mathfrak{D}}$ was initialized to $0$ at the time of PI-7\fref{pinto.money/pi-7} deployment (\textit{i.e.}, $t$ = $3020$), and reset to $0$ at the time of PI-11\fref{pinto.money/pi-11} deployment.
 
-    $$
-        g^{\mathfrak{D}^{*}} =
-        \begin{cases}
-            0 & \text{if }P_{\Xi-1}^{\lambda'^{\text{EMA}}}>P^{\text{upper}}\\
-            g_t^{\mathfrak{D}} & \text{else}
-        \end{cases}
-    $$
-\end{keepunit}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Flood %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{keepunit}
 \vspace{-0.15cm}
 \subsection{Flood}
 \vspace{-0.15cm}
 
 During long run increases in demand for Pinto, at the beginning of each \term{Season}, the protocol sells newly minted Pinto on the open market if increasing the Pinto supply, lowering the \term{Maximum Temperature} and lowering the \term{Crop Ratio} have not crossed the average nor current prices of \Pinto1 over its value target.
+\end{keepunit}
 
 \vspace{-0.05cm}
 
@@ -1606,6 +1696,7 @@ The \term{Pod Market} is a peer-to-peer marketplace that allows \term{Pods} to b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Depot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \vspace{0.1cm}
+\enlargethispage{\baselineskip}
 \subsection{Depot}
 \vspace{0.1cm}
 
@@ -1680,8 +1771,6 @@ The value of \Pinto\ is derived from the liquidity they trade against. Reasonabl
 \vspace{0.1cm}
 
 The protocol attempts to change the \term{Temperature} and \term{Crop Ratio} to return $R^{W}$ to $R^{W^{*}}$ while regularly crossing the price of \Pinto1 over its value target. The protocol acts more aggressively when $R^{W}$ is excessively high or low.
-
-\newpage
 
 %%%%%%%%%%%%%%% Marginal Rate of Substitution %%%%%%%%%%%%%%%
 
@@ -1812,6 +1901,9 @@ Pinto is a work in progress. The following are potential improvements that can b
 \input{appendix/Deposit-Whitelist} % Deposit Whitelist
 
 \newpage
+\input{appendix/Former-Deposit-Whitelist} % Former Deposit Whitelist
+
+\newpage
 \input{appendix/Conversion-Whitelist} % Conversion Whitelist
 
 \newpage
@@ -1833,3 +1925,4 @@ Pinto is a work in progress. The following are potential improvements that can b
 \input{appendix/Whitepaper-Version-History} % Whitepaper Version History 
 
 \end{document}
+

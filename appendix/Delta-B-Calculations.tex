@@ -136,10 +136,10 @@ The protocol calculates $\mathfrak{w}_{\pinto,\Game}^{\text{LAST}^{*}}$ by calli
                                 [10^6 ,\ \frac{10^{24}}{f^{\$^\mathfrak{w}}(0)}],\ 
                                 \mathfrak{w}^{*} 
                             \code{)}
-                        
+                        %
                         & \text{if} \; 
                             n > 8\colon \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}} \in \{j \times 10^{-n} \mid j \in \mathbb{Z}^{+}\} \\
-                            
+                        %
                     \code{calcReserveAtRatioSwap(}
                             [\mathfrak{w}_{\pinto,\Game}^{\text{LAST}}  ,\ \mathfrak{w}_{\nonpinto,\Game}^{\text{LAST}}],\ 
                             0,\ 
@@ -171,6 +171,7 @@ The protocol calculates $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{LAST}}}$ for a gi
 
 The excess or shortage of Pinto in a \term{Well} based on the inter-block MEV manipulation resistant instantaneous reserves in the Multi Flow \term{Pump} ($\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$) of $\mathfrak{w}$, such that $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}\}$, is calculated as the difference between the optimal number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$) and the number of Pinto ($\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$) in $\mathfrak{w}$ based on the instantaneous reserves in the Multi Flow \term{Pump}, such that $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}},\ \mathfrak{w}_{\pinto,\Game}^{\text{EMA}} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+}\}$.
 
+\begin{keepunit}
 The protocol calculates $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ by calling the \term{Well Function} \code{calcReserveAtRatioSwap} function with $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}_{\nonpinto,\Game}^{\text{EMA}}$, $f^{\$^\mathfrak{w}}$ and $\mathfrak{w}^{*}$ as:
 
     \begin{adjustwidth}{-2cm}{-2cm}
@@ -196,8 +197,7 @@ The protocol calculates $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ by callin
                 \end{cases}
     $$
     \end{adjustwidth}
-
-\newpage
+\end{keepunit}
 
 The protocol calculates $\Delta b_{\Xi-1}^{\mathfrak{w}^{\text{EMA}}}$ for a given $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}}$, $\mathfrak{w}^{\text{min}(\pinto)}$ and $\mathfrak{w}_{\pinto,\Game}^{\text{EMA}^{*}}$ as:
 
@@ -275,6 +275,7 @@ The protocol calculates $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$ by callin
 
 \vspace{0.1cm}
 
+\begin{keepunit}
 The protocol calculates $\Delta b_{\overline{t-1}}^{\mathfrak{w}}$ for a given $\mathfrak{w}_{\pinto,{t-1}_0,\Game}^{\text{SMA}}$, $\mathfrak{w}^{\text{min}(\pinto)}$, $\mathfrak{w}_{\overline{t-1}}^{{\pinto}^{*}}$, the Pinto supply at the end of the previous \term{Season} ($B_{t-1}$), such that $B_{t-1} \in \{j \times 10^{-6} \mid j \in \mathbb{Z}^{+} \}$, the relative per \term{Well} minting cap ($\Delta b^{\text{MAX}^{\text{m}}}$), and the absolute per \term{Well} minting cap ($\Delta b^{\text{MAX}^{\text{b}}}$), such that $\Delta b^{\text{MAX}^{\text{m}}},\ \Delta b^{\text{MAX}^{\text{b}}} \in \{j \times 10^{-6} \mid j \in \mathbb{N} \}$, as:
 
 \vspace{0.1cm}
@@ -302,9 +303,9 @@ The protocol calculates $\Delta b_{\overline{t-1}}^{\mathfrak{w}}$ for a given $
             \end{cases}
     $$
 
-%%%%%%%%%%%%%%%%%%% TOTAL: Time Weighted Average SMA Reserves %%%%%%%%%%%%%%%%%%%
+\end{keepunit}
 
-\newpage
+%%%%%%%%%%%%%%%%%%% TOTAL: Time Weighted Average SMA Reserves %%%%%%%%%%%%%%%%%%%
 
 \subsubsection{$\Delta B_{\overline{t-1}}$}
 
